@@ -36,7 +36,7 @@ var maxes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // hold the maximum values 
 // ==================================================================================================================
 
 function main() {
- // createNewSheets() //create the new sheets
+  //createNewSheets() //create the new sheets
   var spreadsheet = SpreadsheetApp.getActive();
   spreadsheet.setActiveSheet(spreadsheet.getSheetByName("Data"), true);
   var data = spreadsheet.getDataRange().getValues();
@@ -345,6 +345,10 @@ function writeToDashboard(max, currents, shiftName) {
     spreadsheet.getCurrentCell().setValue(openings);
     spreadsheet.getRangeByName(percentCol).activate();
     spreadsheet.getCurrentCell().setValue(percentFull);
+    
+    let r = y+1
+    
+    if(y %2 == 0 && y!= 0){spreadsheet.getRange('A'+r+':E'+r).setBackground('#bbbbbb')}
 
     maxSum = maxSum + max[y];
     currentSum = currentSum + currents[y];
@@ -374,7 +378,7 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
   }
   var spreadsheet = SpreadsheetApp.getActive();
   if (index == 11) {// switch to the shift sheet
-    spreadsheet.setActiveSheet(spreadsheet.getSheetByName(shiftName[14]), true);
+    spreadsheet.setActiveSheet(spreadsheet.getSheetByName(shiftName[14]), true); // open the special Sat spreadsheet
   } 
   else {
     spreadsheet.setActiveSheet(spreadsheet.getSheetByName(shiftName[index]),true);
@@ -396,7 +400,7 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
   spreadsheet.getRange("A1:G1").setFontColor("#ffffff");
   
   let numRows = shiftList[index].length;
-  let temp = 2;
+  let temp = 3;
     for (let y = 0; y < numRows; y++) {
       let range = "A" + temp + ":F" + temp; //grab the current row
       spreadsheet
@@ -411,6 +415,15 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
             shiftList[index][y][5],
           ],
         ]);
+        if(temp%2 == 0){//darken alternating rows
+        spreadsheet.getRange(range).setBackground('#bbbbbb')
+        }
       temp++;
     }
+    let x = index
+    if(index == 11 || index == 12 || index == 13){
+    x--
+    }
+        spreadsheet.getRange('D2:G2').setValues([[max[x],current[x],(max[x]-current[x]),(((current[x]/max[x])*100).toFixed(2))]])
+        spreadsheet.getRange('D2:G2').setBackground('#00ff00')
 }
