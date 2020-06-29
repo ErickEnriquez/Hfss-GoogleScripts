@@ -29,14 +29,25 @@ var shiftNames = [
   "Sun-PM", //13
   "Sat", //temp 14
 ];
+
+// ==================================================================================================================
+// COLUMNS WHERE SPECIFIC DATA IS LOCATED ON DATA SHEET, CHANGE IF NEEDED
+var ClASS_COLUMN = 0
+var TIME_COLUMN = 1
+var INSTRUCTOR_COLUMN = 2
+var MAX_COLUMN= 3 
+var CURRENT_COLUMN=4
+var OPENINGS_COLUMNS=5
+// ==================================================================================================================
+
+
 var currents = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // hold the number of currents for all of the shifts throughout a week
 var maxes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // hold the maximum values for all of the shifts throughout a week
 
-//var x = 2;
 // ==================================================================================================================
 
 function main() {
-  //createNewSheets() //create the new sheets
+  //createNewSheets() //create the new sheets comment out if already created sheets
   var spreadsheet = SpreadsheetApp.getActive();
   spreadsheet.setActiveSheet(spreadsheet.getSheetByName("Data"), true);
   var data = spreadsheet.getDataRange().getValues();
@@ -46,11 +57,11 @@ function main() {
   for (var i = 1; i < data.length; i++) {
     output = getShift(data, i, 1); // get the shift that this will belong to
     addToList(output, data[i]); //enter the whole row into the correct list
-    addToMax(output, data[i][3]); //get the values of maxes for all of the shifts
-    addToCurrents(output, data[i][4]); //get the values for the currents of all of the shifts
+    addToMax(output, data[i][MAX_COLUMN]); //get the values of maxes for all of the shifts
+    addToCurrents(output, data[i][CURRENT_COLUMN]); //get the values for the currents of all of the shifts
   
   }
-  writeToDashboard(maxes, currents, shiftNames); //function to write the aggragate data to dashboard sheet
+  writeToDashboard(maxes, currents, shiftNames); //function to write the aggregate data to dashboard sheet
 
   let shiftList = [
     monAM,
@@ -320,7 +331,8 @@ function writeToDashboard(max, currents, shiftName) {
     .getRange("A1:E1")
     .setValues([["Data Range", "Max", "Current", "Openings", "Percent Full"]]);
 
-  spreadsheet.getRange("A1:E1").setBackground("#999999");
+  spreadsheet.getRange("A1:E1").setBackground("#ff00ff");
+  spreadsheet.getRange('A1:E1').setFontWeight('bold')
 
   let maxSum = 0;
   let currentSum = 0;
@@ -346,7 +358,7 @@ function writeToDashboard(max, currents, shiftName) {
     temp++;
   }
 
-  let tempList = [
+  spreadsheet.getRange("A15:E15").setValues([
     [
       "Total",
       maxSum,
@@ -354,8 +366,7 @@ function writeToDashboard(max, currents, shiftName) {
       openingSum,
       isNaN(((currentSum / maxSum) * 100).toFixed(2)),
     ],
-  ];
-  spreadsheet.getRange("A15:E15").setValues(tempList);
+  ]);
   spreadsheet.getRange("A15:E15").setBackground("#000000");
   spreadsheet.getRange("A15:E15").setFontColor("#ffffff");
 }
@@ -397,12 +408,12 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
         .getRange(range)
         .setValues([
           [
-            shiftList[index][y][0],
-            shiftList[index][y][1],
-            shiftList[index][y][2],
-            shiftList[index][y][3],
-            shiftList[index][y][4],
-            shiftList[index][y][5],
+            shiftList[index][y][ClASS_COLUMN],
+            shiftList[index][y][TIME_COLUMN],
+            shiftList[index][y][INSTRUCTOR_COLUMN],
+            shiftList[index][y][MAX_COLUMN],
+            shiftList[index][y][CURRENT_COLUMN],
+            shiftList[index][y][OPENINGS_COLUMNS]
           ],
         ]);
         if(temp%2 == 0){//darken alternating rows
@@ -416,6 +427,7 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
     }
     spreadsheet.getRange('D2:G2').setValues([[max[x],current[x],(max[x]-current[x]),isNaN(((current[x]/max[x])*100).toFixed(2))]])
     spreadsheet.getRange('D2:G2').setBackground('#00ff00')
+    spreadsheet.getActiveSheet().setColumnWidths(1, 3, 180)
     calcLevelStats(shiftList, x)
       
 }
@@ -433,73 +445,74 @@ function calcLevelStats(shiftList, index){
     let maxSum =     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]//store the total number of students per level
     let currentSum = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]//store the current sum of students per level
     
+    if (index == 10 || index == 11 || index == 12 ){index++}
+    
     for(i = 0 ; i <shiftList[index].length; i++){
-      switch(shiftList[index][i][0]){
+      switch(shiftList[index][i][0].trim()){
       case 'Baby Splash':
         numClasses[0]++
-        maxSum[0] = maxSum[0] + shiftList[index][i][3]
-        currentSum[0] = currentSum[0] + shiftList[index][i][4]
+        maxSum[0] = maxSum[0] + shiftList[index][i][MAX_COLUMN]
+        currentSum[0] = currentSum[0] + shiftList[index][i][CURRENT_COLUMN]
         break
       case 'Little Snapper 1':
         numClasses[1]++
-        maxSum[1] = maxSum[1] + shiftList[index][i][3]
-        currentSum[1] = currentSum[1] + shiftList[index][i][4]
+        maxSum[1] = maxSum[1] + shiftList[index][i][MAX_COLUMN]
+        currentSum[1] = currentSum[1] + shiftList[index][i][CURRENT_COLUMN]
         break
       case 'Little Snapper 2':
         numClasses[2]++
-        maxSum[2] = maxSum[2] + shiftList[index][i][3]
-        currentSum[2] = currentSum[2] + shiftList[index][i][4]
+        maxSum[2] = maxSum[2] + shiftList[index][i][MAX_COLUMN]
+        currentSum[2] = currentSum[2] + shiftList[index][i][CURRENT_COLUMN]
         break
       case 'Little Snapper Advanced':
         numClasses[3]++
-        maxSum[3] = maxSum[3] + shiftList[index][i][3]
-        currentSum[3] = currentSum[3] + shiftList[index][i][4]
+        maxSum[3] = maxSum[3] + shiftList[index][i][MAX_COLUMN]
+        currentSum[3] = currentSum[3] + shiftList[index][i][CURRENT_COLUMN]
         break
       case 'Clownfish':
         numClasses[4]++
-        maxSum[4] = maxSum[4] + shiftList[index][i][3]
-        currentSum[4] = currentSum[4] + shiftList[index][i][4]
+        maxSum[4] = maxSum[4] + shiftList[index][i][MAX_COLUMN]
+        currentSum[4] = currentSum[4] + shiftList[index][i][CURRENT_COLUMN]
         break 
       case 'Goldfish':
         numClasses[5]++
-        maxSum[5] = maxSum[5] + shiftList[index][i][3]
-        currentSum[5] = currentSum[5] + shiftList[index][i][4]
+        maxSum[5] = maxSum[5] + shiftList[index][i][MAX_COLUMN]
+        currentSum[5] = currentSum[5] + shiftList[index][i][CURRENT_COLUMN]
         break 
       case 'Jellyfish':
         numClasses[6]++
-        maxSum[6] = maxSum[6] + shiftList[index][i][3]
-        currentSum[6] = currentSum[6] + shiftList[index][i][4]
+        maxSum[6] = maxSum[6] + shiftList[index][i][MAX_COLUMN]
+        currentSum[6] = currentSum[6] + shiftList[index][i][CURRENT_COLUMN]
         break
       case 'Octopus':
         numClasses[7]++
-        maxSum[7] = maxSum[7] + shiftList[index][i][3]
-        currentSum[7] = currentSum[7] + shiftList[index][i][4]
+        maxSum[7] = maxSum[7] + shiftList[index][i][MAX_COLUMN]
+        currentSum[7] = currentSum[7] + shiftList[index][i][CURRENT_COLUMN]
         break
       case 'Lobster':
         numClasses[8]++
-        maxSum[8] = maxSum[8] + shiftList[index][i][3]
-        currentSum[8] = currentSum[8] + shiftList[index][i][4]
+        maxSum[8] = maxSum[8] + shiftList[index][i][MAX_COLUMN]
+        currentSum[8] = currentSum[8] + shiftList[index][i][CURRENT_COLUMN]
         break
       case 'Hammerhead Junior':
         numClasses[9]++
-        maxSum[9] = maxSum[9] + shiftList[index][i][3]
-        currentSum[9] = currentSum[9] + shiftList[index][i][4]
+        maxSum[9] = maxSum[9] + shiftList[index][i][MAX_COLUMN]
+        currentSum[9] = currentSum[9] + shiftList[index][i][CURRENT_COLUMN]
         break
-        
       case 'Hammerhead Senior':
         numClasses[10]++
-        maxSum[10] = maxSum[10] + shiftList[index][i][3]
-        currentSum[10] = currentSum[10] + shiftList[index][i][4]
+        maxSum[10] = maxSum[10] + shiftList[index][i][MAX_COLUMN]
+        currentSum[10] = currentSum[10] + shiftList[index][i][CURRENT_COLUMN]
         break 
       case 'Private':
         numClasses[11]++
-        maxSum[11] = maxSum[11] + shiftList[index][i][3]
-        currentSum[11] = currentSum[11] + shiftList[index][i][4]
+        maxSum[11] = maxSum[11] + shiftList[index][i][MAX_COLUMN]
+        currentSum[11] = currentSum[11] + shiftList[index][i][CURRENT_COLUMN]
         break  
       case 'Semi':
         numClasses[12]++
-        maxSum[12] = maxSum[12] + shiftList[index][i][3]
-        currentSum[12] = currentSum[12] + shiftList[index][i][4]
+        maxSum[12] = maxSum[12] + shiftList[index][i][MAX_COLUMN]
+        currentSum[12] = currentSum[12] + shiftList[index][i][CURRENT_COLUMN]
         break 
       }
     }
