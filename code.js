@@ -328,23 +328,13 @@ function writeToDashboard(max, currents, shiftName) {
 
   let temp = 2;
   for (let y = 0; y < 13; y++) {
-    let maxCol = "B" + temp;
-    let currentCol = "C" + temp;
-    let openCol = "D" + temp;
-    let percentCol = "E" + temp;
-
+   
     let openings = max[y] - currents[y];
     let percentFull = ((currents[y] / max[y]) * 100.0).toFixed(2);
     percentFull = percentFull + "%";
-
-    spreadsheet.getRangeByName(maxCol).activate();
-    spreadsheet.getCurrentCell().setValue(max[y]);
-    spreadsheet.getRangeByName(currentCol).activate();
-    spreadsheet.getCurrentCell().setValue(currents[y]);
-    spreadsheet.getRangeByName(openCol).activate();
-    spreadsheet.getCurrentCell().setValue(openings);
-    spreadsheet.getRangeByName(percentCol).activate();
-    spreadsheet.getCurrentCell().setValue(percentFull);
+    
+    let range = 'B'+temp+':E'+temp
+    spreadsheet.getRange(range).setValues([[max[y],currents[y],openings,percentFull]])
     
     let r = y+1
     
@@ -362,7 +352,7 @@ function writeToDashboard(max, currents, shiftName) {
       maxSum,
       currentSum,
       openingSum,
-      ((currentSum / maxSum) * 100).toFixed(2),
+      isNaN(((currentSum / maxSum) * 100).toFixed(2)),
     ],
   ];
   spreadsheet.getRange("A15:E15").setValues(tempList);
@@ -396,7 +386,7 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
         "Percent Full",
       ],
     ]); //write the title row
-  spreadsheet.getRange("A1:1").setBackground("#000000");
+  spreadsheet.getRange("A1:G1").setBackground("#000000");
   spreadsheet.getRange("A1:G1").setFontColor("#ffffff");
   
   let numRows = shiftList[index].length;
@@ -424,6 +414,126 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
     if(index == 11 || index == 12 || index == 13){
     x--
     }
-        spreadsheet.getRange('D2:G2').setValues([[max[x],current[x],(max[x]-current[x]),(((current[x]/max[x])*100).toFixed(2))]])
-        spreadsheet.getRange('D2:G2').setBackground('#00ff00')
+    spreadsheet.getRange('D2:G2').setValues([[max[x],current[x],(max[x]-current[x]),isNaN(((current[x]/max[x])*100).toFixed(2))]])
+    spreadsheet.getRange('D2:G2').setBackground('#00ff00')
+    calcLevelStats(shiftList, x)
+      
+}
+// ==================================================================================================================
+// CALCULATES THE STATS per LEVEL for each shift
+// ==================================================================================================================
+function calcLevelStats(shiftList, index){
+    var spreadsheet = SpreadsheetApp.getActive();
+     let title = 'H3:J3'
+     let levels = 'H4:H18'
+    spreadsheet.getRange(title).setValues([['Level','# of Classes' , 'Percent Full']])
+    spreadsheet.getRange(title).setBackground('#cccccc')
+    spreadsheet.getRange(levels).setValues([['Baby splash'],['LS1'],['LS2'],['LSA'],['CF'],['GF'],['JF'],['OCT'],['LOB'],['HHJr'],['HHSr'],['Private'],['Semi'],['SN'],['Open']])
+    let numClasses = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]//store the count of classes
+    let maxSum =     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]//store the total number of students per level
+    let currentSum = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]//store the current sum of students per level
+    
+    for(i = 0 ; i <shiftList[index].length; i++){
+      switch(shiftList[index][i][0]){
+      case 'Baby Splash':
+        numClasses[0]++
+        maxSum[0] = maxSum[0] + shiftList[index][i][3]
+        currentSum[0] = currentSum[0] + shiftList[index][i][4]
+        break
+      case 'Little Snapper 1':
+        numClasses[1]++
+        maxSum[1] = maxSum[1] + shiftList[index][i][3]
+        currentSum[1] = currentSum[1] + shiftList[index][i][4]
+        break
+      case 'Little Snapper 2':
+        numClasses[2]++
+        maxSum[2] = maxSum[2] + shiftList[index][i][3]
+        currentSum[2] = currentSum[2] + shiftList[index][i][4]
+        break
+      case 'Little Snapper Advanced':
+        numClasses[3]++
+        maxSum[3] = maxSum[3] + shiftList[index][i][3]
+        currentSum[3] = currentSum[3] + shiftList[index][i][4]
+        break
+      case 'Clownfish':
+        numClasses[4]++
+        maxSum[4] = maxSum[4] + shiftList[index][i][3]
+        currentSum[4] = currentSum[4] + shiftList[index][i][4]
+        break 
+      case 'Goldfish':
+        numClasses[5]++
+        maxSum[5] = maxSum[5] + shiftList[index][i][3]
+        currentSum[5] = currentSum[5] + shiftList[index][i][4]
+        break 
+      case 'Jellyfish':
+        numClasses[6]++
+        maxSum[6] = maxSum[6] + shiftList[index][i][3]
+        currentSum[6] = currentSum[6] + shiftList[index][i][4]
+        break
+      case 'Octopus':
+        numClasses[7]++
+        maxSum[7] = maxSum[7] + shiftList[index][i][3]
+        currentSum[7] = currentSum[7] + shiftList[index][i][4]
+        break
+      case 'Lobster':
+        numClasses[8]++
+        maxSum[8] = maxSum[8] + shiftList[index][i][3]
+        currentSum[8] = currentSum[8] + shiftList[index][i][4]
+        break
+      case 'Hammerhead Junior':
+        numClasses[9]++
+        maxSum[9] = maxSum[9] + shiftList[index][i][3]
+        currentSum[9] = currentSum[9] + shiftList[index][i][4]
+        break
+        
+      case 'Hammerhead Senior':
+        numClasses[10]++
+        maxSum[10] = maxSum[10] + shiftList[index][i][3]
+        currentSum[10] = currentSum[10] + shiftList[index][i][4]
+        break 
+      case 'Private':
+        numClasses[11]++
+        maxSum[11] = maxSum[11] + shiftList[index][i][3]
+        currentSum[11] = currentSum[11] + shiftList[index][i][4]
+        break  
+      case 'Semi':
+        numClasses[12]++
+        maxSum[12] = maxSum[12] + shiftList[index][i][3]
+        currentSum[12] = currentSum[12] + shiftList[index][i][4]
+        break 
+      }
+    }
+    let numClassesRange = 'I4:I18'
+    let percentFullRange = 'J4:J18'
+    spreadsheet.getRange(numClassesRange).setValues([[numClasses[0]],[numClasses[1]],[numClasses[2]],[numClasses[3]],[numClasses[4]],[numClasses[5]],[numClasses[6]],[numClasses[7]],[numClasses[8]],[numClasses[9]],[numClasses[10]],[numClasses[11]],[numClasses[12]],[numClasses[13]],[numClasses[14]]])
+    spreadsheet.getRange(percentFullRange).setValues([
+      [isNaN(((currentSum[0]/maxSum[0])*100).toFixed(2))],
+      [isNaN(((currentSum[1]/maxSum[1])*100).toFixed(2))],
+      [isNaN(((currentSum[2]/maxSum[2])*100).toFixed(2))],
+      [isNaN(((currentSum[3]/maxSum[3])*100).toFixed(2))],
+      [isNaN(((currentSum[4]/maxSum[4])*100).toFixed(2))],
+      [isNaN(((currentSum[5]/maxSum[5])*100).toFixed(2))],
+      [isNaN(((currentSum[6]/maxSum[6])*100).toFixed(2))],
+      [isNaN(((currentSum[7]/maxSum[7])*100).toFixed(2))],
+      [isNaN(((currentSum[8]/maxSum[8])*100).toFixed(2))],
+      [isNaN(((currentSum[9]/maxSum[9])*100).toFixed(2))],
+      [isNaN(((currentSum[10]/maxSum[10])*100).toFixed(2))],
+      [isNaN(((currentSum[11]/maxSum[11])*100).toFixed(2))],
+      [isNaN(((currentSum[12]/maxSum[12])*100).toFixed(2))],
+      [isNaN(((currentSum[13]/maxSum[13])*100).toFixed(2))],
+      [isNaN(((currentSum[14]/maxSum[14])*100).toFixed(2))],
+      
+    ])
+}
+// ==================================================================================================================
+//    Checks if the given input is NaN string and leaves plan else it adds percent onto it
+// ==================================================================================================================
+
+function isNaN(input){
+  if(input === 'NaN'){
+    return ""
+  }
+  else{
+    return input+'%'
+  }
 }
