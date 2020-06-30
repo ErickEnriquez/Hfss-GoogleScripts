@@ -32,12 +32,13 @@ var shiftNames = [
 
 // ==================================================================================================================
 // COLUMNS WHERE SPECIFIC DATA IS LOCATED ON DATA SHEET, CHANGE IF NEEDED
-var ClASS_COLUMN = 0
-var TIME_COLUMN = 1
-var INSTRUCTOR_COLUMN = 2
-var MAX_COLUMN= 3 
-var CURRENT_COLUMN=4
-var OPENINGS_COLUMNS=5
+var CLASS_COLUMN = 1
+var TIME_COLUMN = 2
+var INSTRUCTOR_COLUMN = 4
+var MAX_COLUMN= 6 
+var CURRENT_COLUMN=7
+var OPENINGS_COLUMNS=8
+var MASTER_SHEET_NAME = 'DATA'
 // ==================================================================================================================
 
 
@@ -47,15 +48,15 @@ var maxes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // hold the maximum values 
 // ==================================================================================================================
 
 function main() {
-  //createNewSheets() //create the new sheets comment out if already created sheets
+  createNewSheets() //create the new sheets comment out if already created sheets
   var spreadsheet = SpreadsheetApp.getActive();
-  spreadsheet.setActiveSheet(spreadsheet.getSheetByName("Data"), true);
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName(MASTER_SHEET_NAME), true);
   var data = spreadsheet.getDataRange().getValues();
 
   let output = "";
 
   for (var i = 1; i < data.length; i++) {
-    output = getShift(data, i, 1); // get the shift that this will belong to
+    output = getShift(data, i, TIME_COLUMN); // get the shift that this will belong to
     addToList(output, data[i]); //enter the whole row into the correct list
     addToMax(output, data[i][MAX_COLUMN]); //get the values of maxes for all of the shifts
     addToCurrents(output, data[i][CURRENT_COLUMN]); //get the values for the currents of all of the shifts
@@ -408,7 +409,7 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
         .getRange(range)
         .setValues([
           [
-            shiftList[index][y][ClASS_COLUMN],
+            shiftList[index][y][CLASS_COLUMN],
             shiftList[index][y][TIME_COLUMN],
             shiftList[index][y][INSTRUCTOR_COLUMN],
             shiftList[index][y][MAX_COLUMN],
@@ -448,7 +449,7 @@ function calcLevelStats(shiftList, index){
     if (index == 10 || index == 11 || index == 12 ){index++}
     
     for(i = 0 ; i <shiftList[index].length; i++){
-      switch(shiftList[index][i][0].trim()){
+      switch(shiftList[index][i][CLASS_COLUMN].trim()){
       case 'Baby Splash':
         numClasses[0]++
         maxSum[0] = maxSum[0] + shiftList[index][i][MAX_COLUMN]
