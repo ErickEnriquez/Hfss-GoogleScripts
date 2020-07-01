@@ -39,6 +39,7 @@ var MAX_COLUMN= 6
 var CURRENT_COLUMN=7
 var OPENINGS_COLUMNS=8
 var MASTER_SHEET_NAME = 'DATA'
+var DASHBOARD_SHEET_NAME = 'Dashboard'
 // ==================================================================================================================
 
 
@@ -127,6 +128,13 @@ function getShift(data, i, j) {
 
 function createNewSheets() {
   var spreadsheet = SpreadsheetApp.getActive();
+  
+  try{
+   spreadsheet.setActiveSheet(spreadsheet.getSheetByName(DASHBOARD_SHEET_NAME), true);// try and open sheet to see if sheets have already been created
+   return
+  }
+  catch(err){// 
+  
   spreadsheet.insertSheet(1);
   spreadsheet.getActiveSheet().setName(shiftNames[13]); //sun PM
   spreadsheet.insertSheet(1);
@@ -154,7 +162,8 @@ function createNewSheets() {
   spreadsheet.insertSheet(1);
   spreadsheet.getActiveSheet().setName(shiftNames[0]); // mon am
   spreadsheet.insertSheet(1);
-  spreadsheet.getActiveSheet().setName("Dashboard");
+  spreadsheet.getActiveSheet().setName(DASHBOARD_SHEET_NAME);
+  }
 }
 // ==================================================================================================================
 //checks the date given and adds the data to correct list
@@ -310,7 +319,7 @@ function addToCurrents(date, data) {
 // =======================    Fills in the data for the dashboard sheet part of the spreadsheet =====================
 function writeToDashboard(max, currents, shiftName) {
   var spreadsheet = SpreadsheetApp.getActive();
-  spreadsheet.setActiveSheet(spreadsheet.getSheetByName("Dashboard"), true); //switch to dashboard sheet
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName(DASHBOARD_SHEET_NAME), true); //switch to dashboard sheet
 
   spreadsheet.getRange("A2:A14").setValues([
     [shiftName[0]],
