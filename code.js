@@ -1,3 +1,9 @@
+// ==================================================================================================================
+// This script takes in raw data and formats it to a usable format for hfss
+
+// author Erick Enriquez
+// ==================================================================================================================
+
 var monAM = [];
 var monPM = [];
 var tueAM = [];
@@ -11,6 +17,7 @@ var friPM = [];
 var sat = [];
 var sunAM = [];
 var sunPM = [];
+// ==================================================================================================================
 
 var shiftNames = [
   "Mon-AM", //0
@@ -29,6 +36,7 @@ var shiftNames = [
   "Sun-PM", //13
   "Sat", //temp 14
 ];
+// ==================================================================================================================
 
 var maxList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds max for whole week by level
 var currentList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds current for whole week by level
@@ -64,10 +72,8 @@ function main() {
 
   for (var i = 1; i < data.length; i++) {
     output = getShift(data, i, TIME_COLUMN); // get the shift that this will belong to
-    addToList(output, data[i]); //enter the whole row into the correct list
-    addToMax(output, data[i][MAX_COLUMN]); //get the values of maxes for all of the shifts
+    addToData(output, data[i], ); //enter the whole row into the correct list and update max and current lists
     calcTotalLevelStats(data, i); // add the class to its level stats
-    addToCurrents(output, data[i][CURRENT_COLUMN]); //get the values for the currents of all of the shifts
   }
   writeToDashboard(maxes, currents, shiftNames); //function to write the aggregate data to dashboard sheet
 
@@ -175,155 +181,84 @@ function createNewSheets() {
   }
 }
 // ==================================================================================================================
-//checks the date given and adds the data to correct list
+//checks the date given and adds the data to correct list and adds to max and current lists
 // ==================================================================================================================
 
-function addToList(date, data) {
+function addToData(date, data, index) {
   switch (date) {
     case shiftNames[0]:
       monAM.push(data);
+      maxes[0] = maxes[0] + data[MAX_COLUMN];
+      currents[0] = currents[0] + data[CURRENT_COLUMN];
       break;
     case shiftNames[1]:
       monPM.push(data);
+      maxes[1] = maxes[1] + data[MAX_COLUMN];
+      currents[1] = currents[1] + data[CURRENT_COLUMN];
       break;
     case shiftNames[2]:
       tueAM.push(data);
+      maxes[2] = maxes[2] + data[MAX_COLUMN];
+      currents[2] = currents[2] + data[CURRENT_COLUMN];
       break;
     case shiftNames[3]:
       tuePM.push(data);
+      maxes[3] = maxes[3] + data[MAX_COLUMN];
+      currents[3] = currents[3] + data[CURRENT_COLUMN];
       break;
     case shiftNames[4]:
       wedAM.push(data);
+      maxes[4] = maxes[4] + data[MAX_COLUMN];
+      currents[4] = currents[4] + data[CURRENT_COLUMN];
       break;
     case shiftNames[5]:
       wedPM.push(data);
+      maxes[5] = maxes[5] + data[MAX_COLUMN];
+      currents[5] = currents[5] + data[CURRENT_COLUMN];
       break;
     case shiftNames[6]:
       thuAM.push(data);
+      maxes[6] = maxes[6] + data[MAX_COLUMN];
+      currents[6] = currents[6] + data[CURRENT_COLUMN];
       break;
     case shiftNames[7]:
       thuPM.push(data);
+      maxes[7] = maxes[7] + data[MAX_COLUMN];
+      currents[7] = currents[7] + data[CURRENT_COLUMN];
       break;
     case shiftNames[8]:
       friAM.push(data);
+      maxes[8] = maxes[8] + data[MAX_COLUMN];
+      currents[8] = currents[8] + data[CURRENT_COLUMN];
       break;
     case shiftNames[9]:
       friPM.push(data);
+      maxes[9] = maxes[9] + data[MAX_COLUMN];
+      currents[9] = currents[9] + data[CURRENT_COLUMN];
       break;
     case shiftNames[10]:
       sat.push(data);
+      maxes[10] = maxes[10] + data[MAX_COLUMN];
+      currents[10] = currents[10] + data[CURRENT_COLUMN];
       break;
     case shiftNames[11]:
       sat.push(data);
+      maxes[10] = maxes[10] + data[MAX_COLUMN];
+      currents[10] = currents[10] + data[CURRENT_COLUMN];
       break;
     case shiftNames[12]:
       sunAM.push(data);
+      maxes[11] = maxes[11] + data[MAX_COLUMN];
+      currents[11] = currents[11] + data[CURRENT_COLUMN];
       break;
     case shiftNames[13]:
       sunPM.push(data);
+      maxes[12] = maxes[12] + data[MAX_COLUMN];
+      currents[12] = currents[12] + data[CURRENT_COLUMN];
       break;
   }
 }
-// ==================================================================================================================
 
-// ==================================================================================================================
-
-function addToMax(date, data) {
-  switch (date) {
-    case shiftNames[0]: //mon am
-      maxes[0] = maxes[0] + data;
-      break;
-    case shiftNames[1]: //mon pm
-      maxes[1] = maxes[1] + data;
-      break;
-    case shiftNames[2]: //tue am
-      maxes[2] = maxes[2] + data;
-      break;
-    case shiftNames[3]: //tue pm
-      maxes[3] = maxes[3] + data;
-      break;
-    case shiftNames[4]: //wed am
-      maxes[4] = maxes[4] + data;
-      break;
-    case shiftNames[5]: //wed pm
-      maxes[5] = maxes[5] + data;
-      break;
-    case shiftNames[6]: //thur am
-      maxes[6] = maxes[6] + data;
-      break;
-    case shiftNames[7]: //thur pm
-      maxes[7] = maxes[7] + data;
-      break;
-    case shiftNames[8]: //fri am
-      maxes[8] = maxes[8] + data;
-      break;
-    case shiftNames[9]: //fri pm
-      maxes[9] = maxes[9] + data;
-      break;
-    case shiftNames[10]: //sat am
-      maxes[10] = maxes[10] + data;
-      break;
-    case shiftNames[11]: //sat pm
-      maxes[10] = maxes[10] + data;
-      break;
-    case shiftNames[12]: //sun am
-      maxes[11] = maxes[11] + data;
-      break;
-    case shiftNames[13]: //sun pm
-      maxes[12] = maxes[12] + data;
-      break;
-  }
-}
-// ==================================================================================================================
-
-// ==================================================================================================================
-
-function addToCurrents(date, data) {
-  switch (date) {
-    case shiftNames[0]: //mon am
-      currents[0] = currents[0] + data;
-      break;
-    case shiftNames[1]: //mon pm
-      currents[1] = currents[1] + data;
-      break;
-    case shiftNames[2]: //tue am
-      currents[2] = currents[2] + data;
-      break;
-    case shiftNames[3]: //tue pm
-      currents[3] = currents[3] + data;
-      break;
-    case shiftNames[4]: //wed am
-      currents[4] = currents[4] + data;
-      break;
-    case shiftNames[5]: //wed pm
-      currents[5] = currents[5] + data;
-      break;
-    case shiftNames[6]: //thur am
-      currents[6] = currents[6] + data;
-      break;
-    case shiftNames[7]: //thur pm
-      currents[7] = currents[7] + data;
-      break;
-    case shiftNames[8]: //fri am
-      currents[8] = currents[8] + data;
-      break;
-    case shiftNames[9]: //fri pm
-      currents[9] = currents[9] + data;
-      break;
-    case shiftNames[10]: //sat am
-      currents[10] = currents[10] + data;
-      break;
-    case shiftNames[11]: //sat pm
-      currents[10] = currents[10] + data;
-      break;
-    case shiftNames[12]: //sun am
-      currents[11] = currents[11] + data;
-      break;
-    case shiftNames[13]: //sun pm
-      currents[12] = currents[12] + data;
-      break;
-  }
-}
 // ==================================================================================================================
 // =======================    Fills in the data for the dashboard sheet part of the spreadsheet =====================
 function writeToDashboard(max, currents, shiftName) {
@@ -399,6 +334,7 @@ function writeToDashboard(max, currents, shiftName) {
   spreadsheet.getRange("A15:E15").setFontColor("#ffffff");
 
   const levelStatRange = "G1:I20";
+  const titleRange = 'G1:I1'
   spreadsheet.getRange(levelStatRange).setValues([
     ["Level", "# of Classes", " PercentFull"],
     [
@@ -497,6 +433,9 @@ function writeToDashboard(max, currents, shiftName) {
       isNaN(((currentList[18] / maxList[18]) * 100).toFixed(2)),
     ],
   ]);
+  spreadsheet.getRange(titleRange).setBackground('#0000ff')
+  spreadsheet.getRange(titleRange).setFontColor('#ffffff')
+
 }
 
 // ==================================================================================================================
@@ -802,7 +741,11 @@ function calcLevelStats(shiftList, index) {
 function isNaN(input) {
   if (input === "NaN") {
     return "";
-  } else {
+  }
+  else if (input == 'Infinity'){
+    return '';
+  } 
+  else {
     return input + "%";
   }
 }
