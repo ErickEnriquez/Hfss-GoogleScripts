@@ -32,13 +32,13 @@ var shiftNames = [
 
 // ==================================================================================================================
 // COLUMNS WHERE SPECIFIC DATA IS LOCATED ON DATA SHEET, CHANGE IF NEEDED
-var CLASS_COLUMN = 1
+var CLASS_COLUMN = 11
 var TIME_COLUMN = 2
 var INSTRUCTOR_COLUMN = 4
 var MAX_COLUMN= 6 
 var CURRENT_COLUMN=7
 var OPENINGS_COLUMNS=8
-var MASTER_SHEET_NAME = 'DATA'
+var MASTER_SHEET_NAME = 'Table 01'
 var DASHBOARD_SHEET_NAME = 'Dashboard'
 // ==================================================================================================================
 
@@ -86,6 +86,7 @@ function main() {
   for (let z = 0; z <= 13; z++) {
       writeToShiftSheet(z, shiftNames, shiftList, maxes, currents);
   }
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName(MASTER_SHEET_NAME), true); // go back to master sheet
 }
 
 // ==================================================================================================================
@@ -438,6 +439,7 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
     spreadsheet.getRange('D2:G2').setValues([[max[x],current[x],(max[x]-current[x]),isNaN(((current[x]/max[x])*100).toFixed(2))]])
     spreadsheet.getRange('D2:G2').setBackground('#00ff00')
     spreadsheet.getActiveSheet().setColumnWidths(1, 3, 180)
+     spreadsheet.getRange('A:F').setVerticalAlignment('middle').setHorizontalAlignment('left')
     calcLevelStats(shiftList, x)
       
 }
@@ -447,13 +449,13 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
 function calcLevelStats(shiftList, index){
     var spreadsheet = SpreadsheetApp.getActive();
      let title = 'H3:J3'
-     let levels = 'H4:H18'
+     let levels = 'H4:H21'
     spreadsheet.getRange(title).setValues([['Level','# of Classes' , 'Percent Full']])
     spreadsheet.getRange(title).setBackground('#cccccc')
-    spreadsheet.getRange(levels).setValues([['Baby splash'],['LS1'],['LS2'],['LSA'],['CF'],['GF'],['JF'],['OCT'],['LOB'],['HHJr'],['HHSr'],['Private'],['Semi'],['SN'],['Open']])
-    let numClasses = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]//store the count of classes
-    let maxSum =     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]//store the total number of students per level
-    let currentSum = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]//store the current sum of students per level
+    spreadsheet.getRange(levels).setValues([['Baby splash'],['LS1'],['LS2'],['LSA'],['CF'],['GF'],['JF'],['OCT'],['LOB'],['HHJr'],['HHSr'],['Private'],['Semi'],['SN'],['Open'],['Water Watcher'],['Break'],['Other']])
+    let numClasses = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]//store the count of classes
+    let maxSum =     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]//store the total number of students per level
+    let currentSum = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]//store the current sum of students per level
     
     if (index == 10 || index == 11 || index == 12 ){index++}
     
@@ -524,11 +526,36 @@ function calcLevelStats(shiftList, index){
         maxSum[12] = maxSum[12] + shiftList[index][i][MAX_COLUMN]
         currentSum[12] = currentSum[12] + shiftList[index][i][CURRENT_COLUMN]
         break 
+      case 'SN':
+        numClasses[13]++
+        maxSum[13] = maxSum[13] + shiftList[index][i][MAX_COLUMN]
+        currentSum[13] = currentSum[13] + shiftList[index][i][CURRENT_COLUMN]
+        break
+      case 'Open':
+        numClasses[14]++
+        maxSum[14] = maxSum[14] + shiftList[index][i][MAX_COLUMN]
+        currentSum[14] = currentSum[14] + shiftList[index][i][CURRENT_COLUMN]
+        break
+      case 'Water Watcher':
+        numClasses[15]++
+        maxSum[15] = maxSum[15] + shiftList[index][i][MAX_COLUMN]
+        currentSum[15] = currentSum[15] + shiftList[index][i][CURRENT_COLUMN]
+        break
+      case 'x Break':
+        numClasses[16]++
+        maxSum[16] = maxSum[16] + shiftList[index][i][MAX_COLUMN]
+        currentSum[16] = currentSum[16] + shiftList[index][i][CURRENT_COLUMN]
+        break
+      default:
+        numClasses[17]++
+        maxSum[17] = maxSum[17] + shiftList[index][i][MAX_COLUMN]
+        currentSum[17] = currentSum[17] + shiftList[index][i][CURRENT_COLUMN]
+        break
       }
     }
-    let numClassesRange = 'I4:I18'
-    let percentFullRange = 'J4:J18'
-    spreadsheet.getRange(numClassesRange).setValues([[numClasses[0]],[numClasses[1]],[numClasses[2]],[numClasses[3]],[numClasses[4]],[numClasses[5]],[numClasses[6]],[numClasses[7]],[numClasses[8]],[numClasses[9]],[numClasses[10]],[numClasses[11]],[numClasses[12]],[numClasses[13]],[numClasses[14]]])
+    let numClassesRange = 'I4:I21'
+    let percentFullRange = 'J4:J21'
+    spreadsheet.getRange(numClassesRange).setValues([[numClasses[0]],[numClasses[1]],[numClasses[2]],[numClasses[3]],[numClasses[4]],[numClasses[5]],[numClasses[6]],[numClasses[7]],[numClasses[8]],[numClasses[9]],[numClasses[10]],[numClasses[11]],[numClasses[12]],[numClasses[13]],[numClasses[14]],[numClasses[15]],[numClasses[16]],[numClasses[17]]])
     spreadsheet.getRange(percentFullRange).setValues([
       [isNaN(((currentSum[0]/maxSum[0])*100).toFixed(2))],
       [isNaN(((currentSum[1]/maxSum[1])*100).toFixed(2))],
@@ -545,8 +572,13 @@ function calcLevelStats(shiftList, index){
       [isNaN(((currentSum[12]/maxSum[12])*100).toFixed(2))],
       [isNaN(((currentSum[13]/maxSum[13])*100).toFixed(2))],
       [isNaN(((currentSum[14]/maxSum[14])*100).toFixed(2))],
+      [isNaN(((currentSum[15]/maxSum[15])*100).toFixed(2))],
+      [isNaN(((currentSum[16]/maxSum[16])*100).toFixed(2))],
+      [isNaN(((currentSum[17]/maxSum[17])*100).toFixed(2))],
       
     ])
+    spreadsheet.getRange(numClassesRange).setVerticalAlignment('middle').setHorizontalAlignment('left')
+    spreadsheet.getRange(percentFullRange).setVerticalAlignment('middle').setHorizontalAlignment('left')
 }
 // ==================================================================================================================
 //    Checks if the given input is NaN string and leaves plan else it adds percent onto it
