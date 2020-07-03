@@ -50,7 +50,7 @@ var INSTRUCTOR_COLUMN = 3;
 var MAX_COLUMN = 7;
 var CURRENT_COLUMN = 8;
 var OPENINGS_COLUMNS = 9;
-var MASTER_SHEET_NAME = "Table 01";
+var MASTER_SHEET_NAME = "RAW";
 var DASHBOARD_SHEET_NAME = "Dashboard";
 // ==================================================================================================================
 
