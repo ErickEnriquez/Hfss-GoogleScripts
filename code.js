@@ -46,10 +46,10 @@ var countList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // ho
 // COLUMNS WHERE SPECIFIC DATA IS LOCATED ON DATA SHEET, CHANGE IF NEEDED
 var CLASS_COLUMN = 11;
 var TIME_COLUMN = 2;
-var INSTRUCTOR_COLUMN = 4;
-var MAX_COLUMN = 6;
-var CURRENT_COLUMN = 7;
-var OPENINGS_COLUMNS = 8;
+var INSTRUCTOR_COLUMN = 3;
+var MAX_COLUMN = 7;
+var CURRENT_COLUMN = 8;
+var OPENINGS_COLUMNS = 9;
 var MASTER_SHEET_NAME = "Table 01";
 var DASHBOARD_SHEET_NAME = "Dashboard";
 // ==================================================================================================================
@@ -72,7 +72,7 @@ function main() {
 
   for (var i = 1; i < data.length; i++) {
     output = getShift(data, i, TIME_COLUMN); // get the shift that this will belong to
-    addToData(output, data[i], ); //enter the whole row into the correct list and update max and current lists
+    addToData(output, data[i]); //enter the whole row into the correct list and update max and current lists
     calcTotalLevelStats(data, i); // add the class to its level stats
   }
   writeToDashboard(maxes, currents, shiftNames); //function to write the aggregate data to dashboard sheet
@@ -184,7 +184,7 @@ function createNewSheets() {
 //checks the date given and adds the data to correct list and adds to max and current lists
 // ==================================================================================================================
 
-function addToData(date, data, index) {
+function addToData(date, data) {
   switch (date) {
     case shiftNames[0]:
       monAM.push(data);
@@ -300,7 +300,7 @@ function writeToDashboard(max, currents, shiftName) {
   for (let y = 0; y < 13; y++) {
     let openings = max[y] - currents[y];
     let percentFull = ((currents[y] / max[y]) * 100.0).toFixed(2);
-    percentFull = percentFull + "%";
+    percentFull = isNotANumber(percentFull);
 
     let range = "B" + temp + ":E" + temp;
     spreadsheet
@@ -327,115 +327,115 @@ function writeToDashboard(max, currents, shiftName) {
         maxSum,
         currentSum,
         openingSum,
-        isNaN(((currentSum / maxSum) * 100).toFixed(2)),
+        isNotANumber(((currentSum / maxSum) * 100).toFixed(2)),
       ],
     ]);
   spreadsheet.getRange("A15:E15").setBackground("#000000");
   spreadsheet.getRange("A15:E15").setFontColor("#ffffff");
 
   const levelStatRange = "G1:I20";
-  const titleRange = 'G1:I1'
+  const titleRange = "G1:I1";
   spreadsheet.getRange(levelStatRange).setValues([
     ["Level", "# of Classes", " PercentFull"],
     [
       "Baby Splash",
       countList[0],
-      isNaN(((currentList[0] / maxList[0]) * 100).toFixed(2)),
+      isNotANumber(((currentList[0] / maxList[0]) * 100).toFixed(2)),
     ],
     [
       "LS1",
       countList[1],
-      isNaN(((currentList[1] / maxList[1]) * 100).toFixed(2)),
+      isNotANumber(((currentList[1] / maxList[1]) * 100).toFixed(2)),
     ],
     [
       "LS2",
       countList[2],
-      isNaN(((currentList[2] / maxList[2]) * 100).toFixed(2)),
+      isNotANumber(((currentList[2] / maxList[2]) * 100).toFixed(2)),
     ],
     [
       "LSA",
       countList[3],
-      isNaN(((currentList[3] / maxList[3]) * 100).toFixed(2)),
+      isNotANumber(((currentList[3] / maxList[3]) * 100).toFixed(2)),
     ],
     [
       "CF",
       countList[4],
-      isNaN(((currentList[4] / maxList[4]) * 100).toFixed(2)),
+      isNotANumber(((currentList[4] / maxList[4]) * 100).toFixed(2)),
     ],
     [
       "GF",
       countList[5],
-      isNaN(((currentList[5] / maxList[5]) * 100).toFixed(2)),
+      isNotANumber(((currentList[5] / maxList[5]) * 100).toFixed(2)),
     ],
     [
       "JF",
       countList[6],
-      isNaN(((currentList[6] / maxList[6]) * 100).toFixed(2)),
+      isNotANumber(((currentList[6] / maxList[6]) * 100).toFixed(2)),
     ],
     [
       "OCT",
       countList[7],
-      isNaN(((currentList[7] / maxList[7]) * 100).toFixed(2)),
+      isNotANumber(((currentList[7] / maxList[7]) * 100).toFixed(2)),
     ],
     [
       "LOB",
       countList[8],
-      isNaN(((currentList[8] / maxList[8]) * 100).toFixed(2)),
+      isNotANumber(((currentList[8] / maxList[8]) * 100).toFixed(2)),
     ],
     [
       "HHJr",
       countList[9],
-      isNaN(((currentList[9] / maxList[9]) * 100).toFixed(2)),
+      isNotANumber(((currentList[9] / maxList[9]) * 100).toFixed(2)),
     ],
     [
       "HHSr",
       countList[10],
-      isNaN(((currentList[10] / maxList[10]) * 100).toFixed(2)),
+      isNotANumber(((currentList[10] / maxList[10]) * 100).toFixed(2)),
     ],
     [
       "Private",
       countList[11],
-      isNaN(((currentList[11] / maxList[11]) * 100).toFixed(2)),
+      isNotANumber(((currentList[11] / maxList[11]) * 100).toFixed(2)),
     ],
     [
       "Semi",
       countList[12],
-      isNaN(((currentList[12] / maxList[12]) * 100).toFixed(2)),
+      isNotANumber(((currentList[12] / maxList[12]) * 100).toFixed(2)),
     ],
     [
       "SN",
       countList[13],
-      isNaN(((currentList[13] / maxList[13]) * 100).toFixed(2)),
+      isNotANumber(((currentList[13] / maxList[13]) * 100).toFixed(2)),
     ],
     [
       "Open",
       countList[14],
-      isNaN(((currentList[14] / maxList[14]) * 100).toFixed(2)),
+      isNotANumber(((currentList[14] / maxList[14]) * 100).toFixed(2)),
     ],
     [
       "Water Watcher",
       countList[15],
-      isNaN(((currentList[15] / maxList[15]) * 100).toFixed(2)),
+      isNotANumber(((currentList[15] / maxList[15]) * 100).toFixed(2)),
     ],
     [
       "Break",
       countList[16],
-      isNaN(((currentList[16] / maxList[16]) * 100).toFixed(2)),
+      isNotANumber(((currentList[16] / maxList[16]) * 100).toFixed(2)),
     ],
     [
       "Squads",
       countList[17],
-      isNaN(((currentList[17] / maxList[17]) * 100).toFixed(2)),
+      isNotANumber(((currentList[17] / maxList[17]) * 100).toFixed(2)),
     ],
     [
       "Other",
       countList[18],
-      isNaN(((currentList[18] / maxList[18]) * 100).toFixed(2)),
+      isNotANumber(((currentList[18] / maxList[18]) * 100).toFixed(2)),
     ],
   ]);
-  spreadsheet.getRange(titleRange).setBackground('#0000ff')
-  spreadsheet.getRange(titleRange).setFontColor('#ffffff')
-
+  spreadsheet.getRange(titleRange).setBackground("#0000ff");
+  spreadsheet.getRange(titleRange).setFontColor("#ffffff");
+  formatSheet(spreadsheet,'A:K')
 }
 
 // ==================================================================================================================
@@ -467,13 +467,11 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
         "Percent Full",
       ],
     ]); //write the title row
-  spreadsheet.getRange("A1:G1").setBackground("#000000");
-  spreadsheet.getRange("A1:G1").setFontColor("#ffffff");
 
   let numRows = shiftList[index].length;
   let temp = 3;
   for (let y = 0; y < numRows; y++) {
-    let range = "A" + temp + ":F" + temp; //grab the current row
+    let range = "A" + temp + ":G" + temp; //grab the current row
     spreadsheet
       .getRange(range)
       .setValues([
@@ -484,6 +482,11 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
           shiftList[index][y][MAX_COLUMN],
           shiftList[index][y][CURRENT_COLUMN],
           shiftList[index][y][OPENINGS_COLUMNS],
+          isNotANumber(
+            (shiftList[index][y][CURRENT_COLUMN] /
+              shiftList[index][y][MAX_COLUMN]) *
+              (100.0).toFixed(2)
+          ),
         ],
       ]);
     if (temp % 2 == 0) {
@@ -503,16 +506,16 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
         max[x],
         current[x],
         max[x] - current[x],
-        isNaN(((current[x] / max[x]) * 100).toFixed(2)),
+        isNotANumber(((current[x] / max[x]) * 100).toFixed(2)),
       ],
     ]);
   spreadsheet.getRange("D2:G2").setBackground("#00ff00");
   spreadsheet.getActiveSheet().setColumnWidths(1, 3, 180);
-  spreadsheet
-    .getRange("A:F")
-    .setVerticalAlignment("middle")
-    .setHorizontalAlignment("left");
+
+  spreadsheet.getRange("A1:G1").setBackground("#000000");
+  spreadsheet.getRange("A1:G1").setFontColor("#ffffff");
   calcLevelStats(shiftList, x);
+  formatSheet(spreadsheet, 'A:J');
 }
 // ==================================================================================================================
 // CALCULATES THE STATS per LEVEL for each shift
@@ -520,8 +523,8 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
 function calcLevelStats(shiftList, index) {
   var spreadsheet = SpreadsheetApp.getActive();
 
-  const levelRange = "H3:J22";
-  const titleRange = "H3:J3";
+  const levelRange = "I3:K22";
+  const titleRange = "I3:K3";
 
   let numClasses = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //store the count of classes
   let maxSum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //store the total number of students per level
@@ -635,117 +638,114 @@ function calcLevelStats(shiftList, index) {
     [
       "Baby Splash",
       numClasses[0],
-      isNaN(((currentSum[0] / maxSum[0]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[0] / maxSum[0]) * 100).toFixed(2)),
     ],
     [
       "LS1",
       numClasses[1],
-      isNaN(((currentSum[1] / maxSum[1]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[1] / maxSum[1]) * 100).toFixed(2)),
     ],
     [
       "LS2",
       numClasses[2],
-      isNaN(((currentSum[2] / maxSum[2]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[2] / maxSum[2]) * 100).toFixed(2)),
     ],
     [
       "LSA",
       numClasses[3],
-      isNaN(((currentSum[3] / maxSum[3]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[3] / maxSum[3]) * 100).toFixed(2)),
     ],
     [
       "CF",
       numClasses[4],
-      isNaN(((currentSum[4] / maxSum[4]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[4] / maxSum[4]) * 100).toFixed(2)),
     ],
     [
       "GF",
       numClasses[5],
-      isNaN(((currentSum[5] / maxSum[5]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[5] / maxSum[5]) * 100).toFixed(2)),
     ],
     [
       "JF",
       numClasses[6],
-      isNaN(((currentSum[6] / maxSum[6]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[6] / maxSum[6]) * 100).toFixed(2)),
     ],
     [
       "OCT",
       numClasses[7],
-      isNaN(((currentSum[7] / maxSum[7]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[7] / maxSum[7]) * 100).toFixed(2)),
     ],
     [
       "LOB",
       numClasses[8],
-      isNaN(((currentSum[8] / maxSum[8]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[8] / maxSum[8]) * 100).toFixed(2)),
     ],
     [
       "HHJr",
       numClasses[9],
-      isNaN(((currentSum[9] / maxSum[9]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[9] / maxSum[9]) * 100).toFixed(2)),
     ],
     [
       "HHSr",
       numClasses[10],
-      isNaN(((currentSum[10] / maxSum[10]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[10] / maxSum[10]) * 100).toFixed(2)),
     ],
     [
       "Private",
       numClasses[11],
-      isNaN(((currentSum[11] / maxSum[11]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[11] / maxSum[11]) * 100).toFixed(2)),
     ],
     [
       "Semi",
       numClasses[12],
-      isNaN(((currentSum[12] / maxSum[12]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[12] / maxSum[12]) * 100).toFixed(2)),
     ],
     [
       "SN",
       numClasses[13],
-      isNaN(((currentSum[13] / maxSum[13]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[13] / maxSum[13]) * 100).toFixed(2)),
     ],
     [
       "Open",
       numClasses[14],
-      isNaN(((currentSum[14] / maxSum[14]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[14] / maxSum[14]) * 100).toFixed(2)),
     ],
     [
       "Water Watcher",
       numClasses[15],
-      isNaN(((currentSum[15] / maxSum[15]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[15] / maxSum[15]) * 100).toFixed(2)),
     ],
     [
       "Break",
       numClasses[16],
-      isNaN(((currentSum[16] / maxSum[16]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[16] / maxSum[16]) * 100).toFixed(2)),
     ],
     [
       "Squad",
       numClasses[17],
-      isNaN(((currentSum[17] / maxSum[17]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[17] / maxSum[17]) * 100).toFixed(2)),
     ],
     [
       "Other",
       numClasses[18],
-      isNaN(((currentSum[18] / maxSum[18]) * 100).toFixed(2)),
+      isNotANumber(((currentSum[18] / maxSum[18]) * 100).toFixed(2)),
     ],
   ]);
-  spreadsheet
-    .getRange(levelRange)
-    .setVerticalAlignment("middle")
-    .setHorizontalAlignment("left");
+  formatSheet(spreadsheet, levelRange)
   spreadsheet.getRange(titleRange).setBackground("#cccccc");
 }
 // ==================================================================================================================
 //    Checks if the given input is NaN string and leaves plan else it adds percent onto it
 // ==================================================================================================================
 
-function isNaN(input) {
+function isNotANumber(input) {
   if (input === "NaN") {
-    return "";
-  }
-  else if (input == 'Infinity'){
-    return '';
-  } 
-  else {
+    return "N/A";
+  } else if (isNaN(input)) {
+    return "N/A";
+  } else if (input == "Infinity") {
+    return "N/A";
+  } else {
     return input + "%";
   }
 }
@@ -851,4 +851,14 @@ function calcTotalLevelStats(data, index) {
       Logger.log(data[index][CLASS_COLUMN].trim());
       break;
   }
+}
+
+// ==================================================================================================================
+// FORMATS CURRENT SPREADSHEET
+// ==================================================================================================================
+
+function formatSheet(ss, range) {
+   ss.getRange(range).activate();
+  ss.getActiveRangeList().setVerticalAlignment('middle')
+  .setHorizontalAlignment('center');
 }
