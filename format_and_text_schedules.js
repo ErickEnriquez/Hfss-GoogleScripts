@@ -92,7 +92,8 @@ function copyToFormatted() {
     .getRange(headerRow)
     .setVerticalAlignment("middle")
     .setHorizontalAlignment("center")
-    .setBackground("#dddddd").setTextRotation(0);
+    .setBackground("#dddddd")
+    .setTextRotation(0);
   spreadsheet.getRange("D:J").setBackground("#dddddd");
   spreadsheet.getRange("K:K").setBackground("#024278").setFontColor("#FFFFFF");
   let row = 1;
@@ -131,6 +132,7 @@ function copyToFormatted() {
 }
 //==================================================================================================================================
 
+//checks to see if the working column has the person as working
 function checkIfWorking(input) {
   if (input[WORKING_COLUMN] == "Yes, Excited to be back!") {
     return true;
@@ -153,15 +155,16 @@ function concatSchedule(input) {
 }
 //==================================================================================================================================
 
-//check if string is empty null or undefined
+//check if string is empty null or undefined or NONE
 function isEmpty(str, dayOfWeek) {
-  if (!str || 0 === str.length) {
+  if (!str || 0 === str.length || str.match(/NONE/i)) {
     return "";
   }
-  return dayOfWeek + ":" + str + " ";
+  return dayOfWeek + ": " + str + "\n";
 }
 //==================================================================================================================================
 
+//takes a the formatted data and passes it to send SMS function to send text out
 function sendOutTexts() {
   let sheet = SpreadsheetApp.getActiveSheet();
 
@@ -172,18 +175,18 @@ function sendOutTexts() {
     let messageText =
       "Hi " +
       row[0] +
-      ", here is your schedule for the upcoming season " +
+      ", here is your schedule for the upcoming season\n\n" +
       row[10] +
-      " if you have any questions please contact your general manager";
-      
+      "\nif you have any questions please contact your general manager";
+
     try {
-      response_data = sendSms(row[2], messageText);
+      response_data = sendSms(String(row[2]), messageText);
       status = "sent";
     } catch (err) {
       Logger.log(err);
       status = "error";
     }
-    sheet.getRange('P' + (Number(i) + 1)).setValue(status);
+    sheet.getRange("P" + (Number(i) + 1)).setValue(status);
   }
-  sheet.getRange('P:P').setTextRotation(0)
+  sheet.getRange("P:P").setTextRotation(0);
 }
