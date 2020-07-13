@@ -38,9 +38,9 @@ var shiftNames = [
 ];
 // ==================================================================================================================
 
-var maxList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds max for whole week by level
-var currentList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds current for whole week by level
-var countList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds count for whole week by level
+var maxList =     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds max for whole week by level
+var currentList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds current for whole week by level
+var countList =   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds count for whole week by level
 
 // ==================================================================================================================
 // COLUMNS WHERE SPECIFIC DATA IS LOCATED ON DATA SHEET, CHANGE IF NEEDED
@@ -333,7 +333,7 @@ function writeToDashboard(max, currents, shiftName) {
   spreadsheet.getRange("A15:E15").setBackground("#000000");
   spreadsheet.getRange("A15:E15").setFontColor("#ffffff");
 
-  const levelStatRange = "G1:I20";
+  const levelStatRange = "G1:I21";
   const titleRange = "G1:I1";
   spreadsheet.getRange(levelStatRange).setValues([
     ["Level", "# of Classes", " PercentFull"],
@@ -397,6 +397,10 @@ function writeToDashboard(max, currents, shiftName) {
       countList[11],
       isNotANumber(((currentList[11] / maxList[11]) * 100).toFixed(2)),
     ],
+    ["Private SN",
+    countList[18],
+      isNotANumber(((currentList[18] / maxList[18]) * 100).toFixed(2))
+    ],
     [
       "Semi",
       countList[12],
@@ -429,13 +433,13 @@ function writeToDashboard(max, currents, shiftName) {
     ],
     [
       "Other",
-      countList[18],
-      isNotANumber(((currentList[18] / maxList[18]) * 100).toFixed(2)),
+      countList[19],
+      isNotANumber(((currentList[19] / maxList[19]) * 100).toFixed(2)),
     ],
   ]);
   spreadsheet.getRange(titleRange).setBackground("#0000ff");
   spreadsheet.getRange(titleRange).setFontColor("#ffffff");
-  formatSheet(spreadsheet,'A:K')
+  formatSheet(spreadsheet, "A:K");
 }
 
 // ==================================================================================================================
@@ -515,7 +519,7 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
   spreadsheet.getRange("A1:G1").setBackground("#000000");
   spreadsheet.getRange("A1:G1").setFontColor("#ffffff");
   calcLevelStats(shiftList, x);
-  formatSheet(spreadsheet, 'A:J');
+  formatSheet(spreadsheet, "A:J");
 }
 // ==================================================================================================================
 // CALCULATES THE STATS per LEVEL for each shift
@@ -523,12 +527,12 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
 function calcLevelStats(shiftList, index) {
   var spreadsheet = SpreadsheetApp.getActive();
 
-  const levelRange = "I3:K22";
+  const levelRange = "I3:K23";
   const titleRange = "I3:K3";
 
-  let numClasses = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //store the count of classes
-  let maxSum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //store the total number of students per level
-  let currentSum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //store the current sum of students per level
+  let numClasses = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //store the count of classes
+  let maxSum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0]; //store the total number of students per level
+  let currentSum = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,0]; //store the current sum of students per level
 
   if (index == 10 || index == 11 || index == 12) {
     index++;
@@ -591,10 +595,15 @@ function calcLevelStats(shiftList, index) {
         maxSum[10] = maxSum[10] + shiftList[index][i][MAX_COLUMN];
         currentSum[10] = currentSum[10] + shiftList[index][i][CURRENT_COLUMN];
         break;
-      case "Private":
+      case "Private - Teacher and Me":
         numClasses[11]++;
         maxSum[11] = maxSum[11] + shiftList[index][i][MAX_COLUMN];
         currentSum[11] = currentSum[11] + shiftList[index][i][CURRENT_COLUMN];
+        break;
+      case "Private - Special Needs":
+        numClasses[18]++;
+        maxSum[18] = maxSum[18] + shiftList[index][i][MAX_COLUMN];
+        currentSum[18] = currentSum[18] + shiftList[index][i][CURRENT_COLUMN];
         break;
       case "Semi":
         numClasses[12]++;
@@ -627,9 +636,9 @@ function calcLevelStats(shiftList, index) {
         currentSum[17] = currentSum[17] + shiftList[index][i][CURRENT_COLUMN];
         break;
       default:
-        numClasses[18]++;
-        maxSum[18] = maxSum[18] + shiftList[index][i][MAX_COLUMN];
-        currentSum[18] = currentSum[18] + shiftList[index][i][CURRENT_COLUMN];
+        numClasses[19]++;
+        maxSum[19] = maxSum[19] + shiftList[index][i][MAX_COLUMN];
+        currentSum[19] = currentSum[19] + shiftList[index][i][CURRENT_COLUMN];
         break;
     }
   }
@@ -696,6 +705,11 @@ function calcLevelStats(shiftList, index) {
       isNotANumber(((currentSum[11] / maxSum[11]) * 100).toFixed(2)),
     ],
     [
+      "Private SN",
+      numClasses[18],
+      isNotANumber(((currentSum[18] / maxSum[18]) * 100).toFixed(2)),
+    ],
+    [
       "Semi",
       numClasses[12],
       isNotANumber(((currentSum[12] / maxSum[12]) * 100).toFixed(2)),
@@ -727,11 +741,11 @@ function calcLevelStats(shiftList, index) {
     ],
     [
       "Other",
-      numClasses[18],
-      isNotANumber(((currentSum[18] / maxSum[18]) * 100).toFixed(2)),
+      numClasses[19],
+      isNotANumber(((currentSum[19] / maxSum[19]) * 100).toFixed(2)),
     ],
   ]);
-  formatSheet(spreadsheet, levelRange)
+  formatSheet(spreadsheet, levelRange);
   spreadsheet.getRange(titleRange).setBackground("#cccccc");
 }
 // ==================================================================================================================
@@ -809,10 +823,15 @@ function calcTotalLevelStats(data, index) {
       maxList[10] = maxList[10] + data[index][MAX_COLUMN];
       currentList[10] = currentList[10] + data[index][CURRENT_COLUMN];
       break;
-    case "Private":
+    case "Private - Teacher and Me":
       countList[11]++;
       maxList[11] = maxList[11] + data[index][MAX_COLUMN];
       currentList[11] = currentList[11] + data[index][CURRENT_COLUMN];
+      break;
+    case "Private - Special Needs":
+      countList[18]++;
+      maxList[18] = maxList[18] + data[index][MAX_COLUMN];
+      currentList[18] = currentList[18] + data[index][CURRENT_COLUMN];
       break;
     case "Semi":
       countList[12]++;
@@ -845,9 +864,9 @@ function calcTotalLevelStats(data, index) {
       currentList[17] = currentList[17] + data[index][CURRENT_COLUMN];
       break;
     default:
-      countList[18]++;
-      maxList[18] = maxList[18] + data[index][MAX_COLUMN];
-      currentList[18] = currentList[18] + data[index][CURRENT_COLUMN];
+      countList[19]++;
+      maxList[19] = maxList[19] + data[index][MAX_COLUMN];
+      currentList[19] = currentList[19] + data[index][CURRENT_COLUMN];
       Logger.log(data[index][CLASS_COLUMN].trim());
       break;
   }
@@ -858,7 +877,8 @@ function calcTotalLevelStats(data, index) {
 // ==================================================================================================================
 
 function formatSheet(ss, range) {
-   ss.getRange(range).activate();
-  ss.getActiveRangeList().setVerticalAlignment('middle')
-  .setHorizontalAlignment('center');
+  ss.getRange(range).activate();
+  ss.getActiveRangeList()
+    .setVerticalAlignment("middle")
+    .setHorizontalAlignment("center");
 }
