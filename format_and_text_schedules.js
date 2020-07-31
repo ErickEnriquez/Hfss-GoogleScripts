@@ -166,9 +166,11 @@ function isEmpty(str, dayOfWeek) {
 
 //takes a the formatted data and passes it to send SMS function to send text out
 function sendOutTexts() {
-  let sheet = SpreadsheetApp.getActiveSheet();
+  let spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(spreadsheet.getSheetByName(formatSheet), true);
 
-  let data = sheet.getDataRange().getValues();
+
+  let data = spreadsheet.getDataRange().getValues();
   let status = "";
   for (i = 1; i < data.length; i++) {
     let row = data[i];
@@ -186,7 +188,7 @@ function sendOutTexts() {
       Logger.log(err);
       status = "error";
     }
-    sheet.getRange("P" + (Number(i) + 1)).setValue(status);
+    spreadsheet.getRange("P" + (Number(i) + 1)).setValue(status);
   }
-  sheet.getRange("P:P").setTextRotation(0);
+  spreadsheet.getRange("P:P").setTextRotation(0);
 }
