@@ -760,7 +760,7 @@ function isNotANumber(input) {
   } else if (input == "Infinity") {
     return "N/A";
   } else {
-    return input + "%";
+    return Math.round(Number(input)) + "%";// remove the decimal places and round
   }
 }
 // ==================================================================================================================
