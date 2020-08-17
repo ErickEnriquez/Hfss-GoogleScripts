@@ -1,13 +1,11 @@
 var CLASS_LIST = {} //dictionary holding all of the classes
 var STUDENT_LIST = {} //dictionary holding all of the students
-var GROUP_LIST = {}  //dictionary holding groups of students
 const CLASSES_SHEET = 'CLA-1'
 const STUDENTS_SHEET = 'STU-1'
-
+var count = { found: 0, notFound: 0 }
 function main() {
     getRawData()//grab the raw user data and link students with their correct classes
-    //linkStudents()
-
+    Logger.log('\n\nLINKING DONE\n FOUND = ' + count.found + '\nNOT FOUND = ' + count.notFound)
 }
 
 function getRawData() {
@@ -28,7 +26,8 @@ function getRawData() {
                 instructor: classes[i][2],
                 ageRange: classes[i][3],
                 minAge: Number(classes[i][3].slice(0, 1)),
-                maxAge: Number(classes[i][3].slice(4, 5))
+                maxAge: Number(classes[i][3].slice(4, 5)),
+                students: []//will store the students who belong to this class
             }
             key = x.schedule.trim() + x.instructor.trim()
             CLASS_LIST[key] = x
@@ -41,7 +40,7 @@ function getRawData() {
         true
     );
     let studentInfo = spreadsheet.getDataRange().getValues();
-    var counter = { value: 0 }
+    var counter = { value: 0, notFound: 0 }
     for (i = 1; i < studentInfo.length; i++) {
         x = {
             name: studentInfo[i][0],
@@ -55,8 +54,9 @@ function getRawData() {
         x.classReference = getClass(x.swimTimeFormatted, counter)
         key = x.name
         STUDENT_LIST[key] = x
+        linkStudents(count, key)
     }
-    Logger.log('DONE\n' + "COUNTER " + counter.value)
+    Logger.log('DONE\n' + "COUNTER " + counter.value + '\nNOT Found ' + counter.notFound)
 }
 
 //CHECKS IF KEY is VALID IN CLASS LIST, returns reference to class if true
@@ -65,6 +65,7 @@ function getClass(key, counter) {
         counter.value++
         return CLASS_LIST[key]
     } else {
+        counter.notFound++
         return undefined
     }
 }
@@ -75,9 +76,14 @@ function formatTime(instructor, time) {
     return schedule + instructor.trim()
 }
 
-function linkStudents() {
-    let keyList = Object.keys(CLASS_LIST) //get the list of classes
-    for (let key in STUDENT_LIST) {
-        
+function linkStudents(count, key) {
+    if (CLASS_LIST[STUDENT_LIST[key].swimTimeFormatted] !== undefined) { // if key if valid
+        CLASS_LIST[[STUDENT_LIST[key].swimTimeFormatted]].students.push(STUDENT_LIST[key])// put students to their respective classes
+        count.found++
+    }
+    else {
+        count.notFound++
+        Logger.log(STUDENT_LIST[key].name)
+        Logger.log(STUDENT_LIST[key].swimTimeFormatted)
     }
 }
