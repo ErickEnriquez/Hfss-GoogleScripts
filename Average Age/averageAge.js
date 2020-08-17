@@ -1,10 +1,13 @@
 var CLASS_LIST = {} //dictionary holding all of the classes
 var STUDENT_LIST = {} //dictionary holding all of the students
+var GROUP_LIST = {}  //dictionary holding groups of students
 const CLASSES_SHEET = 'CLA-1'
 const STUDENTS_SHEET = 'STU-1'
 
 function main() {
-    getRawData()
+    getRawData()//grab the raw user data and link students with their correct classes
+    //linkStudents()
+
 }
 
 function getRawData() {
@@ -47,26 +50,34 @@ function getRawData() {
             level: studentInfo[i][3],
             time: studentInfo[i][4],
             instructor: studentInfo[i][5],
-            classReference: getClass(studentInfo[i][5], studentInfo[i][4], counter)
+            swimTimeFormatted: formatTime(studentInfo[i][5], studentInfo[i][4])
         }
+        x.classReference = getClass(x.swimTimeFormatted, counter)
         key = x.name
         STUDENT_LIST[key] = x
     }
-
     Logger.log('DONE\n' + "COUNTER " + counter.value)
-
 }
 
-function getClass(instructor, time, counter) {
-    let end = time.indexOf('y', 5) + 3 //find the first y which is end of the day of week, ie monda(y) and add 3 to get start index of time
-    let schedule = time.slice(0, 3) + '-' + time.slice(end)//format the time to be like class schedule
-    let tempKey = schedule + instructor.trim()
-    let keyList = Object.keys(CLASS_LIST)
-    if (CLASS_LIST[tempKey] !== undefined) {
+//CHECKS IF KEY is VALID IN CLASS LIST, returns reference to class if true
+function getClass(key, counter) {
+    if (CLASS_LIST[key] !== undefined) {
         counter.value++
-        return CLASS_LIST[tempKey]
+        return CLASS_LIST[key]
     } else {
         return undefined
     }
+}
+//FORMAT THE STUDENTS TIME TO BE SAME AS INSTRUCTOR TIME
+function formatTime(instructor, time) {
+    let end = time.indexOf('y', 5) + 3 //find the first y which is end of the day of week, ie monda(y), tuesda(y) and add 3 to get start index of time
+    let schedule = time.slice(0, 3) + '-' + time.slice(end)//format the time to be like class schedule
+    return schedule + instructor.trim()
+}
 
+function linkStudents() {
+    let keyList = Object.keys(CLASS_LIST) //get the list of classes
+    for (let key in STUDENT_LIST) {
+        
+    }
 }
