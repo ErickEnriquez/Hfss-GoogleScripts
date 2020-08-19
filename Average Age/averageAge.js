@@ -168,7 +168,7 @@ function fillInSheet() {
                 ]])
             let classAverageObj = checkClassAge(key)
             spreadsheet.getRange(row).setBackground(classAverageObj.color)
-            spreadsheet.getRange("G" + rowIndex + ":G" + rowIndex).setBackground(inRangeObject.color)
+            spreadsheet.getRange("F" + rowIndex + ":F" + rowIndex).setBackground(inRangeObject.color)
             rowIndex++
             if (flag == false) {
                 spreadsheet.getRange(row).setBackground('#DDDDDD')
