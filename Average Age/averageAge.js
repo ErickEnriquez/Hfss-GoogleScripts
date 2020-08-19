@@ -164,6 +164,8 @@ function fillInSheet() {
                     CLASS_LIST[key].ageRange,
                     CLASS_LIST[key].averageAge,
                 ]])
+            let classAverageObj = checkClassAge(key)
+            spreadsheet.getRange(row).setBackground(classAverageObj.color)
             spreadsheet.getRange("G"+rowIndex+":G"+rowIndex).setBackground(inRangeObject.color)
             rowIndex++
             if (flag == false) {
@@ -185,5 +187,18 @@ function checkIfWithinRange(index, key) {
     }
     else {
         return { text: 'Yes', color: '#ffffff' }
+    }
+}
+//==========================================================================================================================
+
+function checkClassAge(key){
+    if(CLASS_LIST[key].averageAge > CLASS_LIST[key].maxAge){
+        return {response: false , color: '#f6a800'} //return orange
+    }
+    else if(CLASS_LIST[key].averageAge < CLASS_LIST.minAge){
+        return {response: false , color : '#3daf2c'} //return green
+    }
+    else{
+        return {response : true , color: '#FFFFFF'} //return white
     }
 }
