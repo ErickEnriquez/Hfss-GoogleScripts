@@ -1,5 +1,6 @@
 var CLASS_LIST = {} //dictionary holding all of the classes
 var STUDENT_LIST = {} //dictionary holding all of the students
+var LEFTOVER_STUDENTS_LIST = []//list with students who were not grouped with a class
 const CLASSES_SHEET = 'CLA-1'
 const STUDENTS_SHEET = 'STU-1'
 const STATS_SHEET = 'STATISTICS'
@@ -51,11 +52,11 @@ function getRawData() {
         x = {
             name: studentInfo[i][0],
             age: Number(studentInfo[i][1]),
-            studentKeywords: studentInfo[i][2],
-            level: studentInfo[i][3],
-            time: studentInfo[i][4],
-            instructor: studentInfo[i][5],
-            swimTimeFormatted: formatTime(studentInfo[i][5], studentInfo[i][4])
+            //studentKeywords: studentInfo[i][2],
+            level: studentInfo[i][2],
+            time: studentInfo[i][3],
+            instructor: studentInfo[i][4],
+            swimTimeFormatted: formatTime(studentInfo[i][4], studentInfo[i][3])
         }
         x.classReference = getClass(x.swimTimeFormatted, counter)
         key = x.name
@@ -89,9 +90,10 @@ function linkStudents(count, key) {
         count.found++
     }
     else {
+        LEFTOVER_STUDENTS_LIST.push(STUDENT_LIST[key])// store the leftover student in list
         count.notFound++
-        //Logger.log(STUDENT_LIST[key].name)
-        //Logger.log(STUDENT_LIST[key].swimTimeFormatted)
+        // Logger.log(STUDENT_LIST[key].name)
+        // Logger.log(STUDENT_LIST[key].swimTimeFormatted)
     }
 }
 //==========================================================================================================================
@@ -128,12 +130,12 @@ function fillInSheet() {
         true
     );
     spreadsheet.getDataRange().clearContent(); // clear out old content from spreadsheet
-    const headerRow = "A1:J1";
+    const headerRow = "A1:I1";
     spreadsheet.getRange(headerRow).setValues([
         [
             'Student',
             'Age',
-            'Student keywords',
+            // 'Student keywords',
             'Schedule',
             'Instructor',
             'Class Time',
@@ -150,12 +152,12 @@ function fillInSheet() {
     let flag = false
     for (let key in CLASS_LIST) {
         for (let i in CLASS_LIST[key].students) {
-            let row = 'A' + rowIndex + ':J' + rowIndex
+            let row = 'A' + rowIndex + ':I' + rowIndex
             inRangeObject = checkIfWithinRange(i, key),//check if the students age is within the age range
                 spreadsheet.getRange(row).setValues([[
                     CLASS_LIST[key].students[i].name,
                     CLASS_LIST[key].students[i].age,
-                    CLASS_LIST[key].students[i].studentKeywords,
+                    // CLASS_LIST[key].students[i].studentKeywords,
                     CLASS_LIST[key].students[i].time,
                     CLASS_LIST[key].students[i].instructor,
                     CLASS_LIST[key].students[i].swimTimeFormatted,
@@ -166,7 +168,7 @@ function fillInSheet() {
                 ]])
             let classAverageObj = checkClassAge(key)
             spreadsheet.getRange(row).setBackground(classAverageObj.color)
-            spreadsheet.getRange("G"+rowIndex+":G"+rowIndex).setBackground(inRangeObject.color)
+            spreadsheet.getRange("G" + rowIndex + ":G" + rowIndex).setBackground(inRangeObject.color)
             rowIndex++
             if (flag == false) {
                 spreadsheet.getRange(row).setBackground('#DDDDDD')
@@ -177,6 +179,34 @@ function fillInSheet() {
         }
         else if (flag == true) {
             flag = false
+        }
+    }
+    // ADD IN LEFTOVER STUDENTS HERE
+    Logger.log(LEFTOVER_STUDENTS_LIST.length)
+    if (LEFTOVER_STUDENTS_LIST.length > 0) { // if we have leftover students
+        rowIndex += 2
+
+        let leftoverHeader = 'A' + rowIndex + ':F' + rowIndex
+        spreadsheet.getRange(leftoverHeader).setValues([[
+            'Student',
+            'Age',
+            'Student Keywords',
+            'Class/Camp',
+            'Schedule',
+            'Instructor'
+        ]]).setBackground('#000b8c').setFontColor('#FFFFFF')
+        rowIndex++
+        for (let i in LEFTOVER_STUDENTS_LIST) {
+            let row = 'A' + rowIndex + ':F' + rowIndex
+            spreadsheet.getRange(row).setValues([[
+                LEFTOVER_STUDENTS_LIST[i].name,
+                LEFTOVER_STUDENTS_LIST[i].age,
+                LEFTOVER_STUDENTS_LIST[i].studentKeywords,
+                LEFTOVER_STUDENTS_LIST[i].level,
+                LEFTOVER_STUDENTS_LIST[i].time,
+                LEFTOVER_STUDENTS_LIST[i].instructor,
+            ]])
+            rowIndex++
         }
     }
 }
@@ -191,14 +221,14 @@ function checkIfWithinRange(index, key) {
 }
 //==========================================================================================================================
 
-function checkClassAge(key){
-    if(CLASS_LIST[key].averageAge > CLASS_LIST[key].maxAge){
-        return {response: false , color: '#f6a800'} //return orange
+function checkClassAge(key) {
+    if (CLASS_LIST[key].averageAge > CLASS_LIST[key].maxAge) {
+        return { response: false, color: '#f6a800' } //return orange
     }
-    else if(CLASS_LIST[key].averageAge < CLASS_LIST.minAge){
-        return {response: false , color : '#3daf2c'} //return green
+    else if (CLASS_LIST[key].averageAge < CLASS_LIST[key].minAge) {
+        return { response: false, color: '#3daf2c' } //return green
     }
-    else{
-        return {response : true , color: '#FFFFFF'} //return white
+    else {
+        return { response: true, color: '#FFFFFF' } //return white
     }
 }
