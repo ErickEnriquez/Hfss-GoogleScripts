@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <base target="_top">
+    <base target="_top" />
   </head>
   <body>
-    <textarea id="ta"rows="5" cols="30" placeholder="Enter in the message info into here"></textarea>
+    <!-- Create Text Area to grab the users message-->
+    <textarea
+      id="ta"
+      rows="5"
+      cols="30"
+      placeholder="Enter in the message info into here"
+    ></textarea>
     <!-- Create a button to send the value to the spreadsheet -->
-    <button onclick='clickHandler()'>Submit</button>
-<script>
+    <br />
+    <label for="headerRows">Check here if first row contains headers</label>
+    <input type="checkbox" id="headerRows" value="True" onclick="headerRowsHandler()" />
+    <br />
+    <button onclick="clickSubmitHandler()">Submit</button>
+    <script>
+      function clickSubmitHandler() {
+        //Get the value of the input field
+        let message = document.getElementById("ta").value;
+        let headerRowsChecked = document.getElementById("headerRows").value;
+        google.script.run.printObject(message);
+        google.script.run();
+      }
 
-  function clickHandler(){
-   //Get the value of the input field 
-   
-   let message = document.getElementById("ta").value
-    google.script.run.printObject(message)
-    
-  }
-</script>
+      function headerRowsHandler(){
+       let headerRow = google.script.run.getHeaderRow()
+      }
+    </script>
   </body>
 </html>

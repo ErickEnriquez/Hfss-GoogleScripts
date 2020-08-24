@@ -15,6 +15,7 @@ function onOpen() {
     .addItem("Show sidebar", "showSidebar")
     .addToUi();
 }
+
 //======================================================================================================================================================
 //calls Page.html to render the html as a sidebar
 function showSidebar() {
@@ -78,4 +79,11 @@ function printObject(output){
 //  GRAB HEADER ROW FROM THE TOP
 function getHeaderRow(){
   let spreadsheet = SpreadsheetApp.getActive();
+  spreadsheet.setActiveSheet(
+    spreadsheet.getSheetByName(MASTER_SHEET),
+    true
+);
+let data = spreadsheet.getDataRange().getValues();
+return data[0] //return the header row
+
 }
