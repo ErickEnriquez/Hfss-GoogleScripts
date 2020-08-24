@@ -4,27 +4,17 @@
     <base target="_top">
   </head>
   <body>
-    <button onclick='f1()'>Update the address</button>
-    <!-- Create a input field to except a value form user, in this case there name -->
-    Your Name:
-    <input type="text" id="name"><br>
-    <textarea id="messageText" name="messageText" rows="10" cols="30" placeholder="Enter in the message info into here"></textarea>
+    <textarea id="ta"rows="5" cols="30" placeholder="Enter in the message info into here"></textarea>
     <!-- Create a button to send the value to the spreadsheet -->
-    <button onclick='sendName()'>Send Name</button>
+    <button onclick='clickHandler()'>Submit</button>
 <script>
 
-  function sendName(){
+  function clickHandler(){
    //Get the value of the input field 
-   var name = document.getElementById("name").value
-
-   var message = document.getElementsById("messageText").val()
-    
+   
+   let message = document.getElementById("ta").value
     google.script.run.printObject(message)
     
-
-   //Send the value of the text field as a argument to the server side function.
-   //google.script.run.printObject(name)
-   google.script.run.enterName(name)
   }
 </script>
   </body>

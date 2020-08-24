@@ -4,6 +4,7 @@ const token = "d53462cfa67afe893f96c6a7bad52cc7";
 const companyPhone = "6026712206";
 const turtlesImage =
   "https://hfss-website.s3-us-west-2.amazonaws.com/turtles.png";
+const MASTER_SHEET = "PASTE NAMES HERE"
 ///////////////////////////////////////////////////////////////////////////////////////
 
 //======================================================================================================================================================
@@ -22,14 +23,7 @@ function showSidebar() {
     .setWidth(800);
   SpreadsheetApp.getUi().showSidebar(html);
 }
-//======================================================================================================================================================
 
-// Sets the value of A1 cell to value entered in the input field in the side bar!
-function enterName(name) {
-  var ss = SpreadsheetApp.getActive();
-  var sheet = ss.getActiveSheet();
-  sheet.getRange("A1").setValue(name);
-}
 //======================================================================================================================================================
 
 function sendSms(to, body) {
@@ -77,5 +71,11 @@ function sendOutTexts() {
 //======================================================================================================================================================
 //Simple utility function to print out an an output
 function printObject(output){
-    SpreadsheetApp.getUi().alert('Hello, world' + output + ' IS WHAT IT SHOULD SAY');
+    SpreadsheetApp.getUi().alert(output);
+}
+
+//======================================================================================================================================================
+//  GRAB HEADER ROW FROM THE TOP
+function getHeaderRow(){
+  let spreadsheet = SpreadsheetApp.getActive();
 }
