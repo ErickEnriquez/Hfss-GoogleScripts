@@ -4,18 +4,73 @@
     <base target="_top" />
   </head>
   <body>
+    <label for="ta"> Enter your Text Message Here.If you want to enter in smart tags use {firstColumn} - {fifth Column}.</label><br>
     <!-- Create Text Area to grab the users message-->
     <textarea
       id="ta"
       rows="5"
       cols="30"
-      placeholder="Enter in the message info into here"
+      placeholder="Hi {firstColumn} this is a link to form blah blah ..."
     ></textarea>
     <!-- Create a button to send the value to the spreadsheet -->
     <br />
-    <label for="headerRows">Check here if first row contains headers</label>
-    <input type="checkbox" id="headerRows" value="True" onclick="headerRowsHandler()" />
     <br />
+    <label for="headerRows">Check here if first row contains headers</label>
+    <input
+      type="checkbox"
+      id="headerRows"
+      value="True"
+      onclick="headerRowsHandler()"
+    />
+    <br />
+    <div id="rowSelectors">
+      <label for="firstCol">First Column</label>
+      <select id="firstCol">
+        <option value="blank" selected></option>
+        <option value="firstName">First Name</option>
+        <option value="lastName">Last Name</option>
+        <option value="fullName">Full Name</option>
+        <option value="phoneNumber">PhoneNumber</option>
+      </select>
+      <br />
+      <label for="secondCol">Second Column</label>
+      <select id="secondCol">
+        <option value="blank" selected></option>
+        <option value="firstName">First Name</option>
+        <option value="lastName">Last Name</option>
+        <option value="fullName">Full Name</option>
+        <option value="phoneNumber">PhoneNumber</option>
+      </select>
+      <br />
+      <label for="thirdCol">Third Column</label>
+      <select id="thirdCol">
+        <option value="blank" selected></option>
+        <option value="firstName">First Name</option>
+        <option value="lastName">Last Name</option>
+        <option value="fullName">Full Name</option>
+        <option value="phoneNumber">PhoneNumber</option>
+      </select>
+      <br />
+      <label for="fourthCol">Fourth Column</label>
+      <select id="fourthCol">
+        <option value="blank" selected></option>
+        <option value="firstName">First Name</option>
+        <option value="lastName">Last Name</option>
+        <option value="fullName">Full Name</option>
+        <option value="phoneNumber">PhoneNumber</option>
+      </select>
+      <br />
+      <label for="fifthCol">Fifth Column</label>
+      <select id="fifth">
+        <option value="blank" selected></option>
+        <option value="firstName">First Name</option>
+        <option value="lastName">Last Name</option>
+        <option value="fullName">Full Name</option>
+        <option value="phoneNumber">PhoneNumber</option>
+      </select>
+      <br />
+      <br />
+    </div>
     <button onclick="clickSubmitHandler()">Submit</button>
     <script>
       function clickSubmitHandler() {
@@ -26,8 +81,8 @@
         google.script.run();
       }
 
-      function headerRowsHandler(){
-       let headerRow = google.script.run.getHeaderRow()
+      function headerRowsHandler() {
+        let headerRow = google.script.run.getHeaderRow();
       }
     </script>
   </body>
