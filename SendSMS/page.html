@@ -4,13 +4,16 @@
     <base target="_top" />
   </head>
   <body>
-    <label for="ta"> Enter your Text Message Here.If you want to enter in smart tags use {firstColumn} - {fifth Column}.</label><br>
+    <label for="ta">
+      Enter your Text Message Here. If you want to enter in smart tags use {A} -
+      {E}. corresponding to the column you want to add in </label
+    ><br />
     <!-- Create Text Area to grab the users message-->
     <textarea
       id="ta"
-      rows="5"
+      rows="15"
       cols="30"
-      placeholder="Hi {firstColumn} this is a link to form blah blah ..."
+      placeholder="Hi {A} this is a link to form blah blah ..."
     ></textarea>
     <!-- Create a button to send the value to the spreadsheet -->
     <br />
@@ -20,70 +23,35 @@
       type="checkbox"
       id="headerRows"
       value="True"
-      onclick="headerRowsHandler()"
+      default="False"
     />
+    <br /><br />
+    <label for="phoneColumn">Which column are phone numbers in</label>
+    <select id="phoneColumn" required>
+      <option value="blank"></option>
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+      <option value="D">D</option>
+      <option value="E">E</option>
+      <option value="F">F</option>
+    </select>
     <br />
-    <div id="rowSelectors">
-      <label for="firstCol">First Column</label>
-      <select id="firstCol">
-        <option value="blank" selected></option>
-        <option value="firstName">First Name</option>
-        <option value="lastName">Last Name</option>
-        <option value="fullName">Full Name</option>
-        <option value="phoneNumber">PhoneNumber</option>
-      </select>
-      <br />
-      <label for="secondCol">Second Column</label>
-      <select id="secondCol">
-        <option value="blank" selected></option>
-        <option value="firstName">First Name</option>
-        <option value="lastName">Last Name</option>
-        <option value="fullName">Full Name</option>
-        <option value="phoneNumber">PhoneNumber</option>
-      </select>
-      <br />
-      <label for="thirdCol">Third Column</label>
-      <select id="thirdCol">
-        <option value="blank" selected></option>
-        <option value="firstName">First Name</option>
-        <option value="lastName">Last Name</option>
-        <option value="fullName">Full Name</option>
-        <option value="phoneNumber">PhoneNumber</option>
-      </select>
-      <br />
-      <label for="fourthCol">Fourth Column</label>
-      <select id="fourthCol">
-        <option value="blank" selected></option>
-        <option value="firstName">First Name</option>
-        <option value="lastName">Last Name</option>
-        <option value="fullName">Full Name</option>
-        <option value="phoneNumber">PhoneNumber</option>
-      </select>
-      <br />
-      <label for="fifthCol">Fifth Column</label>
-      <select id="fifth">
-        <option value="blank" selected></option>
-        <option value="firstName">First Name</option>
-        <option value="lastName">Last Name</option>
-        <option value="fullName">Full Name</option>
-        <option value="phoneNumber">PhoneNumber</option>
-      </select>
-      <br />
-      <br />
-    </div>
+    <br />
+
     <button onclick="clickSubmitHandler()">Submit</button>
     <script>
       function clickSubmitHandler() {
         //Get the value of the input field
-        let message = document.getElementById("ta").value;
-        let headerRowsChecked = document.getElementById("headerRows").value;
-        google.script.run.printObject(message);
+        let res = {
+          message: document.getElementById("ta").value,
+          headerRows: document.getElementById("headerRows").checked,
+          phoneNumberColumn: document.getElementById("phoneColumn").value,
+        };
+        google.script.run.sendOutTexts(res);
         google.script.run();
       }
 
-      function headerRowsHandler() {
-        let headerRow = google.script.run.getHeaderRow();
-      }
     </script>
   </body>
 </html>
