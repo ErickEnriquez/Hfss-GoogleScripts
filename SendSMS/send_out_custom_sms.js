@@ -59,17 +59,8 @@ function sendOutTexts(res) {
   let data = spreadsheet.getDataRange().getValues();
   const phoneColumnIndex = getPhoneColumnIndex(res.phoneNumberColumn);
   let status = "";
-  let output = [];
-  let temp = {};
   let flag = true;
-  /*SpreadsheetApp.getUi().alert(
-    "HEADERS CHECKED " +
-      res.headerRows +
-      "\nMESSAGE TEXT " +
-      res.message +
-      "\nPHONE NUM COL " +
-      res.phoneNumberColumn
-  );*/
+  spreadsheet.getRange('H1').setValue('TEXT STATUS')
   for (let i = 0; i < data.length; i++) {
     if (res.headerRows == true && flag == true) {
       i++;
@@ -77,19 +68,15 @@ function sendOutTexts(res) {
     }
     let text = replaceSmartTags(res.message, data[i]);
     try {
-      //responseData = sendSms(res.phoneNumberColumn, text)
+      responseData = sendSms(data[i][phoneColumnIndex], text)
       status = "Sent";
     } catch (err) {
       Logger.log(err);
       status = "Error";
     }
-    temp.textStatus = status;
-    temp.phoneNumber = data[phoneColumnIndex];
-    output.push(temp);
+    spreadsheet.getRange("H" + (Number(i) + 1)).setValue(status);
+    
   }
-  SpreadsheetApp.getUi().alert(output.length + " " + phoneColumnIndex);
-
-  writeResults(output);
 }
 //======================================================================================================================================================
 //Simple utility function to print out an an output
@@ -107,15 +94,15 @@ function replaceSmartTags(response, data) {
   text = text.replace(/\{e\}/gi, data[4]);
   return text;
 }
-
+/*
 //======================================================================================================================================================
 //This function switches to results sheet and gives the results of the text
 function writeResult(output) {
   let spreadsheet = SpreadsheetApp.getActive();
   spreadsheet.setActiveSheet(spreadsheet.getSheetByName(OUTPUT_SHEET), true);
   spreadsheet.getDataRange().clearContent(); // clear out old content from spreadsheet
-  const headerRow = "A1:B1";
-  spreadsheet.getRange(headerRow).setValues([["Phone Number", "Text Status"]]);
+  const headerRow = "G1:G1";
+  spreadsheet.getRange(headerRow).setValues([["Text Status"]]);
   rowIndex = 2;
   for (let i in output) {
     let row = "A" + rowIndex + ":B" + rowIndex;
@@ -124,7 +111,7 @@ function writeResult(output) {
       .setValues([[output[i].phoneNumber, output[i].textStatus]]);
     rowIndex++;
   }
-}
+}*/
 
 //======================================================================================================================================================
 //gets the index of the phone number column where input is the letters a-e
