@@ -5,7 +5,8 @@ const companyPhone = "6026712206";
 const turtlesImage =
   "https://hfss-website.s3-us-west-2.amazonaws.com/turtles.png";
 const MASTER_SHEET = "PASTE NAMES HERE";
-const OUTPUT_SHEET = "RESULTS";
+const RESPONSES_SHEET = "RESPONSES";
+const numberToRetrieve = 100;
 ///////////////////////////////////////////////////////////////////////////////////////
 
 //======================================================================================================================================================
@@ -60,7 +61,7 @@ function sendOutTexts(res) {
   const phoneColumnIndex = getPhoneColumnIndex(res.phoneNumberColumn);
   let status = "";
   let flag = true;
-  spreadsheet.getRange('H1').setValue('TEXT STATUS')
+  spreadsheet.getRange("H1").setValue("TEXT STATUS");
   for (let i = 0; i < data.length; i++) {
     if (res.headerRows == true && flag == true) {
       i++;
@@ -68,14 +69,13 @@ function sendOutTexts(res) {
     }
     let text = replaceSmartTags(res.message, data[i]);
     try {
-      responseData = sendSms(data[i][phoneColumnIndex], text)
+      responseData = sendSms(data[i][phoneColumnIndex], text);
       status = "Sent";
     } catch (err) {
       Logger.log(err);
       status = "Error";
     }
     spreadsheet.getRange("H" + (Number(i) + 1)).setValue(status);
-    
   }
 }
 //======================================================================================================================================================
@@ -94,24 +94,6 @@ function replaceSmartTags(response, data) {
   text = text.replace(/\{e\}/gi, data[4]);
   return text;
 }
-/*
-//======================================================================================================================================================
-//This function switches to results sheet and gives the results of the text
-function writeResult(output) {
-  let spreadsheet = SpreadsheetApp.getActive();
-  spreadsheet.setActiveSheet(spreadsheet.getSheetByName(OUTPUT_SHEET), true);
-  spreadsheet.getDataRange().clearContent(); // clear out old content from spreadsheet
-  const headerRow = "G1:G1";
-  spreadsheet.getRange(headerRow).setValues([["Text Status"]]);
-  rowIndex = 2;
-  for (let i in output) {
-    let row = "A" + rowIndex + ":B" + rowIndex;
-    spreadsheet
-      .getRange(row)
-      .setValues([[output[i].phoneNumber, output[i].textStatus]]);
-    rowIndex++;
-  }
-}*/
 
 //======================================================================================================================================================
 //gets the index of the phone number column where input is the letters a-e
@@ -127,5 +109,54 @@ function getPhoneColumnIndex(input) {
       return 3;
     case "E":
       return 4;
+  }
+}
+//======================================================================================================================================================
+//call this to retrieve all 100
+function receiveResponses() {
+  let hoursOffset = 0;
+  let options = {
+    method: "get",
+  };
+  options.headers = {
+    Authorization: "Basic " + Utilities.base64Encode(SID + ":" + token),
+  };
+  let url =
+    "https://api.twilio.com/2010-04-01/Accounts/" +
+    SID +
+    "/Messages.json?To=" +
+    companyPhone +
+    "&PageSize=" +
+    numberToRetrieve;
+  let response = UrlFetchApp.fetch(url, options);
+  // -------------------------------------------
+  // Parse the JSON data and put it into the spreadsheet's active page.
+  // Documentation: https://www.twilio.com/docs/api/rest/response
+  let spreadsheet = SpreadsheetApp.getActiveSheet();
+  let row = 3;
+  let startColumn = 2;
+  let rowIndex = 2;
+  var dataAll = JSON.parse(response.getContentText());
+  for (i = 0; i < dataAll.messages.length; i++) {
+    let rowDate = dataAll.messages[i].date_sent;
+    let dateObj = new Date(rowDate);
+    if (isNaN(dateObj.valueOf())) {
+      dateObj = "NOT A VALID DATE";
+    } else {
+      dateObj.setHours(dateObj.getHours() + hoursOffset);
+    }
+    let row = "A" + rowIndex + ":E" + rowIndex;
+    spreadsheet
+      .getRange(row)
+      .setValues([
+        [
+          dateObj,
+          dateObj,
+          dataAll.messages[i].to,
+          dataAll.messages[i].from,
+          dataAll.messages[i].body,
+        ],
+      ]);
+    rowIndex++;
   }
 }
