@@ -57,10 +57,11 @@ function sendOutTexts(res) {
   let spreadsheet = SpreadsheetApp.getActive();
   spreadsheet.setActiveSheet(spreadsheet.getSheetByName(MASTER_SHEET), true);
   let data = spreadsheet.getDataRange().getValues();
-  const phoneColumnIndex = getPhoneColumnIndex(res.phoneNumberColumn)
+  const phoneColumnIndex = getPhoneColumnIndex(res.phoneNumberColumn);
   let status = "";
   let output = [];
   let temp = {};
+  let flag = true;
   /*SpreadsheetApp.getUi().alert(
     "HEADERS CHECKED " +
       res.headerRows +
@@ -69,10 +70,12 @@ function sendOutTexts(res) {
       "\nPHONE NUM COL " +
       res.phoneNumberColumn
   );*/
-  for (let i in data) {
+  for (let i = 0; i < data.length; i++) {
+    if (res.headerRows == true && flag == true) {
+      i++;
+      flag = false;
+    }
     let text = replaceSmartTags(res.message, data[i]);
-    SpreadsheetApp.getUi().alert(text)
-
     try {
       //responseData = sendSms(res.phoneNumberColumn, text)
       status = "Sent";
@@ -81,9 +84,10 @@ function sendOutTexts(res) {
       status = "Error";
     }
     temp.textStatus = status;
-    temp.phoneNumber = data[phoneColumnIndex]; 
+    temp.phoneNumber = data[phoneColumnIndex];
     output.push(temp);
   }
+  SpreadsheetApp.getUi().alert(output.length + " " + phoneColumnIndex);
 
   writeResults(output);
 }
@@ -96,9 +100,7 @@ function printObject(output) {
 //======================================================================================================================================================
 //function to replace all of the smart tags with their string literals
 function replaceSmartTags(response, data) {
-  //let smartTags = /\{[a-e]\}/gi; // regex to grab all tags of the form {a} - {e} case insensitive
-  //const regex1 = new RegExp("/{[a-e]}/", "ig");
-  let text = response.message.replace(/\{a\}/gi, data[0]);
+  let text = response.replace(/\{a\}/gi, data[0]);
   text = text.replace(/\{b\}/gi, data[1]);
   text = text.replace(/\{c\}/gi, data[2]);
   text = text.replace(/\{d\}/gi, data[3]);
@@ -128,15 +130,15 @@ function writeResult(output) {
 //gets the index of the phone number column where input is the letters a-e
 function getPhoneColumnIndex(input) {
   switch (input) {
-    case 'A':
+    case "A":
       return 0;
-    case 'B':
+    case "B":
       return 1;
-    case 'C':
-      return 2
-    case 'D': 
-      return 3
-    case 'E':
-      return 4
+    case "C":
+      return 2;
+    case "D":
+      return 3;
+    case "E":
+      return 4;
   }
 }
