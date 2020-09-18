@@ -17,12 +17,22 @@ function main() {
 //==========================================================================================================================
 function getRawData() {
     // GRAB DATA FROM THE CLASSES
-    var spreadsheet = SpreadsheetApp.getActive();
+    var { x //temp variable  
+        , key //key value for the dictionary
+        , spreadsheet } = getClassInfo()
+
+            //GRAB DATA FOR THE STUDENTS
+            ({ x, key } = getStudentInfo(spreadsheet, x, key))
+}
+//==========================================================================================================================
+
+function getClassInfo() {
+    var spreadsheet = SpreadsheetApp.getActive()
     spreadsheet.setActiveSheet(
         spreadsheet.getSheetByName(CLASSES_SHEET),
         true
-    );
-    var classes = spreadsheet.getDataRange().getValues();
+    )
+    var classes = spreadsheet.getDataRange().getValues()
     let x //temp variable  
     let key //key value for the dictionary
     for (i = 1; i < classes.length; i++) {
@@ -34,19 +44,22 @@ function getRawData() {
                 ageRange: classes[i][3],
                 minAge: Number(classes[i][3].slice(0, 1)),
                 maxAge: (getMaxAge(classes[i][3].slice(4))),
-                students: []//will store the students who belong to this class
+                students: [] //will store the students who belong to this class
             }
             key = x.schedule.trim() + x.instructor.trim()
             CLASS_LIST[key] = x
         }
     }
+    return { x, key, spreadsheet }
+}
+//==========================================================================================================================
 
-    //GRAB DATA FOR THE STUDENTS
+function getStudentInfo(spreadsheet, x, key) {
     spreadsheet.setActiveSheet(
         spreadsheet.getSheetByName(STUDENTS_SHEET),
         true
-    );
-    let studentInfo = spreadsheet.getDataRange().getValues();
+    )
+    let studentInfo = spreadsheet.getDataRange().getValues()
     var counter = { value: 0, notFound: 0 }
     for (i = 1; i < studentInfo.length; i++) {
         x = {
@@ -63,8 +76,9 @@ function getRawData() {
         STUDENT_LIST[key] = x
         linkStudents(count, key)
     }
-    // Logger.log('DONE\n' + "COUNTER " + counter.value + '\nNOT Found ' + counter.notFound)
+    return { x, key }
 }
+
 //==========================================================================================================================
 //CHECKS IF KEY is VALID IN CLASS LIST, returns reference to class if true
 function getClass(key, counter) {
@@ -124,18 +138,26 @@ function createNewSheet() {
 }
 //==========================================================================================================================
 function fillInSheet() {
-    var spreadsheet = SpreadsheetApp.getActive();
+    var spreadsheet = createHeaderRow()
+    let rowIndex = fillInStudentRows(spreadsheet)
+    // ADD IN LEFTOVER STUDENTS HERE
+    Logger.log(LEFTOVER_STUDENTS_LIST.length)
+    rowIndex = fillInLeftOverStudents(rowIndex, spreadsheet)
+}
+//==========================================================================================================================
+
+function createHeaderRow() {
+    var spreadsheet = SpreadsheetApp.getActive()
     spreadsheet.setActiveSheet(
         spreadsheet.getSheetByName(STATS_SHEET),
         true
-    );
-    spreadsheet.getDataRange().clearContent(); // clear out old content from spreadsheet
-    const headerRow = "A1:I1";
+    )
+    spreadsheet.getDataRange().clearContent() // clear out old content from spreadsheet
+    const headerRow = "A1:I1"
     spreadsheet.getRange(headerRow).setValues([
         [
             'Student',
             'Age',
-            // 'Student keywords',
             'Schedule',
             'Instructor',
             'Class Time',
@@ -145,15 +167,21 @@ function fillInSheet() {
             'Average Class Age'
         ]
     ])
-    spreadsheet.getActiveSheet().setColumnWidths(1, 10, 140);
+    spreadsheet.getActiveSheet().setColumnWidths(1, 10, 140)
     spreadsheet.getRange(headerRow).setVerticalAlignment("middle").setHorizontalAlignment("center").setBackground("#000b8c").setFontColor("#FFFFFF")
+    return spreadsheet
+}
+
+//==========================================================================================================================
+
+function fillInStudentRows(spreadsheet) {
     let rowIndex = 2
     let inRangeObject
     let flag = false
     for (let key in CLASS_LIST) {
         for (let i in CLASS_LIST[key].students) {
             let row = 'A' + rowIndex + ':I' + rowIndex
-            inRangeObject = checkIfWithinRange(i, key),//check if the students age is within the age range
+            inRangeObject = checkIfWithinRange(i, key), //check if the students age is within the age range
                 spreadsheet.getRange(row).setValues([[
                     CLASS_LIST[key].students[i].name,
                     CLASS_LIST[key].students[i].age,
@@ -184,8 +212,12 @@ function fillInSheet() {
             flag = false
         }
     }
-    // ADD IN LEFTOVER STUDENTS HERE
-    Logger.log(LEFTOVER_STUDENTS_LIST.length)
+    return rowIndex
+}
+
+//==========================================================================================================================
+//fill in info for remaining students
+function fillInLeftOverStudents(rowIndex, spreadsheet) {
     if (LEFTOVER_STUDENTS_LIST.length > 0) { // if we have leftover students
         rowIndex += 2
 
@@ -212,7 +244,9 @@ function fillInSheet() {
             rowIndex++
         }
     }
+    return rowIndex
 }
+
 //==========================================================================================================================
 function checkIfWithinRange(index, key) {
     if (CLASS_LIST[key].students[index].age < CLASS_LIST[key].minAge || CLASS_LIST[key].students[index].age > CLASS_LIST[key].maxAge) {
