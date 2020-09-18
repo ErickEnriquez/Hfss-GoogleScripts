@@ -234,6 +234,7 @@ function checkClassAge(key) {
     else {
         return { response: true, color: '#FFFFFF' } //return white
     }
+}
 //==========================================================================================================================
 //checks the second digit and returns correct age of swimmers
 function getMaxAge(ageInput) {
