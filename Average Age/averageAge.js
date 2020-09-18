@@ -33,7 +33,7 @@ function getRawData() {
                 instructor: classes[i][2],
                 ageRange: classes[i][3],
                 minAge: Number(classes[i][3].slice(0, 1)),
-                maxAge: Number(classes[i][3].slice(4, 5)),
+                maxAge: (getMaxAge(classes[i][3].slice(4))),
                 students: []//will store the students who belong to this class
             }
             key = x.schedule.trim() + x.instructor.trim()
@@ -169,10 +169,13 @@ function fillInSheet() {
             let classAverageObj = checkClassAge(key)
             spreadsheet.getRange(row).setBackground(classAverageObj.color)
             spreadsheet.getRange("F" + rowIndex + ":F" + rowIndex).setBackground(inRangeObject.color)
-            rowIndex++
             if (flag == false) {
                 spreadsheet.getRange(row).setBackground('#DDDDDD')
             }
+            if (inRangeObject.text == 'No') {
+                spreadsheet.getRange("F" + rowIndex + ":F" + rowIndex).setBackground(inRangeObject.color)
+            }
+            rowIndex++
         }
         if (flag == false) {
             flag = true
@@ -230,5 +233,15 @@ function checkClassAge(key) {
     }
     else {
         return { response: true, color: '#FFFFFF' } //return white
+    }
+//==========================================================================================================================
+//checks the second digit and returns correct age of swimmers
+function getMaxAge(ageInput) {
+    let secondDigit = ageInput.slice(1, 2)//check second digit only valid entries are 0,1, 2 corresponding to 10, 11, and 12 yrs
+    if (secondDigit == '0' || secondDigit == '1' || secondDigit == '2') {
+        return Number(ageInput.slice(0, 2))
+    }
+    else {
+        return Number(ageInput.slice(0, 1))
     }
 }
