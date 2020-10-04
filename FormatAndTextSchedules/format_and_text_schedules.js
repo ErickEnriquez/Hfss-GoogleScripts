@@ -1,11 +1,9 @@
 ///////////////////////////////////////////////////////
-const SID = "AC9f2f8a075203b765ee7724fbf1c8bb17";
-const token = "d53462cfa67afe893f96c6a7bad52cc7";
-const companyPhone = "6026712206";
+const SID = process.env.SID;
+const token = process.env.token;
+const companyPhone = process.env.companyPhone;
 const formatSheet = "Format for text all";
 const workingSheet = "WORKING sheet GMs";
-const turtlesImage =
-  "https://hfss-website.s3-us-west-2.amazonaws.com/turtles.png";
 ///////////////////////////////////////////////////////
 
 // CONSTANT VALUES FOR COLUMNS TO MAKE CHANGES TO SCRIPT EASIER
