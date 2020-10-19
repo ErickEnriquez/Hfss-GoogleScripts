@@ -4,7 +4,7 @@ const token = process.env.token;
 const companyPhone = process.env.companyPhone;
 const MASTER_SHEET = "PASTE NAMES HERE";
 const RESPONSES_SHEET = "RESPONSES";
-const numberToRetrieve = 100;
+const numberToRetrieve = 500;
 ///////////////////////////////////////////////////////////////////////////////////////
 
 //======================================================================================================================================================
@@ -110,29 +110,20 @@ function getPhoneColumnIndex(input) {
   }
 }
 //======================================================================================================================================================
-//call this to retrieve all 100
-function receiveResponses() {
-  let hoursOffset = 0;
+//call this to retrieve all 200 messages
+const receiveResponses = () => {
   let options = {
     method: "get",
   };
   options.headers = {
     Authorization: "Basic " + Utilities.base64Encode(SID + ":" + token),
   };
-  let url =
-    "https://api.twilio.com/2010-04-01/Accounts/" +
-    SID +
-    "/Messages.json?To=" +
-    companyPhone +
-    "&PageSize=" +
-    numberToRetrieve;
+  let url ="https://api.twilio.com/2010-04-01/Accounts/" + SID + "/Messages.json?To=" + companyPhone + "&PageSize=" + numberToRetrieve;
   let response = UrlFetchApp.fetch(url, options);
   // -------------------------------------------
   // Parse the JSON data and put it into the spreadsheet's active page.
   // Documentation: https://www.twilio.com/docs/api/rest/response
   let spreadsheet = SpreadsheetApp.getActiveSheet();
-  let row = 3;
-  let startColumn = 2;
   let rowIndex = 2;
   var dataAll = JSON.parse(response.getContentText());
   for (i = 0; i < dataAll.messages.length; i++) {
@@ -141,7 +132,7 @@ function receiveResponses() {
     if (isNaN(dateObj.valueOf())) {
       dateObj = "NOT A VALID DATE";
     } else {
-      dateObj.setHours(dateObj.getHours() + hoursOffset);
+      //dateObj.setHours(dateObj.getHours() + hoursOffset);
     }
     let row = "A" + rowIndex + ":E" + rowIndex;
     spreadsheet
@@ -149,7 +140,7 @@ function receiveResponses() {
       .setValues([
         [
           dateObj,
-          dateObj,
+          dateObj.toLocaleTimeString(),
           dataAll.messages[i].to,
           dataAll.messages[i].from,
           dataAll.messages[i].body,
