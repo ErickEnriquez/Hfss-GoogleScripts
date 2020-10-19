@@ -1,10 +1,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////
-const SID = process.env.SID;
-const token = process.env.token;
-const companyPhone = process.env.companyPhone;
 const MASTER_SHEET = "PASTE NAMES HERE";
 const RESPONSES_SHEET = "RESPONSES";
 const numberToRetrieve = 500;
+const numberToRetrieve = 200;
 ///////////////////////////////////////////////////////////////////////////////////////
 
 //======================================================================================================================================================
@@ -59,7 +57,7 @@ function sendOutTexts(res) {
   const phoneColumnIndex = getPhoneColumnIndex(res.phoneNumberColumn);
   let status = "";
   let flag = true;
-  spreadsheet.getRange("H1").setValue("TEXT STATUS");
+  spreadsheet.getRange('H1').setValue('TEXT STATUS')
   for (let i = 0; i < data.length; i++) {
     if (res.headerRows == true && flag == true) {
       i++;
@@ -67,13 +65,14 @@ function sendOutTexts(res) {
     }
     let text = replaceSmartTags(res.message, data[i]);
     try {
-      responseData = sendSms(data[i][phoneColumnIndex], text);
+      responseData = sendSms(formatPhoneNumber(data[i][phoneColumnIndex]), text)
       status = "Sent";
     } catch (err) {
       Logger.log(err);
       status = "Error";
     }
     spreadsheet.getRange("H" + (Number(i) + 1)).setValue(status);
+    
   }
 }
 //======================================================================================================================================================
@@ -149,3 +148,17 @@ const receiveResponses = () => {
     rowIndex++;
   }
 }
+//======================================================================================================================================================
+let formatPhoneNumber = (str) => {
+  //Filter only numbers from the input
+  let cleaned = ('' + str).replace(/\D/g, '');
+  
+  //Check if the input is of correct length
+  let match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+
+  if (match) {
+    return '(' + match[1] + ') ' + match[2] + '-' + match[3]
+  };
+
+  return str
+};
