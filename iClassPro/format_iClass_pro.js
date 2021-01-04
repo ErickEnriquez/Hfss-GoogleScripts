@@ -78,20 +78,7 @@ function main() {
   writeToDashboard(maxes, currents, shiftNames); //function to write the aggregate data to dashboard sheet
 
   let shiftList = [
-    monAM,
-    monPM,
-    tueAM,
-    tuePM,
-    wedAM,
-    wedPM,
-    thuAM,
-    thuPM,
-    friAM,
-    friPM,
-    [], //add empty list to line up indexed on writeToShiftSheet
-    sat,
-    sunAM,
-    sunPM,
+    monAM, monPM, tueAM, tuePM, wedAM, wedPM, thuAM, thuPM, friAM, friPM, [], //add empty list to line up indexed on writeToShiftSheet sat, sunAM, sunPM,
   ];
 
   for (let z = 0; z <= 13; z++) {
@@ -117,10 +104,7 @@ function getShift(data, i, j) {
       return day + "-AM";
     }
   } else if (
-    (time[1] == ":" && time[0] == 8) ||
-    time[0] == 9 ||
-    time[0] == 1 ||
-    time[0] == 2
+    (time[1] == ":" && time[0] == 8) || time[0] == 9 || time[0] == 1 || time[0] == 2
   ) {
     flag = true;
   } else if (time[1] == 0 || time[1] == 1) {
@@ -269,19 +253,7 @@ function writeToDashboard(max, currents, shiftName) {
   ); //switch to dashboard sheet
 
   spreadsheet.getRange("A2:A14").setValues([
-    [shiftName[0]],
-    [shiftName[1]],
-    [shiftName[2]],
-    [shiftName[3]],
-    [shiftName[4]],
-    [shiftName[5]],
-    [shiftName[6]],
-    [shiftName[7]],
-    [shiftName[8]],
-    [shiftName[9]],
-    [shiftName[14]], //skip sat am and pm instead write sat
-    [shiftName[12]],
-    [shiftName[13]],
+    [shiftName[0]], [shiftName[1]], [shiftName[2]], [shiftName[3]], [shiftName[4]], [shiftName[5]], [shiftName[6]], [shiftName[7]], [shiftName[8]], [shiftName[9]], [shiftName[14]], //skip sat am and pm instead write sat [shiftName[12]], [shiftName[13]],
   ]);
 
   spreadsheet
@@ -337,105 +309,26 @@ function writeToDashboard(max, currents, shiftName) {
   const titleRange = "G1:I1";
   spreadsheet.getRange(levelStatRange).setValues([
     ["Level", "# of Classes", " PercentFull"],
-    [
-      "Baby Splash",
-      countList[0],
-      isNotANumber(((currentList[0] / maxList[0]) * 100).toFixed(2)),
-    ],
-    [
-      "LS1",
-      countList[1],
-      isNotANumber(((currentList[1] / maxList[1]) * 100).toFixed(2)),
-    ],
-    [
-      "LS2",
-      countList[2],
-      isNotANumber(((currentList[2] / maxList[2]) * 100).toFixed(2)),
-    ],
-    [
-      "LSA",
-      countList[3],
-      isNotANumber(((currentList[3] / maxList[3]) * 100).toFixed(2)),
-    ],
-    [
-      "CF",
-      countList[4],
-      isNotANumber(((currentList[4] / maxList[4]) * 100).toFixed(2)),
-    ],
-    [
-      "GF",
-      countList[5],
-      isNotANumber(((currentList[5] / maxList[5]) * 100).toFixed(2)),
-    ],
-    [
-      "JF",
-      countList[6],
-      isNotANumber(((currentList[6] / maxList[6]) * 100).toFixed(2)),
-    ],
-    [
-      "OCT",
-      countList[7],
-      isNotANumber(((currentList[7] / maxList[7]) * 100).toFixed(2)),
-    ],
-    [
-      "LOB",
-      countList[8],
-      isNotANumber(((currentList[8] / maxList[8]) * 100).toFixed(2)),
-    ],
-    [
-      "HHJr",
-      countList[9],
-      isNotANumber(((currentList[9] / maxList[9]) * 100).toFixed(2)),
-    ],
-    [
-      "HHSr",
-      countList[10],
-      isNotANumber(((currentList[10] / maxList[10]) * 100).toFixed(2)),
-    ],
-    [
-      "Private",
-      countList[11],
-      isNotANumber(((currentList[11] / maxList[11]) * 100).toFixed(2)),
-    ],
-    ["Private SN",
-    countList[18],
-      isNotANumber(((currentList[18] / maxList[18]) * 100).toFixed(2))
-    ],
-    [
-      "Semi",
-      countList[12],
-      isNotANumber(((currentList[12] / maxList[12]) * 100).toFixed(2)),
-    ],
-    [
-      "SN",
-      countList[13],
-      isNotANumber(((currentList[13] / maxList[13]) * 100).toFixed(2)),
-    ],
-    [
-      "Open",
-      countList[14],
-      isNotANumber(((currentList[14] / maxList[14]) * 100).toFixed(2)),
-    ],
-    [
-      "Water Watcher",
-      countList[15],
-      isNotANumber(((currentList[15] / maxList[15]) * 100).toFixed(2)),
-    ],
-    [
-      "Break",
-      countList[16],
-      isNotANumber(((currentList[16] / maxList[16]) * 100).toFixed(2)),
-    ],
-    [
-      "Squads",
-      countList[17],
-      isNotANumber(((currentList[17] / maxList[17]) * 100).toFixed(2)),
-    ],
-    [
-      "Other",
-      countList[19],
-      isNotANumber(((currentList[19] / maxList[19]) * 100).toFixed(2)),
-    ],
+    [ "Baby Splash", countList[0], isNotANumber(((currentList[0] / maxList[0]) * 100).toFixed(2)), ],
+    [ "LS1", countList[1], isNotANumber(((currentList[1] / maxList[1]) * 100).toFixed(2)), ],
+    [ "LS2", countList[2], isNotANumber(((currentList[2] / maxList[2]) * 100).toFixed(2)), ],
+    [ "LSA", countList[3], isNotANumber(((currentList[3] / maxList[3]) * 100).toFixed(2)), ],
+    [ "CF", countList[4], isNotANumber(((currentList[4] / maxList[4]) * 100).toFixed(2)), ],
+    [ "GF", countList[5], isNotANumber(((currentList[5] / maxList[5]) * 100).toFixed(2)), ],
+    [ "JF", countList[6], isNotANumber(((currentList[6] / maxList[6]) * 100).toFixed(2)), ],
+    [ "OCT", countList[7], isNotANumber(((currentList[7] / maxList[7]) * 100).toFixed(2)), ],
+    [ "LOB", countList[8], isNotANumber(((currentList[8] / maxList[8]) * 100).toFixed(2)), ],
+    [ "HHJr", countList[9], isNotANumber(((currentList[9] / maxList[9]) * 100).toFixed(2)), ],
+    [ "HHSr", countList[10], isNotANumber(((currentList[10] / maxList[10]) * 100).toFixed(2)), ],
+    [ "Private", countList[11], isNotANumber(((currentList[11] / maxList[11]) * 100).toFixed(2)), ],
+    ["Private SN", countList[18], isNotANumber(((currentList[18] / maxList[18]) * 100).toFixed(2)) ],
+    [ "Semi", countList[12], isNotANumber(((currentList[12] / maxList[12]) * 100).toFixed(2)), ],
+    [ "SN", countList[13], isNotANumber(((currentList[13] / maxList[13]) * 100).toFixed(2)), ],
+    [ "Open", countList[14], isNotANumber(((currentList[14] / maxList[14]) * 100).toFixed(2)), ],
+    [ "Water Watcher", countList[15], isNotANumber(((currentList[15] / maxList[15]) * 100).toFixed(2)), ],
+    [ "Break", countList[16], isNotANumber(((currentList[16] / maxList[16]) * 100).toFixed(2)), ],
+    [ "Squads", countList[17], isNotANumber(((currentList[17] / maxList[17]) * 100).toFixed(2)), ],
+    [ "Other", countList[19], isNotANumber(((currentList[19] / maxList[19]) * 100).toFixed(2)), ],
   ]);
   spreadsheet.getRange(titleRange).setBackground("#0000ff");
   spreadsheet.getRange(titleRange).setFontColor("#ffffff");
@@ -460,17 +353,7 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
   }
   spreadsheet
     .getRange("A1:G1")
-    .setValues([
-      [
-        "Class Name",
-        "Schedule",
-        "Instructor",
-        "Max",
-        "Current",
-        "Openings",
-        "Percent Full",
-      ],
-    ]); //write the title row
+    .setValues([ [ "Class Name", "Schedule", "Instructor", "Max", "Current", "Openings", "Percent Full", ], ]); //write the title row
 
   let numRows = shiftList[index].length;
   let temp = 3;
@@ -644,106 +527,26 @@ function calcLevelStats(shiftList, index) {
   }
   spreadsheet.getRange(levelRange).setValues([
     ["Level", "# of classes", "Percent Full"],
-    [
-      "Baby Splash",
-      numClasses[0],
-      isNotANumber(((currentSum[0] / maxSum[0]) * 100).toFixed(2)),
-    ],
-    [
-      "LS1",
-      numClasses[1],
-      isNotANumber(((currentSum[1] / maxSum[1]) * 100).toFixed(2)),
-    ],
-    [
-      "LS2",
-      numClasses[2],
-      isNotANumber(((currentSum[2] / maxSum[2]) * 100).toFixed(2)),
-    ],
-    [
-      "LSA",
-      numClasses[3],
-      isNotANumber(((currentSum[3] / maxSum[3]) * 100).toFixed(2)),
-    ],
-    [
-      "CF",
-      numClasses[4],
-      isNotANumber(((currentSum[4] / maxSum[4]) * 100).toFixed(2)),
-    ],
-    [
-      "GF",
-      numClasses[5],
-      isNotANumber(((currentSum[5] / maxSum[5]) * 100).toFixed(2)),
-    ],
-    [
-      "JF",
-      numClasses[6],
-      isNotANumber(((currentSum[6] / maxSum[6]) * 100).toFixed(2)),
-    ],
-    [
-      "OCT",
-      numClasses[7],
-      isNotANumber(((currentSum[7] / maxSum[7]) * 100).toFixed(2)),
-    ],
-    [
-      "LOB",
-      numClasses[8],
-      isNotANumber(((currentSum[8] / maxSum[8]) * 100).toFixed(2)),
-    ],
-    [
-      "HHJr",
-      numClasses[9],
-      isNotANumber(((currentSum[9] / maxSum[9]) * 100).toFixed(2)),
-    ],
-    [
-      "HHSr",
-      numClasses[10],
-      isNotANumber(((currentSum[10] / maxSum[10]) * 100).toFixed(2)),
-    ],
-    [
-      "Private",
-      numClasses[11],
-      isNotANumber(((currentSum[11] / maxSum[11]) * 100).toFixed(2)),
-    ],
-    [
-      "Private SN",
-      numClasses[18],
-      isNotANumber(((currentSum[18] / maxSum[18]) * 100).toFixed(2)),
-    ],
-    [
-      "Semi",
-      numClasses[12],
-      isNotANumber(((currentSum[12] / maxSum[12]) * 100).toFixed(2)),
-    ],
-    [
-      "SN",
-      numClasses[13],
-      isNotANumber(((currentSum[13] / maxSum[13]) * 100).toFixed(2)),
-    ],
-    [
-      "Open",
-      numClasses[14],
-      isNotANumber(((currentSum[14] / maxSum[14]) * 100).toFixed(2)),
-    ],
-    [
-      "Water Watcher",
-      numClasses[15],
-      isNotANumber(((currentSum[15] / maxSum[15]) * 100).toFixed(2)),
-    ],
-    [
-      "Break",
-      numClasses[16],
-      isNotANumber(((currentSum[16] / maxSum[16]) * 100).toFixed(2)),
-    ],
-    [
-      "Squad",
-      numClasses[17],
-      isNotANumber(((currentSum[17] / maxSum[17]) * 100).toFixed(2)),
-    ],
-    [
-      "Other",
-      numClasses[19],
-      isNotANumber(((currentSum[19] / maxSum[19]) * 100).toFixed(2)),
-    ],
+    [ "Baby Splash", numClasses[0], isNotANumber(((currentSum[0] / maxSum[0]) * 100).toFixed(2)), ],
+    [ "LS1", numClasses[1], isNotANumber(((currentSum[1] / maxSum[1]) * 100).toFixed(2)), ],
+    [ "LS2", numClasses[2], isNotANumber(((currentSum[2] / maxSum[2]) * 100).toFixed(2)), ],
+    [ "LSA", numClasses[3], isNotANumber(((currentSum[3] / maxSum[3]) * 100).toFixed(2)), ],
+    [ "CF", numClasses[4], isNotANumber(((currentSum[4] / maxSum[4]) * 100).toFixed(2)), ],
+    [ "GF", numClasses[5], isNotANumber(((currentSum[5] / maxSum[5]) * 100).toFixed(2)), ],
+    [ "JF", numClasses[6], isNotANumber(((currentSum[6] / maxSum[6]) * 100).toFixed(2)), ],
+    [ "OCT", numClasses[7], isNotANumber(((currentSum[7] / maxSum[7]) * 100).toFixed(2)), ],
+    [ "LOB", numClasses[8], isNotANumber(((currentSum[8] / maxSum[8]) * 100).toFixed(2)), ],
+    [ "HHJr", numClasses[9], isNotANumber(((currentSum[9] / maxSum[9]) * 100).toFixed(2)), ],
+    [ "HHSr", numClasses[10], isNotANumber(((currentSum[10] / maxSum[10]) * 100).toFixed(2)), ],
+    [ "Private", numClasses[11], isNotANumber(((currentSum[11] / maxSum[11]) * 100).toFixed(2)), ],
+    [ "Private SN", numClasses[18], isNotANumber(((currentSum[18] / maxSum[18]) * 100).toFixed(2)), ],
+    [ "Semi", numClasses[12], isNotANumber(((currentSum[12] / maxSum[12]) * 100).toFixed(2)), ],
+    [ "SN", numClasses[13], isNotANumber(((currentSum[13] / maxSum[13]) * 100).toFixed(2)), ],
+    [ "Open", numClasses[14], isNotANumber(((currentSum[14] / maxSum[14]) * 100).toFixed(2)), ],
+    [ "Water Watcher", numClasses[15], isNotANumber(((currentSum[15] / maxSum[15]) * 100).toFixed(2)), ],
+    [ "Break", numClasses[16], isNotANumber(((currentSum[16] / maxSum[16]) * 100).toFixed(2)), ],
+    [ "Squad", numClasses[17], isNotANumber(((currentSum[17] / maxSum[17]) * 100).toFixed(2)), ],
+    [ "Other", numClasses[19], isNotANumber(((currentSum[19] / maxSum[19]) * 100).toFixed(2)), ],
   ]);
   formatSheet(spreadsheet, levelRange);
   spreadsheet.getRange(titleRange).setBackground("#cccccc");
