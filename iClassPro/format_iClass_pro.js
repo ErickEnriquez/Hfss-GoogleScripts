@@ -37,6 +37,33 @@ var shiftNames = [
   "Sat", //temp 14
 ];
 // ==================================================================================================================
+<<<<<<< Updated upstream
+=======
+var classList = {
+  'BS': /Baby Splash/gi,
+  'LS1': /Little Snapper 1/gi,
+  'LS2': /Little Snapper 2/gi,
+  'LSA': /Little Snapper Advanced/gi,
+  'CF': /Clownfish/gi,
+  'GF': /Goldfish/gi,
+  'JF': /Jellyfish/gi,
+  'OCT': /Octopus/gi,
+  'LOB': /Lobster/gi,
+  'HHJ': /Hammerhead Junior/gi,
+  'HHS': /Hammerhead Senior/gi,
+  'PTM' : /Private - Teacher and  Me/gi,
+  'PSN': /Private Special Needs/gi,
+  'SEM' : /Semi/gi,
+  'SN': /SN/gi,
+  'Open': /Open/gi,
+  'WW': /Water Watcher/gi,
+  'Break': /Break/gi,
+  'Squad': /Squad/gi,
+  'Unassigned':/Unassigned/gi
+}
+// ==================================================================================================================
+
+>>>>>>> Stashed changes
 
 var maxList =     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds max for whole week by level
 var currentList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds current for whole week by level
@@ -767,108 +794,107 @@ function isNotANumber(input) {
 // CHECKS LEVEL AND ADDS TO THE TOTAL LIST FOR DASHBOARD USE
 // ==================================================================================================================
 function calcTotalLevelStats(data, index) {
-  switch (data[index][CLASS_COLUMN].trim()) {
-    case "Baby Splash":
-      countList[0]++;
-      maxList[0] = maxList[0] + data[index][MAX_COLUMN];
-      currentList[0] = currentList[0] + data[index][CURRENT_COLUMN];
-      break;
-    case "Little Snapper 1":
-      countList[1]++;
-      maxList[1] = maxList[1] + data[index][MAX_COLUMN];
-      currentList[1] = currentList[1] + data[index][CURRENT_COLUMN];
-      break;
-    case "Little Snapper 2":
-      countList[2]++;
-      maxList[2] = maxList[2] + data[index][MAX_COLUMN];
-      currentList[2] = currentList[2] + data[index][CURRENT_COLUMN];
-      break;
-    case "Little Snapper Advanced":
-      countList[3]++;
-      maxList[3] = maxList[3] + data[index][MAX_COLUMN];
-      currentList[3] = currentList[3] + data[index][CURRENT_COLUMN];
-      break;
-    case "Clownfish":
-      countList[4]++;
-      maxList[4] = maxList[4] + data[index][MAX_COLUMN];
-      currentList[4] = currentList[4] + data[index][CURRENT_COLUMN];
-      break;
-    case "Goldfish":
-      countList[5]++;
-      maxList[5] = maxList[5] + data[index][MAX_COLUMN];
-      currentList[5] = currentList[5] + data[index][CURRENT_COLUMN];
-      break;
-    case "Jellyfish":
-      countList[6]++;
-      maxList[6] = maxList[6] + data[index][MAX_COLUMN];
-      currentList[6] = currentList[6] + data[index][CURRENT_COLUMN];
-      break;
-    case "Octopus":
-      countList[7]++;
-      maxList[7] = maxList[7] + data[index][MAX_COLUMN];
-      currentList[7] = currentList[7] + data[index][CURRENT_COLUMN];
-      break;
-    case "Lobster":
-      countList[8]++;
-      maxList[8] = maxList[8] + data[index][MAX_COLUMN];
-      currentList[8] = currentList[8] + data[index][CURRENT_COLUMN];
-      break;
-    case "Hammerhead Junior":
-      countList[9]++;
-      maxList[9] = maxList[9] + data[index][MAX_COLUMN];
-      currentList[9] = currentList[9] + data[index][CURRENT_COLUMN];
-      break;
-    case "Hammerhead Senior":
-      countList[10]++;
-      maxList[10] = maxList[10] + data[index][MAX_COLUMN];
-      currentList[10] = currentList[10] + data[index][CURRENT_COLUMN];
-      break;
-    case "Private - Teacher and Me":
-      countList[11]++;
-      maxList[11] = maxList[11] + data[index][MAX_COLUMN];
-      currentList[11] = currentList[11] + data[index][CURRENT_COLUMN];
-      break;
-    case "Private - Special Needs":
-      countList[18]++;
-      maxList[18] = maxList[18] + data[index][MAX_COLUMN];
-      currentList[18] = currentList[18] + data[index][CURRENT_COLUMN];
-      break;
-    case "Semi":
-      countList[12]++;
-      maxList[12] = maxList[12] + data[index][MAX_COLUMN];
-      currentList[12] = currentList[12] + data[index][CURRENT_COLUMN];
-      break;
-    case "SN":
-      countList[13]++;
-      maxList[13] = maxList[13] + data[index][MAX_COLUMN];
-      currentList[13] = currentList[13] + data[index][CURRENT_COLUMN];
-      break;
-    case "Open":
-      countList[14]++;
-      maxList[14] = maxList[14] + data[index][MAX_COLUMN];
-      currentList[14] = currentList[14] + data[index][CURRENT_COLUMN];
-      break;
-    case "Water Watcher":
-      countList[15]++;
-      maxList[15] = maxList[15] + data[index][MAX_COLUMN];
-      currentList[15] = currentList[15] + data[index][CURRENT_COLUMN];
-      break;
-    case "x Break":
-      countList[16]++;
-      maxList[16] = maxList[16] + data[index][MAX_COLUMN];
-      currentList[16] = currentList[16] + data[index][CURRENT_COLUMN];
-      break;
-    case "Squad":
-      countList[17]++;
-      maxList[17] = maxList[17] + data[index][MAX_COLUMN];
-      currentList[17] = currentList[17] + data[index][CURRENT_COLUMN];
-      break;
-    default:
-      countList[19]++;
-      maxList[19] = maxList[19] + data[index][MAX_COLUMN];
-      currentList[19] = currentList[19] + data[index][CURRENT_COLUMN];
-      Logger.log(data[index][CLASS_COLUMN].trim());
-      break;
+  let level  = data[index][CLASS_COLUMN].trim()
+  if (classList.BS.test(level)) {
+    countList[0]++;
+    maxList[0] = maxList[0] + data[index][MAX_COLUMN];
+    currentList[0] = currentList[0] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.LS1.test(level)) {
+    countList[1]++;
+    maxList[1] = maxList[1] + data[index][MAX_COLUMN];
+    currentList[1] = currentList[1] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.LS2.test(level)) {
+    countList[2]++;
+    maxList[2] = maxList[2] + data[index][MAX_COLUMN];
+    currentList[2] = currentList[2] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.LSA.test(level)) {
+    countList[3]++;
+    maxList[3] = maxList[3] + data[index][MAX_COLUMN];
+    currentList[3] = currentList[3] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.CF.test(level)) {
+    countList[4]++;
+    maxList[4] = maxList[4] + data[index][MAX_COLUMN];
+    currentList[4] = currentList[4] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.GF.test(level)) {
+    countList[5]++;
+    maxList[5] = maxList[5] + data[index][MAX_COLUMN];
+    currentList[5] = currentList[5] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.JF.test(level)) {
+    countList[6]++;
+    maxList[6] = maxList[6] + data[index][MAX_COLUMN];
+    currentList[6] = currentList[6] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.OCT.test(level)) {
+    countList[7]++;
+    maxList[7] = maxList[7] + data[index][MAX_COLUMN];
+    currentList[7] = currentList[7] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.LOB.test(level)) {
+    countList[8]++;
+    maxList[8] = maxList[8] + data[index][MAX_COLUMN];
+    currentList[8] = currentList[8] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.HHJ.test(level)) {
+    countList[9]++;
+    maxList[9] = maxList[9] + data[index][MAX_COLUMN];
+    currentList[9] = currentList[9] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.HHS.test(level)) {
+    countList[10]++;
+    maxList[10] = maxList[10] + data[index][MAX_COLUMN];
+    currentList[10] = currentList[10] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.PTM.test(level)) {
+    countList[11]++;
+    maxList[11] = maxList[11] + data[index][MAX_COLUMN];
+    currentList[11] = currentList[11] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.PSN.test(level)) {
+    countList[18]++;
+    maxList[18] = maxList[18] + data[index][MAX_COLUMN];
+    currentList[18] = currentList[18] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.SEM.test(level)) {
+    countList[12]++;
+    maxList[12] = maxList[12] + data[index][MAX_COLUMN];
+    currentList[12] = currentList[12] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.SN.test(level)) {
+    countList[13]++;
+    maxList[13] = maxList[13] + data[index][MAX_COLUMN];
+    currentList[13] = currentList[13] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.Open.test(level)) {
+    countList[14]++;
+    maxList[14] = maxList[14] + data[index][MAX_COLUMN];
+    currentList[14] = currentList[14] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.WW.test(level)) {
+    countList[15]++;
+    maxList[15] = maxList[15] + data[index][MAX_COLUMN];
+    currentList[15] = currentList[15] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.Break.test(level)) {
+    countList[16]++;
+    maxList[16] = maxList[16] + data[index][MAX_COLUMN];
+    currentList[16] = currentList[16] + data[index][CURRENT_COLUMN];
+  }
+  else if (classList.Squad.test(level)) {
+    countList[17]++;
+    maxList[17] = maxList[17] + data[index][MAX_COLUMN];
+    currentList[17] = currentList[17] + data[index][CURRENT_COLUMN];
+  }
+  else {
+    countList[19]++;
+    maxList[19] = maxList[19] + data[index][MAX_COLUMN];
+    currentList[19] = currentList[19] + data[index][CURRENT_COLUMN];
+    Logger.log(level);
   }
 }
 
