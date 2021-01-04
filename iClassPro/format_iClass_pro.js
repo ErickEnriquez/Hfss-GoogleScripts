@@ -37,6 +37,11 @@ var shiftNames = [
   "Sat", //temp 14
 ];
 // ==================================================================================================================
+var classList = {
+  'BabySplash': /Baby Splash/g
+}
+// ==================================================================================================================
+
 
 var maxList =     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds max for whole week by level
 var currentList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds current for whole week by level
@@ -84,10 +89,7 @@ function main() {
   for (let z = 0; z <= 13; z++) {
     writeToShiftSheet(z, shiftNames, shiftList, maxes, currents);
   }
-  spreadsheet.setActiveSheet(
-    spreadsheet.getSheetByName(MASTER_SHEET_NAME),
-    true
-  ); // go back to master sheet
+  spreadsheet.setActiveSheet( spreadsheet.getSheetByName(MASTER_SHEET_NAME), true ); // go back to master sheet
 }
 
 // ==================================================================================================================
