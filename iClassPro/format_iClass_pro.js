@@ -37,33 +37,6 @@ var shiftNames = [
   "Sat", //temp 14
 ];
 // ==================================================================================================================
-<<<<<<< Updated upstream
-=======
-var classList = {
-  'BS': /Baby Splash/gi,
-  'LS1': /Little Snapper 1/gi,
-  'LS2': /Little Snapper 2/gi,
-  'LSA': /Little Snapper Advanced/gi,
-  'CF': /Clownfish/gi,
-  'GF': /Goldfish/gi,
-  'JF': /Jellyfish/gi,
-  'OCT': /Octopus/gi,
-  'LOB': /Lobster/gi,
-  'HHJ': /Hammerhead Junior/gi,
-  'HHS': /Hammerhead Senior/gi,
-  'PTM' : /Private - Teacher and  Me/gi,
-  'PSN': /Private Special Needs/gi,
-  'SEM' : /Semi/gi,
-  'SN': /SN/gi,
-  'Open': /Open/gi,
-  'WW': /Water Watcher/gi,
-  'Break': /Break/gi,
-  'Squad': /Squad/gi,
-  'Unassigned':/Unassigned/gi
-}
-// ==================================================================================================================
-
->>>>>>> Stashed changes
 
 var maxList =     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds max for whole week by level
 var currentList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds current for whole week by level
@@ -364,105 +337,26 @@ function writeToDashboard(max, currents, shiftName) {
   const titleRange = "G1:I1";
   spreadsheet.getRange(levelStatRange).setValues([
     ["Level", "# of Classes", " PercentFull"],
-    [
-      "Baby Splash",
-      countList[0],
-      isNotANumber(((currentList[0] / maxList[0]) * 100).toFixed(2)),
-    ],
-    [
-      "LS1",
-      countList[1],
-      isNotANumber(((currentList[1] / maxList[1]) * 100).toFixed(2)),
-    ],
-    [
-      "LS2",
-      countList[2],
-      isNotANumber(((currentList[2] / maxList[2]) * 100).toFixed(2)),
-    ],
-    [
-      "LSA",
-      countList[3],
-      isNotANumber(((currentList[3] / maxList[3]) * 100).toFixed(2)),
-    ],
-    [
-      "CF",
-      countList[4],
-      isNotANumber(((currentList[4] / maxList[4]) * 100).toFixed(2)),
-    ],
-    [
-      "GF",
-      countList[5],
-      isNotANumber(((currentList[5] / maxList[5]) * 100).toFixed(2)),
-    ],
-    [
-      "JF",
-      countList[6],
-      isNotANumber(((currentList[6] / maxList[6]) * 100).toFixed(2)),
-    ],
-    [
-      "OCT",
-      countList[7],
-      isNotANumber(((currentList[7] / maxList[7]) * 100).toFixed(2)),
-    ],
-    [
-      "LOB",
-      countList[8],
-      isNotANumber(((currentList[8] / maxList[8]) * 100).toFixed(2)),
-    ],
-    [
-      "HHJr",
-      countList[9],
-      isNotANumber(((currentList[9] / maxList[9]) * 100).toFixed(2)),
-    ],
-    [
-      "HHSr",
-      countList[10],
-      isNotANumber(((currentList[10] / maxList[10]) * 100).toFixed(2)),
-    ],
-    [
-      "Private",
-      countList[11],
-      isNotANumber(((currentList[11] / maxList[11]) * 100).toFixed(2)),
-    ],
-    ["Private SN",
-    countList[18],
-      isNotANumber(((currentList[18] / maxList[18]) * 100).toFixed(2))
-    ],
-    [
-      "Semi",
-      countList[12],
-      isNotANumber(((currentList[12] / maxList[12]) * 100).toFixed(2)),
-    ],
-    [
-      "SN",
-      countList[13],
-      isNotANumber(((currentList[13] / maxList[13]) * 100).toFixed(2)),
-    ],
-    [
-      "Open",
-      countList[14],
-      isNotANumber(((currentList[14] / maxList[14]) * 100).toFixed(2)),
-    ],
-    [
-      "Water Watcher",
-      countList[15],
-      isNotANumber(((currentList[15] / maxList[15]) * 100).toFixed(2)),
-    ],
-    [
-      "Break",
-      countList[16],
-      isNotANumber(((currentList[16] / maxList[16]) * 100).toFixed(2)),
-    ],
-    [
-      "Squads",
-      countList[17],
-      isNotANumber(((currentList[17] / maxList[17]) * 100).toFixed(2)),
-    ],
-    [
-      "Other",
-      countList[19],
-      isNotANumber(((currentList[19] / maxList[19]) * 100).toFixed(2)),
-    ],
+    [ "Baby Splash", countList[0], isNotANumber(((currentList[0] / maxList[0]) * 100).toFixed(2)), ],
+    [ "LS1", countList[1], isNotANumber(((currentList[1] / maxList[1]) * 100).toFixed(2)), ],
+    [ "LS2", countList[2], isNotANumber(((currentList[2] / maxList[2]) * 100).toFixed(2)), ],
+    [ "LSA", countList[3], isNotANumber(((currentList[3] / maxList[3]) * 100).toFixed(2)), ],
+    [ "CF", countList[4], isNotANumber(((currentList[4] / maxList[4]) * 100).toFixed(2)), ],
+    [ "GF", countList[5], isNotANumber(((currentList[5] / maxList[5]) * 100).toFixed(2)), ],
+    [ "JF", countList[6], isNotANumber(((currentList[6] / maxList[6]) * 100).toFixed(2)), ],
+    [ "OCT", countList[7], isNotANumber(((currentList[7] / maxList[7]) * 100).toFixed(2)), ],
+    [ "LOB", countList[8], isNotANumber(((currentList[8] / maxList[8]) * 100).toFixed(2)), ],
+    [ "HHJr", countList[9], isNotANumber(((currentList[9] / maxList[9]) * 100).toFixed(2)), ],
+    [ "HHSr", countList[10], isNotANumber(((currentList[10] / maxList[10]) * 100).toFixed(2)), ],
+    [ "Private", countList[11], isNotANumber(((currentList[11] / maxList[11]) * 100).toFixed(2)), ],
+    ["Private SN", countList[18], isNotANumber(((currentList[18] / maxList[18]) * 100).toFixed(2)) ],
+    [ "Semi", countList[12], isNotANumber(((currentList[12] / maxList[12]) * 100).toFixed(2)), ],
+    [ "SN", countList[13], isNotANumber(((currentList[13] / maxList[13]) * 100).toFixed(2)), ],
+    [ "Open", countList[14], isNotANumber(((currentList[14] / maxList[14]) * 100).toFixed(2)), ],
+    [ "Water Watcher", countList[15], isNotANumber(((currentList[15] / maxList[15]) * 100).toFixed(2)), ],
+    [ "Break", countList[16], isNotANumber(((currentList[16] / maxList[16]) * 100).toFixed(2)), ],
+    [ "Squads", countList[17], isNotANumber(((currentList[17] / maxList[17]) * 100).toFixed(2)), ],
+    [ "Other", countList[19], isNotANumber(((currentList[19] / maxList[19]) * 100).toFixed(2)), ],
   ]);
   spreadsheet.getRange(titleRange).setBackground("#0000ff");
   spreadsheet.getRange(titleRange).setFontColor("#ffffff");
@@ -652,7 +546,7 @@ function calcLevelStats(shiftList, index) {
         maxSum[15] = maxSum[15] + shiftList[index][i][MAX_COLUMN];
         currentSum[15] = currentSum[15] + shiftList[index][i][CURRENT_COLUMN];
         break;
-      case "x Break":
+      case "Break":
         numClasses[16]++;
         maxSum[16] = maxSum[16] + shiftList[index][i][MAX_COLUMN];
         currentSum[16] = currentSum[16] + shiftList[index][i][CURRENT_COLUMN];
@@ -671,106 +565,26 @@ function calcLevelStats(shiftList, index) {
   }
   spreadsheet.getRange(levelRange).setValues([
     ["Level", "# of classes", "Percent Full"],
-    [
-      "Baby Splash",
-      numClasses[0],
-      isNotANumber(((currentSum[0] / maxSum[0]) * 100).toFixed(2)),
-    ],
-    [
-      "LS1",
-      numClasses[1],
-      isNotANumber(((currentSum[1] / maxSum[1]) * 100).toFixed(2)),
-    ],
-    [
-      "LS2",
-      numClasses[2],
-      isNotANumber(((currentSum[2] / maxSum[2]) * 100).toFixed(2)),
-    ],
-    [
-      "LSA",
-      numClasses[3],
-      isNotANumber(((currentSum[3] / maxSum[3]) * 100).toFixed(2)),
-    ],
-    [
-      "CF",
-      numClasses[4],
-      isNotANumber(((currentSum[4] / maxSum[4]) * 100).toFixed(2)),
-    ],
-    [
-      "GF",
-      numClasses[5],
-      isNotANumber(((currentSum[5] / maxSum[5]) * 100).toFixed(2)),
-    ],
-    [
-      "JF",
-      numClasses[6],
-      isNotANumber(((currentSum[6] / maxSum[6]) * 100).toFixed(2)),
-    ],
-    [
-      "OCT",
-      numClasses[7],
-      isNotANumber(((currentSum[7] / maxSum[7]) * 100).toFixed(2)),
-    ],
-    [
-      "LOB",
-      numClasses[8],
-      isNotANumber(((currentSum[8] / maxSum[8]) * 100).toFixed(2)),
-    ],
-    [
-      "HHJr",
-      numClasses[9],
-      isNotANumber(((currentSum[9] / maxSum[9]) * 100).toFixed(2)),
-    ],
-    [
-      "HHSr",
-      numClasses[10],
-      isNotANumber(((currentSum[10] / maxSum[10]) * 100).toFixed(2)),
-    ],
-    [
-      "Private",
-      numClasses[11],
-      isNotANumber(((currentSum[11] / maxSum[11]) * 100).toFixed(2)),
-    ],
-    [
-      "Private SN",
-      numClasses[18],
-      isNotANumber(((currentSum[18] / maxSum[18]) * 100).toFixed(2)),
-    ],
-    [
-      "Semi",
-      numClasses[12],
-      isNotANumber(((currentSum[12] / maxSum[12]) * 100).toFixed(2)),
-    ],
-    [
-      "SN",
-      numClasses[13],
-      isNotANumber(((currentSum[13] / maxSum[13]) * 100).toFixed(2)),
-    ],
-    [
-      "Open",
-      numClasses[14],
-      isNotANumber(((currentSum[14] / maxSum[14]) * 100).toFixed(2)),
-    ],
-    [
-      "Water Watcher",
-      numClasses[15],
-      isNotANumber(((currentSum[15] / maxSum[15]) * 100).toFixed(2)),
-    ],
-    [
-      "Break",
-      numClasses[16],
-      isNotANumber(((currentSum[16] / maxSum[16]) * 100).toFixed(2)),
-    ],
-    [
-      "Squad",
-      numClasses[17],
-      isNotANumber(((currentSum[17] / maxSum[17]) * 100).toFixed(2)),
-    ],
-    [
-      "Other",
-      numClasses[19],
-      isNotANumber(((currentSum[19] / maxSum[19]) * 100).toFixed(2)),
-    ],
+    [ "Baby Splash", numClasses[0], isNotANumber(((currentSum[0] / maxSum[0]) * 100).toFixed(2)), ],
+    [ "LS1", numClasses[1], isNotANumber(((currentSum[1] / maxSum[1]) * 100).toFixed(2)), ],
+    [ "LS2", numClasses[2], isNotANumber(((currentSum[2] / maxSum[2]) * 100).toFixed(2)), ],
+    [ "LSA", numClasses[3], isNotANumber(((currentSum[3] / maxSum[3]) * 100).toFixed(2)), ],
+    [ "CF", numClasses[4], isNotANumber(((currentSum[4] / maxSum[4]) * 100).toFixed(2)), ],
+    [ "GF", numClasses[5], isNotANumber(((currentSum[5] / maxSum[5]) * 100).toFixed(2)), ],
+    [ "JF", numClasses[6], isNotANumber(((currentSum[6] / maxSum[6]) * 100).toFixed(2)), ],
+    [ "OCT", numClasses[7], isNotANumber(((currentSum[7] / maxSum[7]) * 100).toFixed(2)), ],
+    [ "LOB", numClasses[8], isNotANumber(((currentSum[8] / maxSum[8]) * 100).toFixed(2)), ],
+    [ "HHJr", numClasses[9], isNotANumber(((currentSum[9] / maxSum[9]) * 100).toFixed(2)), ],
+    [ "HHSr", numClasses[10], isNotANumber(((currentSum[10] / maxSum[10]) * 100).toFixed(2)), ],
+    [ "Private", numClasses[11], isNotANumber(((currentSum[11] / maxSum[11]) * 100).toFixed(2)), ],
+    [ "Private SN", numClasses[18], isNotANumber(((currentSum[18] / maxSum[18]) * 100).toFixed(2)), ],
+    [ "Semi", numClasses[12], isNotANumber(((currentSum[12] / maxSum[12]) * 100).toFixed(2)), ],
+    [ "SN", numClasses[13], isNotANumber(((currentSum[13] / maxSum[13]) * 100).toFixed(2)), ],
+    [ "Open", numClasses[14], isNotANumber(((currentSum[14] / maxSum[14]) * 100).toFixed(2)), ],
+    [ "Water Watcher", numClasses[15], isNotANumber(((currentSum[15] / maxSum[15]) * 100).toFixed(2)), ],
+    [ "Break", numClasses[16], isNotANumber(((currentSum[16] / maxSum[16]) * 100).toFixed(2)), ],
+    [ "Squad", numClasses[17], isNotANumber(((currentSum[17] / maxSum[17]) * 100).toFixed(2)), ],
+    [ "Other", numClasses[19], isNotANumber(((currentSum[19] / maxSum[19]) * 100).toFixed(2)), ],
   ]);
   formatSheet(spreadsheet, levelRange);
   spreadsheet.getRange(titleRange).setBackground("#cccccc");
@@ -794,107 +608,108 @@ function isNotANumber(input) {
 // CHECKS LEVEL AND ADDS TO THE TOTAL LIST FOR DASHBOARD USE
 // ==================================================================================================================
 function calcTotalLevelStats(data, index) {
-  let level  = data[index][CLASS_COLUMN].trim()
-  if (classList.BS.test(level)) {
-    countList[0]++;
-    maxList[0] = maxList[0] + data[index][MAX_COLUMN];
-    currentList[0] = currentList[0] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.LS1.test(level)) {
-    countList[1]++;
-    maxList[1] = maxList[1] + data[index][MAX_COLUMN];
-    currentList[1] = currentList[1] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.LS2.test(level)) {
-    countList[2]++;
-    maxList[2] = maxList[2] + data[index][MAX_COLUMN];
-    currentList[2] = currentList[2] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.LSA.test(level)) {
-    countList[3]++;
-    maxList[3] = maxList[3] + data[index][MAX_COLUMN];
-    currentList[3] = currentList[3] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.CF.test(level)) {
-    countList[4]++;
-    maxList[4] = maxList[4] + data[index][MAX_COLUMN];
-    currentList[4] = currentList[4] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.GF.test(level)) {
-    countList[5]++;
-    maxList[5] = maxList[5] + data[index][MAX_COLUMN];
-    currentList[5] = currentList[5] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.JF.test(level)) {
-    countList[6]++;
-    maxList[6] = maxList[6] + data[index][MAX_COLUMN];
-    currentList[6] = currentList[6] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.OCT.test(level)) {
-    countList[7]++;
-    maxList[7] = maxList[7] + data[index][MAX_COLUMN];
-    currentList[7] = currentList[7] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.LOB.test(level)) {
-    countList[8]++;
-    maxList[8] = maxList[8] + data[index][MAX_COLUMN];
-    currentList[8] = currentList[8] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.HHJ.test(level)) {
-    countList[9]++;
-    maxList[9] = maxList[9] + data[index][MAX_COLUMN];
-    currentList[9] = currentList[9] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.HHS.test(level)) {
-    countList[10]++;
-    maxList[10] = maxList[10] + data[index][MAX_COLUMN];
-    currentList[10] = currentList[10] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.PTM.test(level)) {
-    countList[11]++;
-    maxList[11] = maxList[11] + data[index][MAX_COLUMN];
-    currentList[11] = currentList[11] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.PSN.test(level)) {
-    countList[18]++;
-    maxList[18] = maxList[18] + data[index][MAX_COLUMN];
-    currentList[18] = currentList[18] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.SEM.test(level)) {
-    countList[12]++;
-    maxList[12] = maxList[12] + data[index][MAX_COLUMN];
-    currentList[12] = currentList[12] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.SN.test(level)) {
-    countList[13]++;
-    maxList[13] = maxList[13] + data[index][MAX_COLUMN];
-    currentList[13] = currentList[13] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.Open.test(level)) {
-    countList[14]++;
-    maxList[14] = maxList[14] + data[index][MAX_COLUMN];
-    currentList[14] = currentList[14] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.WW.test(level)) {
-    countList[15]++;
-    maxList[15] = maxList[15] + data[index][MAX_COLUMN];
-    currentList[15] = currentList[15] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.Break.test(level)) {
-    countList[16]++;
-    maxList[16] = maxList[16] + data[index][MAX_COLUMN];
-    currentList[16] = currentList[16] + data[index][CURRENT_COLUMN];
-  }
-  else if (classList.Squad.test(level)) {
-    countList[17]++;
-    maxList[17] = maxList[17] + data[index][MAX_COLUMN];
-    currentList[17] = currentList[17] + data[index][CURRENT_COLUMN];
-  }
-  else {
-    countList[19]++;
-    maxList[19] = maxList[19] + data[index][MAX_COLUMN];
-    currentList[19] = currentList[19] + data[index][CURRENT_COLUMN];
-    Logger.log(level);
+  switch (data[index][CLASS_COLUMN].trim()) {
+    case "Baby Splash":
+      countList[0]++;
+      maxList[0] = maxList[0] + data[index][MAX_COLUMN];
+      currentList[0] = currentList[0] + data[index][CURRENT_COLUMN];
+      break;
+    case "Little Snapper 1":
+      countList[1]++;
+      maxList[1] = maxList[1] + data[index][MAX_COLUMN];
+      currentList[1] = currentList[1] + data[index][CURRENT_COLUMN];
+      break;
+    case "Little Snapper 2":
+      countList[2]++;
+      maxList[2] = maxList[2] + data[index][MAX_COLUMN];
+      currentList[2] = currentList[2] + data[index][CURRENT_COLUMN];
+      break;
+    case "Little Snapper Advanced":
+      countList[3]++;
+      maxList[3] = maxList[3] + data[index][MAX_COLUMN];
+      currentList[3] = currentList[3] + data[index][CURRENT_COLUMN];
+      break;
+    case "Clownfish":
+      countList[4]++;
+      maxList[4] = maxList[4] + data[index][MAX_COLUMN];
+      currentList[4] = currentList[4] + data[index][CURRENT_COLUMN];
+      break;
+    case "Goldfish":
+      countList[5]++;
+      maxList[5] = maxList[5] + data[index][MAX_COLUMN];
+      currentList[5] = currentList[5] + data[index][CURRENT_COLUMN];
+      break;
+    case "Jellyfish":
+      countList[6]++;
+      maxList[6] = maxList[6] + data[index][MAX_COLUMN];
+      currentList[6] = currentList[6] + data[index][CURRENT_COLUMN];
+      break;
+    case "Octopus":
+      countList[7]++;
+      maxList[7] = maxList[7] + data[index][MAX_COLUMN];
+      currentList[7] = currentList[7] + data[index][CURRENT_COLUMN];
+      break;
+    case "Lobster":
+      countList[8]++;
+      maxList[8] = maxList[8] + data[index][MAX_COLUMN];
+      currentList[8] = currentList[8] + data[index][CURRENT_COLUMN];
+      break;
+    case "Hammerhead Junior":
+      countList[9]++;
+      maxList[9] = maxList[9] + data[index][MAX_COLUMN];
+      currentList[9] = currentList[9] + data[index][CURRENT_COLUMN];
+      break;
+    case "Hammerhead Senior":
+      countList[10]++;
+      maxList[10] = maxList[10] + data[index][MAX_COLUMN];
+      currentList[10] = currentList[10] + data[index][CURRENT_COLUMN];
+      break;
+    case "Private - Teacher and Me":
+      countList[11]++;
+      maxList[11] = maxList[11] + data[index][MAX_COLUMN];
+      currentList[11] = currentList[11] + data[index][CURRENT_COLUMN];
+      break;
+    case "Private - Special Needs":
+      countList[18]++;
+      maxList[18] = maxList[18] + data[index][MAX_COLUMN];
+      currentList[18] = currentList[18] + data[index][CURRENT_COLUMN];
+      break;
+    case "Semi":
+      countList[12]++;
+      maxList[12] = maxList[12] + data[index][MAX_COLUMN];
+      currentList[12] = currentList[12] + data[index][CURRENT_COLUMN];
+      break;
+    case "SN":
+      countList[13]++;
+      maxList[13] = maxList[13] + data[index][MAX_COLUMN];
+      currentList[13] = currentList[13] + data[index][CURRENT_COLUMN];
+      break;
+    case "Open":
+      countList[14]++;
+      maxList[14] = maxList[14] + data[index][MAX_COLUMN];
+      currentList[14] = currentList[14] + data[index][CURRENT_COLUMN];
+      break;
+    case "Water Watcher":
+      countList[15]++;
+      maxList[15] = maxList[15] + data[index][MAX_COLUMN];
+      currentList[15] = currentList[15] + data[index][CURRENT_COLUMN];
+      break;
+    case "Break":
+      countList[16]++;
+      maxList[16] = maxList[16] + data[index][MAX_COLUMN];
+      currentList[16] = currentList[16] + data[index][CURRENT_COLUMN];
+      break;
+    case "Squad":
+      countList[17]++;
+      maxList[17] = maxList[17] + data[index][MAX_COLUMN];
+      currentList[17] = currentList[17] + data[index][CURRENT_COLUMN];
+      break;
+    default:
+      countList[19]++;
+      maxList[19] = maxList[19] + data[index][MAX_COLUMN];
+      currentList[19] = currentList[19] + data[index][CURRENT_COLUMN];
+      Logger.log(data[index][CLASS_COLUMN].trim());
+      break;
   }
 }
 
