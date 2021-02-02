@@ -267,6 +267,8 @@ function writeToDashboard(max, currents, shiftName) {
     spreadsheet.getSheetByName(DASHBOARD_SHEET_NAME),
     true
   ); //switch to dashboard sheet
+  spreadsheet.getDataRange().clearContent(); // clear out old content from spreadsheet
+
 
   spreadsheet.getRange("A2:A14").setValues([
     [shiftName[0]],
@@ -333,7 +335,7 @@ function writeToDashboard(max, currents, shiftName) {
   spreadsheet.getRange("A15:E15").setBackground("#000000");
   spreadsheet.getRange("A15:E15").setFontColor("#ffffff");
 
-  const levelStatRange = "G1:I21";
+  const levelStatRange = "G1:I20";
   const titleRange = "G1:I1";
   spreadsheet.getRange(levelStatRange).setValues([
     ["Level", "# of Classes", " PercentFull"],
@@ -351,7 +353,7 @@ function writeToDashboard(max, currents, shiftName) {
     [ "Private", countList[11], isNotANumber(((currentList[11] / maxList[11]) * 100).toFixed(2)), ],
     ["Private SN", countList[18], isNotANumber(((currentList[18] / maxList[18]) * 100).toFixed(2)) ],
     [ "Semi", countList[12], isNotANumber(((currentList[12] / maxList[12]) * 100).toFixed(2)), ],
-    [ "SN", countList[13], isNotANumber(((currentList[13] / maxList[13]) * 100).toFixed(2)), ],
+    //[ "SN", countList[13], isNotANumber(((currentList[13] / maxList[13]) * 100).toFixed(2)), ],
     [ "Open", countList[14], isNotANumber(((currentList[14] / maxList[14]) * 100).toFixed(2)), ],
     [ "Water Watcher", countList[15], isNotANumber(((currentList[15] / maxList[15]) * 100).toFixed(2)), ],
     [ "Break", countList[16], isNotANumber(((currentList[16] / maxList[16]) * 100).toFixed(2)), ],
@@ -379,6 +381,7 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
       true
     );
   }
+  spreadsheet.getDataRange().clearContent(); // clear out old content from spreadsheet
   spreadsheet
     .getRange("A1:G1")
     .setValues([
@@ -448,7 +451,7 @@ function writeToShiftSheet(index, shiftName, shiftList, max, current) {
 function calcLevelStats(shiftList, index) {
   var spreadsheet = SpreadsheetApp.getActive();
 
-  const levelRange = "I3:K23";
+  const levelRange = "I3:K22";
   const titleRange = "I3:K3";
 
   let numClasses = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; //store the count of classes
@@ -536,7 +539,7 @@ function calcLevelStats(shiftList, index) {
         maxSum[13] = maxSum[13] + shiftList[index][i][MAX_COLUMN];
         currentSum[13] = currentSum[13] + shiftList[index][i][CURRENT_COLUMN];
         break;
-      case "Open":
+      case ".Unassigned (Teacher and Me) Level":
         numClasses[14]++;
         maxSum[14] = maxSum[14] + shiftList[index][i][MAX_COLUMN];
         currentSum[14] = currentSum[14] + shiftList[index][i][CURRENT_COLUMN];
@@ -579,7 +582,7 @@ function calcLevelStats(shiftList, index) {
     [ "Private", numClasses[11], isNotANumber(((currentSum[11] / maxSum[11]) * 100).toFixed(2)), ],
     [ "Private SN", numClasses[18], isNotANumber(((currentSum[18] / maxSum[18]) * 100).toFixed(2)), ],
     [ "Semi", numClasses[12], isNotANumber(((currentSum[12] / maxSum[12]) * 100).toFixed(2)), ],
-    [ "SN", numClasses[13], isNotANumber(((currentSum[13] / maxSum[13]) * 100).toFixed(2)), ],
+    //[ "SN", numClasses[13], isNotANumber(((currentSum[13] / maxSum[13]) * 100).toFixed(2)), ],
     [ "Open", numClasses[14], isNotANumber(((currentSum[14] / maxSum[14]) * 100).toFixed(2)), ],
     [ "Water Watcher", numClasses[15], isNotANumber(((currentSum[15] / maxSum[15]) * 100).toFixed(2)), ],
     [ "Break", numClasses[16], isNotANumber(((currentSum[16] / maxSum[16]) * 100).toFixed(2)), ],
@@ -684,7 +687,7 @@ function calcTotalLevelStats(data, index) {
       maxList[13] = maxList[13] + data[index][MAX_COLUMN];
       currentList[13] = currentList[13] + data[index][CURRENT_COLUMN];
       break;
-    case "Open":
+    case ".Unassigned (Teacher and Me) Level":
       countList[14]++;
       maxList[14] = maxList[14] + data[index][MAX_COLUMN];
       currentList[14] = currentList[14] + data[index][CURRENT_COLUMN];
