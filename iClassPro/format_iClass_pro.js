@@ -36,6 +36,29 @@ var shiftNames = [
   "Sun-PM", //13
   "Sat", //temp 14
 ];
+
+var ltsLevels = {
+  BS: { abr: "BS", name: "Baby Splash", index: 0 },
+  LS1: { abr: 'LS1', name: 'Little Snapper 1', index: 1 },
+  LS2: { abr: 'LS2', name: 'Little Snapper 2', index: 2 },
+  LSA: { abr: 'LSA', name: 'Little Snapper Advanced', index: 3 },
+  CF: { abr: 'CF', name: 'Clownfish', index: 4 },
+  GF: { abr: 'GF', name: 'Goldfish', index: 5 },
+  JF: { abr: 'JF', name: 'Jellyfish', index: 6 },
+  OCT: { abr: 'OCT', name: 'Octopus', index: 7 },
+  LOB: { abr: 'LOB', name: 'Lobster', index: 8 },
+  HHJr: { abr: 'HHJr', name: 'Hammerhead Junior', index: 9 },
+  HHSr: { abr: 'HHSr', name: 'Hammerhead Senior', index: 10 },
+  Private: { abr: 'Private', name: 'Private - Teacher and Me', index: 11 },
+  PrivateSN: { abr: 'Private SN', name: "Private - Special Needs", index: 18 },
+  Semi: { abr: 'Semi', name: 'Semi', index: 12 },
+  SN: { abr: 'SN', name: 'SN', index: 13 },//should be unused in calculations leave in until we remove all code that references SN 
+  Unassigned: { abr: 'Unassigned', name: '.Unassigned (Teacher and Me) Level', index: 14 },
+  WaterWatcher: { abr: 'Water Watcher', name: 'Water Watcher', index: 15 },
+  Break: { abr: 'Break', name: 'Break', index: 16 },
+  Squads: { abr: 'Squads', name: 'Squad', index: 17 },
+  Other: { abr: 'Other', name: 'Other', index: 19 },
+}
 // ==================================================================================================================
 
 var maxList =     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds max for whole week by level
