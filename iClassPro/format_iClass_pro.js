@@ -117,7 +117,7 @@ function main() {
   }
   writeToDashboard(maxes, currents); //function to write the aggregate data to dashboard sheet
 
-  let shiftList = [
+  /*let shiftList = [
     monAM,
     monPM,
     tueAM,
@@ -132,7 +132,23 @@ function main() {
     sat,
     sunAM,
     sunPM,
-  ];
+  ];*/
+  let shiftList = [
+    shifts.monAM.classArray,
+    shifts.monPM.classArray,
+    shifts.tueAM.classArray,
+    shifts.tuePM.classArray,
+    shifts.wedAM.classArray,
+    shifts.wedPM.classArray,
+    shifts.thuAM.classArray,
+    shifts.thuPM.classArray,
+    shifts.friAM.classArray,
+    shifts.friPM.classArray,
+    [],
+    shifts.sat.classArray,
+    shifts.sunAM.classArray,
+    shifts.sunPM.classArray,
+  ]
 
   for (let z = 0; z <= 13; z++) {
     writeToShiftSheet(z, shiftNames, shiftList, maxes, currents);
@@ -225,46 +241,46 @@ function createNewSheets() {
 function addToData(date, data) {
   switch (date) {
     case shifts.monAM.shiftName:
-      pushData(monAM,0,data)
+      pushData(shifts.monAM.classArray, shifts.monAM.index, data)
       break;
-    case  shifts.monPM.shiftName:
-      pushData(monPM,1,data)
+    case shifts.monPM.shiftName:
+      pushData(shifts.monPM.classArray, shifts.monPM.index, data)
       break;
     case shifts.tueAM.shiftName:
-      pushData(tueAM,2,data)
+      pushData(shifts.tueAM.classArray, shifts.tueAM.index, data)
       break;
     case shifts.tuePM.shiftName:
-      pushData(tuePM,3,data)
+      pushData(shifts.tuePM.classArray, shifts.tuePM.index, data)
       break;
     case shifts.wedAM.shiftName:
-      pushData(wedAM,4,data)
+      pushData(shifts.wedAM.classArray, shifts.wedAM.index, data)
       break;
     case shifts.wedPM.shiftName:
-      pushData(wedPM,5,data)
+      pushData(shifts.wedPM.classArray, shifts.wedPM.index, data)
       break;
     case shifts.thuAM.shiftName:
-      pushData(thuAM,6,data)
+      pushData(shifts.thuAM.classArray, shifts.thuAM.index, data)
       break;
     case shifts.thuPM.shiftName:
-      pushData(thuPM,7,data)
+      pushData(shifts.thuPM.classArray, shifts.thuPM.index, data)
       break;
     case shifts.friAM.shiftName:
-      pushData(friAM,8,data)
+      pushData(shifts.friAM.classArray, shifts.friAM.index, data)
       break;
     case shifts.friPM.shiftName:
-      pushData(friPM,9,data)
+      pushData(shifts.friPM.classArray, shifts.friPM.index, data)
       break;
     case shifts.satAM.shiftName:
-      pushData(sat,10,data)
+      pushData(shifts.sat.classArray, 10, data)
       break;
     case shifts.satPM.shiftName:
-      pushData(sat,10,data)
+      pushData(shifts.sat.classArray, 10, data)
       break;
     case shifts.sunAM.shiftName:
-      pushData(sunAM,11,data)
+      pushData(shifts.sunAM.classArray, 11, data)
       break;
     case shifts.sunPM.shiftName:
-      pushData(sunPM,12,data)
+      pushData(shifts.sunPM.classArray, 12, data)
       break;
   }
   //actual function that pushes data to avoid repetition
