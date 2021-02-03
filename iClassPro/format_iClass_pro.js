@@ -37,27 +37,44 @@ var shiftNames = [
   "Sat", //temp 14
 ];
 
+var shifts = {
+  monAM: { shiftName: 'Mon-AM', index: 0 , },
+  monPM: { shiftName: 'Mon-PM', index: 1 },
+  tueAM: { shiftName: 'Tue-AM', index: 2 },
+  tuePM: { shiftName: 'Tue-PM', index: 3 },
+  wedAM: { shiftName: 'Wed-AM', index: 4 },
+  wedPM: { shiftName: 'Wed-PM', index: 5 },
+  thuAM: { shiftName: 'Thu-AM', index: 6 },
+  thuPM: { shiftName: 'Thu-PM', index: 7 },
+  friAM: { shiftName: 'Fri-AM', index: 8 },
+  friPM: { shiftName: 'Fri-PM', index: 9 },
+  sat: { shiftName: 'Sat-AM', index: 14 },
+  sunAM: { shiftName: 'Sun-AM', index: 12 },
+  sunAM: { shiftName: 'Sun-PM', index: 13 },
+}
+
+
 var ltsLevels = {
-  BS: { abrv: "BS", name: "Baby Splash", index: 0 },
-  LS1: { abrv: 'LS1', name: 'Little Snapper 1', index: 1 },
-  LS2: { abrv: 'LS2', name: 'Little Snapper 2', index: 2 },
-  LSA: { abrv: 'LSA', name: 'Little Snapper Advanced', index: 3 },
-  CF: { abrv: 'CF', name: 'Clownfish', index: 4 },
-  GF: { abrv: 'GF', name: 'Goldfish', index: 5 },
-  JF: { abrv: 'JF', name: 'Jellyfish', index: 6 },
-  OCT: { abrv: 'OCT', name: 'Octopus', index: 7 },
-  LOB: { abrv: 'LOB', name: 'Lobster', index: 8 },
-  HHJr: { abrv: 'HHJr', name: 'Hammerhead Junior', index: 9 },
-  HHSr: { abrv: 'HHSr', name: 'Hammerhead Senior', index: 10 },
-  Private: { abrv: 'Private', name: 'Private - Teacher and Me', index: 11 },
-  PrivateSN: { abrv: 'Private SN', name: "Private - Special Needs", index: 18 },
-  Semi: { abrv: 'Semi', name: 'Semi', index: 12 },
-  SN: { abrv: 'SN', name: 'SN', index: 13 },//should be unused in calculations leave in until we remove all code that references SN 
-  Unassigned: { abrv: 'Unassigned', name: '.Unassigned (Teacher and Me) Level', index: 14 },
-  WaterWatcher: { abrv: 'Water Watcher', name: 'Water Watcher', index: 15 },
-  Break: { abrv: 'Break', name: 'Break', index: 16 },
-  Squads: { abrv: 'Squads', name: 'Squad', index: 17 },
-  Other: { abrv: 'Other', name: 'Other', index: 19 },
+  BS: { abrv: "BS", name: 'Baby Splash', index: 0, max: 0, current: 0, count: 0 },
+  LS1: { abrv: 'LS1', name: 'Little Snapper 1', index: 1, max: 0, current: 0, count: 0 },
+  LS2: { abrv: 'LS2', name: 'Little Snapper 2', index: 2,  max: 0, current: 0, count: 0 },
+  LSA: { abrv: 'LSA', name: 'Little Snapper Advanced', index: 3, max: 0, current: 0, count: 0 },
+  CF: { abrv: 'CF', name: 'Clownfish', index: 4,  max: 0, current: 0, count: 0 },
+  GF: { abrv: 'GF', name: 'Goldfish', index: 5,  max: 0, current: 0, count: 0 },
+  JF: { abrv: 'JF', name: 'Jellyfish', index: 6,  max: 0, current: 0, count: 0 },
+  OCT: { abrv: 'OCT', name: 'Octopus', index: 7,  max: 0, current: 0, count: 0 },
+  LOB: { abrv: 'LOB', name: 'Lobster', index: 8,  max: 0, current: 0, count: 0 },
+  HHJr: { abrv: 'HHJr', name: 'Hammerhead Junior', index: 9,  max: 0, current: 0, count: 0 },
+  HHSr: { abrv: 'HHSr', name: 'Hammerhead Senior', index: 10,  max: 0, current: 0, count: 0 },
+  Private: { abrv: 'Private', name: 'Private - Teacher and Me', index: 11,  max: 0, current: 0, count: 0 },
+  PrivateSN: { abrv: 'Private SN', name: 'Private - Special Needs', index: 18,  max: 0, current: 0, count: 0 },
+  Semi: { abrv: 'Semi', name: 'Semi', index: 12,  max: 0, current: 0, count: 0 },
+  SN: { abrv: 'SN', name: 'SN', index: 13,  max: 0, current: 0, count: 0 },//should be unused in calculations leave in until we remove all code that references SN 
+  Unassigned: { abrv: 'Unassigned', name: '.Unassigned (Teacher and Me) Level', index: 14,  max: 0, current: 0, count: 0 },
+  WaterWatcher: { abrv: 'Water Watcher', name: 'Water Watcher', index: 15,  max: 0, current: 0, count: 0 },
+  Break: { abrv: 'Break', name: 'Break', index: 16,  max: 0, current: 0, count: 0 },
+  Squads: { abrv: 'Squads', name: 'Squad', index: 17,  max: 0, current: 0, count: 0 },
+  Other: { abrv: 'Other', name: 'Other', index: 19,  max: 0, current: 0, count: 0 },
 }
 // ==================================================================================================================
 
@@ -463,61 +480,61 @@ function calcLevelStats(shiftList, index) {
 
   for (i = 0; i < shiftList[index].length; i++) {
     switch (shiftList[index][i][CLASS_COLUMN].trim()) {
-      case "Baby Splash":
+      case ltsLevels.BS.name:
         calculateStats(ltsLevels.BS.index, index, i)
         break;
-      case "Little Snapper 1":
+      case ltsLevels.LS1.name:
         calculateStats(ltsLevels.LS1.index, index, i)
         break;
-      case "Little Snapper 2":
+      case ltsLevels.LS2.name:
         calculateStats(ltsLevels.LS2.index, index, i)
         break;
-      case "Little Snapper Advanced":
+      case ltsLevels.LSA.name:
         calculateStats(ltsLevels.LSA.index, index, i)
         break;
-      case "Clownfish":
+      case ltsLevels.CF.name:
         calculateStats(ltsLevels.CF.index, index, i)
         break;
-      case "Goldfish":
+      case ltsLevels.GF.name:
         calculateStats(ltsLevels.GF.index, index, i)
         break;
-      case "Jellyfish":
+      case ltsLevels.JF.name:
         calculateStats(ltsLevels.JF.index, index, i)
         break;
-      case "Octopus":
+      case ltsLevels.OCT.name:
         calculateStats(ltsLevels.OCT.index, index, i)
         break;
-      case "Lobster":
+      case ltsLevels.LOB.name:
         calculateStats(ltsLevels.LOB.index, index, i)
         break;
-      case "Hammerhead Junior":
+      case ltsLevels.HHJr.name:
         calculateStats(ltsLevels.HHJr.index, index, i)
         break;
-      case "Hammerhead Senior":
+      case ltsLevels.HHSr.name:
         calculateStats(ltsLevels.HHSr.index, index, i);
         break;
-      case "Private - Teacher and Me":
+      case ltsLevels.Private.name:
         calculateStats(ltsLevels.Private.index, index, i)
         break;
-      case "Private - Special Needs":
+      case ltsLevels.PrivateSN.name:
         calculateStats(ltsLevels.PrivateSN.index, index, i)
         break;
-      case "Semi":
+      case ltsLevels.Semi.name:
         calculateStats(ltsLevels.Semi.index, index, i)
         break;
-      case "SN":
+      case ltsLevels.SN.name:
         calculateStats(ltsLevels.SN.index, index, i)
         break;
-      case ".Unassigned (Teacher and Me) Level":
+      case ltsLevels.Unassigned.name:
         calculateStats(ltsLevels.Unassigned.index, index, i)
         break;
-      case "Water Watcher":
+      case ltsLevels.WaterWatcher.name:
         calculateStats(ltsLevels.WaterWatcher.index, index, i)
         break;
-      case "Break":
+      case ltsLevels.Break.name:
         calculateStats(ltsLevels.Break.index, index, i)
         break;
-      case "Squad":
+      case ltsLevels.Squads.name:
         calculateStats(ltsLevels.Squads.index, index, i)
         break;
       default:
@@ -576,61 +593,61 @@ function isNotANumber(input) {
 // ==================================================================================================================
 function calcTotalLevelStats(data, index) {
   switch (data[index][CLASS_COLUMN].trim()) {
-    case "Baby Splash":
+    case ltsLevels.BS.name:
       calculateData(index,0)
       break;
-    case "Little Snapper 1":
+    case ltsLevels.LS1.name:
       calculateData(index,1)
       break;
-    case "Little Snapper 2":
+    case ltsLevels.LS2.name:
       calculateData(index,2)
       break;
-    case "Little Snapper Advanced":
+    case ltsLevels.LSA.name:
       calculateData(index,3)
       break;
-    case "Clownfish":
+    case ltsLevels.CF.name:
       calculateData(index,4)
       break;
-    case "Goldfish":
+    case ltsLevels.GF.name:
       calculateData(index,5)
       break;
-    case "Jellyfish":
+    case ltsLevels.JF.name:
       calculateData(index,6)
       break;
-    case "Octopus":
+    case ltsLevels.OCT.name:
       calculateData(index,7)
       break;
-    case "Lobster":
+    case ltsLevels.LOB.name:
       calculateData(index,8)
       break;
-    case "Hammerhead Junior":
+    case ltsLevels.HHJr.name:
       calculateData(index,9)
       break;
-    case "Hammerhead Senior":
+    case ltsLevels.HHSr.name:
       calculateData(index,10)
       break;
-    case "Private - Teacher and Me":
+    case ltsLevels.Private.name:
       calculateData(index,11)
       break;
-    case "Private - Special Needs":
+    case ltsLevels.PrivateSN.name:
       calculateData(index,18)
       break;
-    case "Semi":
+    case ltsLevels.Semi.name:
       calculateData(index,12)
       break;
-    case "SN":
+    case ltsLevels.SN.name:
       calculateData(index,13)
       break;
-    case ".Unassigned (Teacher and Me) Level":
+    case ltsLevels.Unassigned.name:
       calculateData(index,14)
       break;
-    case "Water Watcher":
+    case ltsLevels.WaterWatcher.name:
       calculateData(index,15)
       break;
-    case "Break":
+    case ltsLevels.Break.name:
       calculateData(index,16)
       break;
-    case "Squad":
+    case ltsLevels.Squads.name:
       calculateData(index,17)
       break;
     default:
