@@ -4,20 +4,7 @@
 // author Erick Enriquez
 // ==================================================================================================================
 
-/*var monAM = [];
-var monPM = [];
-var tueAM = [];
-var tuePM = [];
-var wedAM = [];
-var wedPM = [];
-var thuAM = [];
-var thuPM = [];
-var friAM = [];
-var friPM = [];
-var sat = [];
-var sunAM = [];
-var sunPM = [];*/
-// ==================================================================================================================
+
 
 var shiftNames = [
   "Mon-AM", //0
@@ -39,21 +26,21 @@ var shiftNames = [
 //==================================================================================================================
 
 var shifts = {
-  monAM: { shiftName: 'Mon-AM', index: 0 , classArray:[] },
-  monPM: { shiftName: 'Mon-PM', index: 1 , classArray:[]},
-  tueAM: { shiftName: 'Tue-AM', index: 2 , classArray:[]},
-  tuePM: { shiftName: 'Tue-PM', index: 3 , classArray:[]},
-  wedAM: { shiftName: 'Wed-AM', index: 4 , classArray:[]},
-  wedPM: { shiftName: 'Wed-PM', index: 5 , classArray:[]},
-  thuAM: { shiftName: 'Thu-AM', index: 6 , classArray:[]},
-  thuPM: { shiftName: 'Thu-PM', index: 7 , classArray:[]},
-  friAM: { shiftName: 'Fri-AM', index: 8 , classArray:[]},
-  friPM: { shiftName: 'Fri-PM', index: 9 , classArray:[]},
-  sat: { shiftName: 'Sat', index: 14 , classArray:[]},
-  sunAM: { shiftName: 'Sun-AM', index: 12 , classArray:[]},
-  sunPM: { shiftName: 'Sun-PM', index: 13 , classArray:[]},
-  satAM: { shiftName: 'Sat-AM', index: 10 , classArray:[]},
-  satPM: { shiftName: 'Sat-PM', index: 11 , classArray:[]},
+  monAM: { shiftName: 'Mon-AM', index: 0 , classArray:[], max:0 , current:0 },
+  monPM: { shiftName: 'Mon-PM', index: 1 , classArray:[], max:0 , current:0},
+  tueAM: { shiftName: 'Tue-AM', index: 2 , classArray:[], max:0 , current:0},
+  tuePM: { shiftName: 'Tue-PM', index: 3 , classArray:[], max:0 , current:0},
+  wedAM: { shiftName: 'Wed-AM', index: 4 , classArray:[], max:0 , current:0},
+  wedPM: { shiftName: 'Wed-PM', index: 5 , classArray:[], max:0 , current:0},
+  thuAM: { shiftName: 'Thu-AM', index: 6 , classArray:[], max:0 , current:0},
+  thuPM: { shiftName: 'Thu-PM', index: 7 , classArray:[], max:0 , current:0},
+  friAM: { shiftName: 'Fri-AM', index: 8 , classArray:[], max:0 , current:0},
+  friPM: { shiftName: 'Fri-PM', index: 9 , classArray:[], max:0 , current:0},
+  sat: { shiftName: 'Sat', index: 14 , classArray:[], max:0 , current:0},
+  sunAM: { shiftName: 'Sun-AM', index: 12 , classArray:[], max:0 , current:0},
+  sunPM: { shiftName: 'Sun-PM', index: 13 , classArray:[], max:0 , current:0},
+  satAM: { shiftName: 'Sat-AM', index: 10 , classArray:[], max:0 , current:0},
+  satPM: { shiftName: 'Sat-PM', index: 11 , classArray:[], max:0 , current:0},
 
 }
 
@@ -96,10 +83,6 @@ var CURRENT_COLUMN = 8;
 var OPENINGS_COLUMNS = 9;
 var MASTER_SHEET_NAME = "RAW";
 var DASHBOARD_SHEET_NAME = "Dashboard";
-// ==================================================================================================================
-
-var currents = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // hold the number of currents for all of the shifts throughout a week
-var maxes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // hold the maximum values for all of the shifts throughout a week
 
 // ==================================================================================================================
 
@@ -115,24 +98,41 @@ function main() {
     addToData(output, data[i]); //enter the whole row into the correct list and update max and current lists
     calcTotalLevelStats(data, i); // add the class to its level stats
   }
+
+  var currents = [
+    shifts.monAM.current,
+    shifts.monPM.current,
+    shifts.tueAM.current,
+    shifts.tuePM.current,
+    shifts.wedAM.current,
+    shifts.wedPM.current,
+    shifts.thuAM.current,
+    shifts.thuPM.current,
+    shifts.friAM.current,
+    shifts.friPM.current,
+    shifts.sat.current,
+    shifts.sunAM.current,
+    shifts.sunPM.current,
+  ]; // hold the number of currents for all of the shifts throughout a week for dashboard use
+  var maxes = [
+    shifts.monAM.max,
+    shifts.monPM.max,
+    shifts.tueAM.max,
+    shifts.tuePM.max,
+    shifts.wedAM.max,
+    shifts.wedPM.max,
+    shifts.thuAM.max,
+    shifts.thuPM.max,
+    shifts.friAM.max,
+    shifts.friPM.max,
+    shifts.sat.max,
+    shifts.sunAM.max,
+    shifts.sunPM.max,
+  ]; // hold the maximum values for all of the shifts throughout a week for dashboard use
+
   writeToDashboard(maxes, currents); //function to write the aggregate data to dashboard sheet
 
-  /*let shiftList = [
-    monAM,
-    monPM,
-    tueAM,
-    tuePM,
-    wedAM,
-    wedPM,
-    thuAM,
-    thuPM,
-    friAM,
-    friPM,
-    [], //add empty list to line up indexed on writeToShiftSheet
-    sat,
-    sunAM,
-    sunPM,
-  ];*/
+  
   let shiftList = [
     shifts.monAM.classArray,
     shifts.monPM.classArray,
@@ -241,53 +241,53 @@ function createNewSheets() {
 function addToData(date, data) {
   switch (date) {
     case shifts.monAM.shiftName:
-      pushData(shifts.monAM.classArray, shifts.monAM.index, data)
+      pushData(shifts.monAM,data)
       break;
     case shifts.monPM.shiftName:
-      pushData(shifts.monPM.classArray, shifts.monPM.index, data)
+      pushData(shifts.monPM, data)
       break;
     case shifts.tueAM.shiftName:
-      pushData(shifts.tueAM.classArray, shifts.tueAM.index, data)
+      pushData(shifts.tueAM, data)
       break;
     case shifts.tuePM.shiftName:
-      pushData(shifts.tuePM.classArray, shifts.tuePM.index, data)
+      pushData(shifts.tuePM, data)
       break;
     case shifts.wedAM.shiftName:
-      pushData(shifts.wedAM.classArray, shifts.wedAM.index, data)
+      pushData(shifts.wedAM, data)
       break;
     case shifts.wedPM.shiftName:
-      pushData(shifts.wedPM.classArray, shifts.wedPM.index, data)
+      pushData(shifts.wedPM, data)
       break;
     case shifts.thuAM.shiftName:
-      pushData(shifts.thuAM.classArray, shifts.thuAM.index, data)
+      pushData(shifts.thuAM, data)
       break;
     case shifts.thuPM.shiftName:
-      pushData(shifts.thuPM.classArray, shifts.thuPM.index, data)
+      pushData(shifts.thuPM, data)
       break;
     case shifts.friAM.shiftName:
-      pushData(shifts.friAM.classArray, shifts.friAM.index, data)
+      pushData(shifts.friAM, data)
       break;
     case shifts.friPM.shiftName:
-      pushData(shifts.friPM.classArray, shifts.friPM.index, data)
+      pushData(shifts.friPM, data)
       break;
     case shifts.satAM.shiftName:
-      pushData(shifts.sat.classArray, 10, data)
+      pushData(shifts.sat, data)
       break;
     case shifts.satPM.shiftName:
-      pushData(shifts.sat.classArray, 10, data)
+      pushData(shifts.sat, data)
       break;
     case shifts.sunAM.shiftName:
-      pushData(shifts.sunAM.classArray, 11, data)
+      pushData(shifts.sunAM, data)
       break;
     case shifts.sunPM.shiftName:
-      pushData(shifts.sunPM.classArray, 12, data)
+      pushData(shifts.sunPM, data)
       break;
   }
   //actual function that pushes data to avoid repetition
-   function pushData (dateArray, index, data) {
-    dateArray.push(data);
-    maxes[index] = maxes[index] + data[MAX_COLUMN];
-    currents[index] = currents[index] + data[CURRENT_COLUMN];
+   function pushData (shiftObject, data ) {
+     shiftObject.classArray.push(data)
+     shiftObject.max = shiftObject.max + data[MAX_COLUMN]
+     shiftObject.current = shiftObject.current + data[CURRENT_COLUMN]
   }
 }
 
