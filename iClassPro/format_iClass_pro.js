@@ -4,7 +4,7 @@
 // author Erick Enriquez
 // ==================================================================================================================
 
-var monAM = [];
+/*var monAM = [];
 var monPM = [];
 var tueAM = [];
 var tuePM = [];
@@ -16,7 +16,7 @@ var friAM = [];
 var friPM = [];
 var sat = [];
 var sunAM = [];
-var sunPM = [];
+var sunPM = [];*/
 // ==================================================================================================================
 
 var shiftNames = [
@@ -144,7 +144,7 @@ function main() {
     shifts.thuPM.classArray,
     shifts.friAM.classArray,
     shifts.friPM.classArray,
-    [],
+    [],//add empty list to line up indexes on writeToShiftSheet
     shifts.sat.classArray,
     shifts.sunAM.classArray,
     shifts.sunPM.classArray,
