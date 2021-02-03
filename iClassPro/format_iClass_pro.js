@@ -67,6 +67,33 @@ var ltsLevels = {
   Squads: { abrv: 'Squads', name: 'Squad', index: 17,  max: 0, current: 0, count: 0 },
   Other: { abrv: 'Other', name: 'Other', index: 19,  max: 0, current: 0, count: 0 },
 }
+
+var classLevels = new Map()
+
+classLevels.set('Baby Splash', { abrv: "BS", name: 'Baby Splash', index: 0, max: 0, current: 0, count: 0 })
+classLevels.set('Little Snapper 1', { abrv: 'LS1', name: 'Little Snapper 1', index: 1, max: 0, current: 0, count: 0 })
+classLevels.set('Little Snapper 2', { abrv: 'LS2', name: 'Little Snapper 2', index: 2, max: 0, current: 0, count: 0 })
+classLevels.set('Little Snapper Advanced', { abrv: 'LSA', name: 'Little Snapper Advanced', index: 3, max: 0, current: 0, count: 0 })
+classLevels.set('Clownfish', { abrv: 'CF', name: 'Clownfish', index: 4, max: 0, current: 0, count: 0 })
+classLevels.set('Goldfish', { abrv: 'GF', name: 'Goldfish', index: 5,  max: 0, current: 0, count: 0 })
+classLevels.set('Jellyfish', { abrv: 'JF', name: 'Jellyfish', index: 6,  max: 0, current: 0, count: 0 })
+classLevels.set('Octopus', { abrv: 'OCT', name: 'Octopus', index: 7,  max: 0, current: 0, count: 0 })
+classLevels.set('Lobster', { abrv: 'LOB', name: 'Lobster', index: 8,  max: 0, current: 0, count: 0 })
+classLevels.set('Hammerhead Junior', { abrv: 'HHJr', name: 'Hammerhead Junior', index: 9,  max: 0, current: 0, count: 0 })
+classLevels.set('Hammerhead Senior', { abrv: 'HHSr', name: 'Hammerhead Senior', index: 10,  max: 0, current: 0, count: 0 })
+classLevels.set('Private - Teacher and Me', { abrv: 'Private', name: 'Private - Teacher and Me', index: 11,  max: 0, current: 0, count: 0 })
+classLevels.set('Private - Special Needs', { abrv: 'Private SN', name: 'Private - Special Needs', index: 18,  max: 0, current: 0, count: 0 })
+classLevels.set('Semi', { abrv: 'Semi', name: 'Semi', index: 12,  max: 0, current: 0, count: 0 })
+classLevels.set('SN', { abrv: 'SN', name: 'SN', index: 13,  max: 0, current: 0, count: 0 })//should be unused in calculations leave in until we remove all code that references SN
+classLevels.set('.Unassigned (Teacher and Me) Level', { abrv: 'Unassigned', name: '.Unassigned (Teacher and Me) Level', index: 14,  max: 0, current: 0, count: 0 })
+classLevels.set('Water Watcher', { abrv: 'Water Watcher', name: 'Water Watcher', index: 15,  max: 0, current: 0, count: 0 })
+classLevels.set( 'Break', { abrv: 'Break', name: 'Break', index: 16,  max: 0, current: 0, count: 0 })
+classLevels.set('Squad', { abrv: 'Squad', name: 'Squad', index: 17,  max: 0, current: 0, count: 0 })
+classLevels.set('Other', { abrv: 'Other', name: 'Other', index: 19,  max: 0, current: 0, count: 0 })
+
+
+Logger.log(classLevels.size )
+
 // ==================================================================================================================
 
 var maxList =     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds max for whole week by level
@@ -682,9 +709,9 @@ function calcTotalLevelStats(data, index) {
 // FORMATS CURRENT SPREADSHEET
 // ==================================================================================================================
 
-function formatSheet(ss, range) {
-  ss.getRange(range).activate();
-  ss.getActiveRangeList()
+function formatSheet(spreadsheet,range) {
+  spreadsheet.getRange(range).activate();
+  spreadsheet.getActiveRangeList()
     .setVerticalAlignment("middle")
     .setHorizontalAlignment("center");
 }
