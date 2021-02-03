@@ -36,24 +36,28 @@ var shiftNames = [
   "Sun-PM", //13
   "Sat", //temp 14
 ];
+//==================================================================================================================
 
 var shifts = {
-  monAM: { shiftName: 'Mon-AM', index: 0 , },
-  monPM: { shiftName: 'Mon-PM', index: 1 },
-  tueAM: { shiftName: 'Tue-AM', index: 2 },
-  tuePM: { shiftName: 'Tue-PM', index: 3 },
-  wedAM: { shiftName: 'Wed-AM', index: 4 },
-  wedPM: { shiftName: 'Wed-PM', index: 5 },
-  thuAM: { shiftName: 'Thu-AM', index: 6 },
-  thuPM: { shiftName: 'Thu-PM', index: 7 },
-  friAM: { shiftName: 'Fri-AM', index: 8 },
-  friPM: { shiftName: 'Fri-PM', index: 9 },
-  sat: { shiftName: 'Sat-AM', index: 14 },
-  sunAM: { shiftName: 'Sun-AM', index: 12 },
-  sunAM: { shiftName: 'Sun-PM', index: 13 },
+  monAM: { shiftName: 'Mon-AM', index: 0 , classArray:[] },
+  monPM: { shiftName: 'Mon-PM', index: 1 , classArray:[]},
+  tueAM: { shiftName: 'Tue-AM', index: 2 , classArray:[]},
+  tuePM: { shiftName: 'Tue-PM', index: 3 , classArray:[]},
+  wedAM: { shiftName: 'Wed-AM', index: 4 , classArray:[]},
+  wedPM: { shiftName: 'Wed-PM', index: 5 , classArray:[]},
+  thuAM: { shiftName: 'Thu-AM', index: 6 , classArray:[]},
+  thuPM: { shiftName: 'Thu-PM', index: 7 , classArray:[]},
+  friAM: { shiftName: 'Fri-AM', index: 8 , classArray:[]},
+  friPM: { shiftName: 'Fri-PM', index: 9 , classArray:[]},
+  sat: { shiftName: 'Sat', index: 14 , classArray:[]},
+  sunAM: { shiftName: 'Sun-AM', index: 12 , classArray:[]},
+  sunPM: { shiftName: 'Sun-PM', index: 13 , classArray:[]},
+  satAM: { shiftName: 'Sat-AM', index: 10 , classArray:[]},
+  satPM: { shiftName: 'Sat-PM', index: 11 , classArray:[]},
+
 }
 
-
+//==================================================================================================================
 var ltsLevels = {
   BS: { abrv: "BS", name: 'Baby Splash', index: 0, max: 0, current: 0, count: 0 },
   LS1: { abrv: 'LS1', name: 'Little Snapper 1', index: 1, max: 0, current: 0, count: 0 },
@@ -101,11 +105,7 @@ var maxes = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // hold the maximum values 
 
 function main() {
   createNewSheets(); //create the new sheets comment out if already created sheets
-  var spreadsheet = SpreadsheetApp.getActive();
-  spreadsheet.setActiveSheet(
-    spreadsheet.getSheetByName(MASTER_SHEET_NAME),
-    true
-  );
+  var spreadsheet = SpreadsheetApp.getActive(); spreadsheet.setActiveSheet( spreadsheet.getSheetByName(MASTER_SHEET_NAME));
   var data = spreadsheet.getDataRange().getValues();
 
   let output = "";
@@ -115,7 +115,7 @@ function main() {
     addToData(output, data[i]); //enter the whole row into the correct list and update max and current lists
     calcTotalLevelStats(data, i); // add the class to its level stats
   }
-  writeToDashboard(maxes, currents, shiftNames); //function to write the aggregate data to dashboard sheet
+  writeToDashboard(maxes, currents); //function to write the aggregate data to dashboard sheet
 
   let shiftList = [
     monAM,
@@ -189,31 +189,31 @@ function createNewSheets() {
     return;
   } catch (err) {
     spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shiftNames[13]); //sun PM
+    spreadsheet.getActiveSheet().setName(shifts.sunPM.shiftName); //sun PM
     spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shiftNames[12]); // sun am
+    spreadsheet.getActiveSheet().setName(shifts.sunAM.shiftName); // sun am
     spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shiftNames[14]); // sat
+    spreadsheet.getActiveSheet().setName(shifts.sat.shiftName); // sat
     spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shiftNames[9]); //fri PM
+    spreadsheet.getActiveSheet().setName(shifts.friPM.shiftName); //fri PM
     spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shiftNames[8]); //fri am
+    spreadsheet.getActiveSheet().setName(shifts.friAM.shiftName); //fri am
     spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shiftNames[7]); //thu pm
+    spreadsheet.getActiveSheet().setName(shifts.thuPM.shiftName); //thu pm
     spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shiftNames[6]); //thu am
+    spreadsheet.getActiveSheet().setName(shifts.thuAM.shiftName); //thu am
     spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shiftNames[5]); //wed pm
+    spreadsheet.getActiveSheet().setName(shifts.wedPM.shiftName); //wed pm
     spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shiftNames[4]); //wed am
+    spreadsheet.getActiveSheet().setName(shifts.wedAM.shiftName); //wed am
     spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shiftNames[3]); //tue pm
+    spreadsheet.getActiveSheet().setName(shifts.tuePM.shiftName); //tue pm
     spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shiftNames[2]); //tue am
+    spreadsheet.getActiveSheet().setName(shifts.tueAM.shiftName); //tue am
     spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shiftNames[1]); //mon pm
+    spreadsheet.getActiveSheet().setName(shifts.monPM.shiftName); //mon pm
     spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shiftNames[0]); // mon am
+    spreadsheet.getActiveSheet().setName(shifts.monAM.shiftName); // mon am
     spreadsheet.insertSheet(1);
     spreadsheet.getActiveSheet().setName(DASHBOARD_SHEET_NAME);
   }
@@ -224,46 +224,46 @@ function createNewSheets() {
 
 function addToData(date, data) {
   switch (date) {
-    case shiftNames[0]:
+    case shifts.monAM.shiftName:
       pushData(monAM,0,data)
       break;
-    case shiftNames[1]:
+    case  shifts.monPM.shiftName:
       pushData(monPM,1,data)
       break;
-    case shiftNames[2]:
+    case shifts.tueAM.shiftName:
       pushData(tueAM,2,data)
       break;
-    case shiftNames[3]:
+    case shifts.tuePM.shiftName:
       pushData(tuePM,3,data)
       break;
-    case shiftNames[4]:
+    case shifts.wedAM.shiftName:
       pushData(wedAM,4,data)
       break;
-    case shiftNames[5]:
+    case shifts.wedPM.shiftName:
       pushData(wedPM,5,data)
       break;
-    case shiftNames[6]:
+    case shifts.thuAM.shiftName:
       pushData(thuAM,6,data)
       break;
-    case shiftNames[7]:
+    case shifts.thuPM.shiftName:
       pushData(thuPM,7,data)
       break;
-    case shiftNames[8]:
+    case shifts.friAM.shiftName:
       pushData(friAM,8,data)
       break;
-    case shiftNames[9]:
+    case shifts.friPM.shiftName:
       pushData(friPM,9,data)
       break;
-    case shiftNames[10]:
+    case shifts.satAM.shiftName:
       pushData(sat,10,data)
       break;
-    case shiftNames[11]:
+    case shifts.satPM.shiftName:
       pushData(sat,10,data)
       break;
-    case shiftNames[12]:
+    case shifts.sunAM.shiftName:
       pushData(sunAM,11,data)
       break;
-    case shiftNames[13]:
+    case shifts.sunPM.shiftName:
       pushData(sunPM,12,data)
       break;
   }
@@ -277,7 +277,7 @@ function addToData(date, data) {
 
 // ==================================================================================================================
 // =======================    Fills in the data for the dashboard sheet part of the spreadsheet =====================
-function writeToDashboard(max, currents, shiftName) {
+function writeToDashboard(max, currents) {
   var spreadsheet = SpreadsheetApp.getActive();
   spreadsheet.setActiveSheet(
     spreadsheet.getSheetByName(DASHBOARD_SHEET_NAME),
@@ -287,19 +287,19 @@ function writeToDashboard(max, currents, shiftName) {
 
 
   spreadsheet.getRange("A2:A14").setValues([
-    [shiftName[0]],
-    [shiftName[1]],
-    [shiftName[2]],
-    [shiftName[3]],
-    [shiftName[4]],
-    [shiftName[5]],
-    [shiftName[6]],
-    [shiftName[7]],
-    [shiftName[8]],
-    [shiftName[9]],
-    [shiftName[14]], //skip sat am and pm instead write sat
-    [shiftName[12]],
-    [shiftName[13]],
+    [shifts.monAM.shiftName],
+    [shifts.monPM.shiftName],
+    [shifts.tueAM.shiftName],
+    [shifts.tuePM.shiftName],
+    [shifts.wedAM.shiftName],
+    [shifts.wedPM.shiftName],
+    [shifts.thuAM.shiftName],
+    [shifts.thuPM.shiftName],
+    [shifts.friAM.shiftName],
+    [shifts.friPM.shiftName],
+    [shifts.sat.shiftName], //skip sat am and pm instead write sat
+    [shifts.sunAM.shiftName],
+    [shifts.sunPM.shiftName],
   ]);
 
   spreadsheet
