@@ -171,8 +171,6 @@ function createNewSheets() {
     ); // try and open sheet to see if sheets have already been created
     return;
   } catch (err) {
-    //
-
     spreadsheet.insertSheet(1);
     spreadsheet.getActiveSheet().setName(shiftNames[13]); //sun PM
     spreadsheet.insertSheet(1);
@@ -210,75 +208,53 @@ function createNewSheets() {
 function addToData(date, data) {
   switch (date) {
     case shiftNames[0]:
-      monAM.push(data);
-      maxes[0] = maxes[0] + data[MAX_COLUMN];
-      currents[0] = currents[0] + data[CURRENT_COLUMN];
+      pushData(monAM,0,data)
       break;
     case shiftNames[1]:
-      monPM.push(data);
-      maxes[1] = maxes[1] + data[MAX_COLUMN];
-      currents[1] = currents[1] + data[CURRENT_COLUMN];
+      pushData(monPM,1,data)
       break;
     case shiftNames[2]:
-      tueAM.push(data);
-      maxes[2] = maxes[2] + data[MAX_COLUMN];
-      currents[2] = currents[2] + data[CURRENT_COLUMN];
+      pushData(tueAM,2,data)
       break;
     case shiftNames[3]:
-      tuePM.push(data);
-      maxes[3] = maxes[3] + data[MAX_COLUMN];
-      currents[3] = currents[3] + data[CURRENT_COLUMN];
+      pushData(tuePM,3,data)
       break;
     case shiftNames[4]:
-      wedAM.push(data);
-      maxes[4] = maxes[4] + data[MAX_COLUMN];
-      currents[4] = currents[4] + data[CURRENT_COLUMN];
+      pushData(wedAM,4,data)
       break;
     case shiftNames[5]:
-      wedPM.push(data);
-      maxes[5] = maxes[5] + data[MAX_COLUMN];
-      currents[5] = currents[5] + data[CURRENT_COLUMN];
+      pushData(wedPM,5,data)
       break;
     case shiftNames[6]:
-      thuAM.push(data);
-      maxes[6] = maxes[6] + data[MAX_COLUMN];
-      currents[6] = currents[6] + data[CURRENT_COLUMN];
+      pushData(thuAM,6,data)
       break;
     case shiftNames[7]:
-      thuPM.push(data);
-      maxes[7] = maxes[7] + data[MAX_COLUMN];
-      currents[7] = currents[7] + data[CURRENT_COLUMN];
+      pushData(thuPM,7,data)
       break;
     case shiftNames[8]:
-      friAM.push(data);
-      maxes[8] = maxes[8] + data[MAX_COLUMN];
-      currents[8] = currents[8] + data[CURRENT_COLUMN];
+      pushData(friAM,8,data)
       break;
     case shiftNames[9]:
-      friPM.push(data);
-      maxes[9] = maxes[9] + data[MAX_COLUMN];
-      currents[9] = currents[9] + data[CURRENT_COLUMN];
+      pushData(friPM,9,data)
       break;
     case shiftNames[10]:
-      sat.push(data);
-      maxes[10] = maxes[10] + data[MAX_COLUMN];
-      currents[10] = currents[10] + data[CURRENT_COLUMN];
+      pushData(sat,10,data)
       break;
     case shiftNames[11]:
-      sat.push(data);
-      maxes[10] = maxes[10] + data[MAX_COLUMN];
-      currents[10] = currents[10] + data[CURRENT_COLUMN];
+      pushData(sat,10,data)
       break;
     case shiftNames[12]:
-      sunAM.push(data);
-      maxes[11] = maxes[11] + data[MAX_COLUMN];
-      currents[11] = currents[11] + data[CURRENT_COLUMN];
+      pushData(sunAM,11,data)
       break;
     case shiftNames[13]:
-      sunPM.push(data);
-      maxes[12] = maxes[12] + data[MAX_COLUMN];
-      currents[12] = currents[12] + data[CURRENT_COLUMN];
+      pushData(sunPM,12,data)
       break;
+  }
+  //actual function that pushes data to avoid repetition
+   function pushData (dateArray, index, data) {
+    dateArray.push(data);
+    maxes[index] = maxes[index] + data[MAX_COLUMN];
+    currents[index] = currents[index] + data[CURRENT_COLUMN];
   }
 }
 
