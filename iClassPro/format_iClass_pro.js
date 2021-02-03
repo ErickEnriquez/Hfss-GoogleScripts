@@ -612,106 +612,71 @@ function isNotANumber(input) {
 function calcTotalLevelStats(data, index) {
   switch (data[index][CLASS_COLUMN].trim()) {
     case "Baby Splash":
-      countList[0]++;
-      maxList[0] = maxList[0] + data[index][MAX_COLUMN];
-      currentList[0] = currentList[0] + data[index][CURRENT_COLUMN];
+      calculateData(index,0)
       break;
     case "Little Snapper 1":
-      countList[1]++;
-      maxList[1] = maxList[1] + data[index][MAX_COLUMN];
-      currentList[1] = currentList[1] + data[index][CURRENT_COLUMN];
+      calculateData(index,1)
       break;
     case "Little Snapper 2":
-      countList[2]++;
-      maxList[2] = maxList[2] + data[index][MAX_COLUMN];
-      currentList[2] = currentList[2] + data[index][CURRENT_COLUMN];
+      calculateData(index,2)
       break;
     case "Little Snapper Advanced":
-      countList[3]++;
-      maxList[3] = maxList[3] + data[index][MAX_COLUMN];
-      currentList[3] = currentList[3] + data[index][CURRENT_COLUMN];
+      calculateData(index,3)
       break;
     case "Clownfish":
-      countList[4]++;
-      maxList[4] = maxList[4] + data[index][MAX_COLUMN];
-      currentList[4] = currentList[4] + data[index][CURRENT_COLUMN];
+      calculateData(index,4)
       break;
     case "Goldfish":
-      countList[5]++;
-      maxList[5] = maxList[5] + data[index][MAX_COLUMN];
-      currentList[5] = currentList[5] + data[index][CURRENT_COLUMN];
+      calculateData(index,5)
       break;
     case "Jellyfish":
-      countList[6]++;
-      maxList[6] = maxList[6] + data[index][MAX_COLUMN];
-      currentList[6] = currentList[6] + data[index][CURRENT_COLUMN];
+      calculateData(index,6)
       break;
     case "Octopus":
-      countList[7]++;
-      maxList[7] = maxList[7] + data[index][MAX_COLUMN];
-      currentList[7] = currentList[7] + data[index][CURRENT_COLUMN];
+      calculateData(index,7)
       break;
     case "Lobster":
-      countList[8]++;
-      maxList[8] = maxList[8] + data[index][MAX_COLUMN];
-      currentList[8] = currentList[8] + data[index][CURRENT_COLUMN];
+      calculateData(index,8)
       break;
     case "Hammerhead Junior":
-      countList[9]++;
-      maxList[9] = maxList[9] + data[index][MAX_COLUMN];
-      currentList[9] = currentList[9] + data[index][CURRENT_COLUMN];
+      calculateData(index,9)
       break;
     case "Hammerhead Senior":
-      countList[10]++;
-      maxList[10] = maxList[10] + data[index][MAX_COLUMN];
-      currentList[10] = currentList[10] + data[index][CURRENT_COLUMN];
+      calculateData(index,10)
       break;
     case "Private - Teacher and Me":
-      countList[11]++;
-      maxList[11] = maxList[11] + data[index][MAX_COLUMN];
-      currentList[11] = currentList[11] + data[index][CURRENT_COLUMN];
+      calculateData(index,11)
       break;
     case "Private - Special Needs":
-      countList[18]++;
-      maxList[18] = maxList[18] + data[index][MAX_COLUMN];
-      currentList[18] = currentList[18] + data[index][CURRENT_COLUMN];
+      calculateData(index,18)
       break;
     case "Semi":
-      countList[12]++;
-      maxList[12] = maxList[12] + data[index][MAX_COLUMN];
-      currentList[12] = currentList[12] + data[index][CURRENT_COLUMN];
+      calculateData(index,12)
       break;
     case "SN":
-      countList[13]++;
-      maxList[13] = maxList[13] + data[index][MAX_COLUMN];
-      currentList[13] = currentList[13] + data[index][CURRENT_COLUMN];
+      calculateData(index,13)
       break;
     case ".Unassigned (Teacher and Me) Level":
-      countList[14]++;
-      maxList[14] = maxList[14] + data[index][MAX_COLUMN];
-      currentList[14] = currentList[14] + data[index][CURRENT_COLUMN];
+      calculateData(index,14)
       break;
     case "Water Watcher":
-      countList[15]++;
-      maxList[15] = maxList[15] + data[index][MAX_COLUMN];
-      currentList[15] = currentList[15] + data[index][CURRENT_COLUMN];
+      calculateData(index,15)
       break;
     case "Break":
-      countList[16]++;
-      maxList[16] = maxList[16] + data[index][MAX_COLUMN];
-      currentList[16] = currentList[16] + data[index][CURRENT_COLUMN];
+      calculateData(index,16)
       break;
     case "Squad":
-      countList[17]++;
-      maxList[17] = maxList[17] + data[index][MAX_COLUMN];
-      currentList[17] = currentList[17] + data[index][CURRENT_COLUMN];
+      calculateData(index,17)
       break;
     default:
-      countList[19]++;
-      maxList[19] = maxList[19] + data[index][MAX_COLUMN];
-      currentList[19] = currentList[19] + data[index][CURRENT_COLUMN];
+      calculateData(index,19)
       Logger.log(data[index][CLASS_COLUMN].trim());
       break;
+  }
+  function calculateData(dataIndex, countIndex) {
+    countList[countIndex]++;
+    maxList[countIndex] = maxList[countIndex] + data[dataIndex][MAX_COLUMN];
+    currentList[countIndex] = currentList[countIndex] + data[dataIndex][CURRENT_COLUMN];
   }
 }
 
