@@ -92,7 +92,6 @@ classLevels.set('Squad', { abrv: 'Squad', name: 'Squad', index: 17,  max: 0, cur
 classLevels.set('Other', { abrv: 'Other', name: 'Other', index: 19,  max: 0, current: 0, count: 0 })
 
 
-Logger.log(classLevels.size )
 
 // ==================================================================================================================
 
@@ -119,12 +118,13 @@ function main() {
   var data = spreadsheet.getDataRange().getValues();
 
   let output = "";
-
+  var MASTER_COUNTER=0
   for (var i = 1; i < data.length; i++) {
     output = getShift(data, i, TIME_COLUMN); // get the shift that this will belong to
     addToData(output, data[i]); //enter the whole row into the correct list and update max and current lists
     calcTotalLevelStats(data, i); // add the class to its level stats
   }
+  Logger.log(MASTER_COUNTER)
 
   var currents = [
     shifts.monAM.current,
@@ -346,12 +346,12 @@ function writeToDashboard(max, currents) {
   ]);
 
   spreadsheet
-    .getRange("A1:E1")
-    .setValues([["Data Range", "Max", "Current", "Openings", "Percent Full"]]);
+    .getRange("A1:I1")
+    .setValues([["Data Range", "Max", "Current", "Openings", "Percent Full", "" , "# of Classes", "Level", "PercentFull"]]);
 
-  spreadsheet.getRange("A1:E1").setBackground("#0000ff");
-  spreadsheet.getRange("A1:E1").setFontColor("#ffffff");
-  spreadsheet.getRange("A1:E1").setFontWeight("bold");
+  spreadsheet.getRange("A1:I1").setBackground("#0000ff");
+  spreadsheet.getRange("A1:I1").setFontColor("#ffffff");
+  spreadsheet.getRange("A1:I1").setFontWeight("bold");
 
   let maxSum = 0;
   let currentSum = 0;
@@ -379,49 +379,26 @@ function writeToDashboard(max, currents) {
     openingSum = openingSum + openings;
     temp++;
   }
+ const totalRow = "A15:E15"
+  spreadsheet .getRange(totalRow) .setValues([ [ "Total", maxSum, currentSum, openingSum, isNotANumber(((currentSum / maxSum) * 100).toFixed(2)), ], ]);
+  spreadsheet.getRange(totalRow).setBackground("#000000");
+  spreadsheet.getRange(totalRow).setFontColor("#ffffff");
 
-  spreadsheet
-    .getRange("A15:E15")
-    .setValues([
-      [
-        "Total",
-        maxSum,
-        currentSum,
-        openingSum,
-        isNotANumber(((currentSum / maxSum) * 100).toFixed(2)),
-      ],
-    ]);
-  spreadsheet.getRange("A15:E15").setBackground("#000000");
-  spreadsheet.getRange("A15:E15").setFontColor("#ffffff");
+  writeClassDetails(); 
 
-  const levelStatRange = "G1:I20";
-  const titleRange = "G1:I1";
-  spreadsheet.getRange(levelStatRange).setValues([
-    ["Level", "# of Classes", " PercentFull"],
-    [ ltsLevels.BS.abrv, countList[0], isNotANumber(((currentList[0] / maxList[0]) * 100).toFixed(2)), ],
-    [ ltsLevels.LS1.abrv, countList[1], isNotANumber(((currentList[1] / maxList[1]) * 100).toFixed(2)), ],
-    [ ltsLevels.LS2.abrv, countList[2], isNotANumber(((currentList[2] / maxList[2]) * 100).toFixed(2)), ],
-    [ ltsLevels.LSA.abrv, countList[3], isNotANumber(((currentList[3] / maxList[3]) * 100).toFixed(2)), ],
-    [ ltsLevels.CF.abrv, countList[4], isNotANumber(((currentList[4] / maxList[4]) * 100).toFixed(2)), ],
-    [ ltsLevels.GF.abrv, countList[5], isNotANumber(((currentList[5] / maxList[5]) * 100).toFixed(2)), ],
-    [ ltsLevels.JF.abrv, countList[6], isNotANumber(((currentList[6] / maxList[6]) * 100).toFixed(2)), ],
-    [ ltsLevels.OCT.abrv, countList[7], isNotANumber(((currentList[7] / maxList[7]) * 100).toFixed(2)), ],
-    [ ltsLevels.LOB.abrv, countList[8], isNotANumber(((currentList[8] / maxList[8]) * 100).toFixed(2)), ],
-    [ ltsLevels.HHJr.abrv, countList[9], isNotANumber(((currentList[9] / maxList[9]) * 100).toFixed(2)), ],
-    [ ltsLevels.HHSr.abrv, countList[10], isNotANumber(((currentList[10] / maxList[10]) * 100).toFixed(2)), ],
-    [ ltsLevels.Private.abrv, countList[11], isNotANumber(((currentList[11] / maxList[11]) * 100).toFixed(2)), ],
-    [ltsLevels.PrivateSN.abrv, countList[18], isNotANumber(((currentList[18] / maxList[18]) * 100).toFixed(2)) ],
-    [ ltsLevels.Semi.abrv, countList[12], isNotANumber(((currentList[12] / maxList[12]) * 100).toFixed(2)), ],
-    //[ ltsLevels.SN.abrv, countList[13], isNotANumber(((currentList[13] / maxList[13]) * 100).toFixed(2)), ],
-    [ ltsLevels.Unassigned.abrv, countList[14], isNotANumber(((currentList[14] / maxList[14]) * 100).toFixed(2)), ],
-    [ ltsLevels.WaterWatcher.abrv, countList[15], isNotANumber(((currentList[15] / maxList[15]) * 100).toFixed(2)), ],
-    [ ltsLevels.Break.abrv, countList[16], isNotANumber(((currentList[16] / maxList[16]) * 100).toFixed(2)), ],
-    [ ltsLevels.Squads.abrv, countList[17], isNotANumber(((currentList[17] / maxList[17]) * 100).toFixed(2)), ],
-    [ ltsLevels.Other.abrv, countList[19], isNotANumber(((currentList[19] / maxList[19]) * 100).toFixed(2)), ],
-  ]);
-  spreadsheet.getRange(titleRange).setBackground("#0000ff");
-  spreadsheet.getRange(titleRange).setFontColor("#ffffff");
   formatSheet(spreadsheet, "A:K");
+
+  //write class specific details 
+  function writeClassDetails() {
+    let index = 0
+    let row = 2
+    for (let value of classLevels.values()) {
+      let range = 'G' + row + ':I' + row
+      spreadsheet.getRange(range).setValues([[value.abrv, countList[index], isNotANumber(((currentList[index] / maxList[index]) * 100).toFixed(2))]])
+      index++
+      row++
+    } 
+  }
 }
 
 // ==================================================================================================================
@@ -590,30 +567,20 @@ function calcLevelStats(shiftList, index) {
       currentSum[classIndex] = currentSum[classIndex] + shiftList[dayIndex][index3][CURRENT_COLUMN];
     }
   }
-  spreadsheet.getRange(levelRange).setValues([
-    ["Level", "# of classes", "Percent Full"],
-    [ ltsLevels.BS.abrv, numClasses[0], isNotANumber(((currentSum[0] / maxSum[0]) * 100).toFixed(2)), ],
-    [ ltsLevels.LS1.abrv, numClasses[1], isNotANumber(((currentSum[1] / maxSum[1]) * 100).toFixed(2)), ],
-    [ ltsLevels.LS2.abrv, numClasses[2], isNotANumber(((currentSum[2] / maxSum[2]) * 100).toFixed(2)), ],
-    [ ltsLevels.LSA.abrv, numClasses[3], isNotANumber(((currentSum[3] / maxSum[3]) * 100).toFixed(2)), ],
-    [ ltsLevels.CF.abrv, numClasses[4], isNotANumber(((currentSum[4] / maxSum[4]) * 100).toFixed(2)), ],
-    [ ltsLevels.GF.abrv, numClasses[5], isNotANumber(((currentSum[5] / maxSum[5]) * 100).toFixed(2)), ],
-    [ ltsLevels.JF.abrv, numClasses[6], isNotANumber(((currentSum[6] / maxSum[6]) * 100).toFixed(2)), ],
-    [ ltsLevels.OCT.abrv, numClasses[7], isNotANumber(((currentSum[7] / maxSum[7]) * 100).toFixed(2)), ],
-    [ ltsLevels.LOB.abrv, numClasses[8], isNotANumber(((currentSum[8] / maxSum[8]) * 100).toFixed(2)), ],
-    [ ltsLevels.HHJr.abrv, numClasses[9], isNotANumber(((currentSum[9] / maxSum[9]) * 100).toFixed(2)), ],
-    [ ltsLevels.HHSr.abrv, numClasses[10], isNotANumber(((currentSum[10] / maxSum[10]) * 100).toFixed(2)), ],
-    [ ltsLevels.Private.abrv, numClasses[11], isNotANumber(((currentSum[11] / maxSum[11]) * 100).toFixed(2)), ],
-    [ ltsLevels.PrivateSN.abrv, numClasses[18], isNotANumber(((currentSum[18] / maxSum[18]) * 100).toFixed(2)), ],
-    [ ltsLevels.Semi.abrv, numClasses[12], isNotANumber(((currentSum[12] / maxSum[12]) * 100).toFixed(2)), ],
-    //[ ltsLevels.SN.abrv, numClasses[13], isNotANumber(((currentSum[13] / maxSum[13]) * 100).toFixed(2)), ],
-    [ ltsLevels.Unassigned.abrv, numClasses[14], isNotANumber(((currentSum[14] / maxSum[14]) * 100).toFixed(2)), ],
-    [ ltsLevels.WaterWatcher.abrv, numClasses[15], isNotANumber(((currentSum[15] / maxSum[15]) * 100).toFixed(2)), ],
-    [ ltsLevels.Break.abrv, numClasses[16], isNotANumber(((currentSum[16] / maxSum[16]) * 100).toFixed(2)), ],
-    [ ltsLevels.Squads.abrv, numClasses[17], isNotANumber(((currentSum[17] / maxSum[17]) * 100).toFixed(2)), ],
-    [ ltsLevels.Other.abrv, numClasses[19], isNotANumber(((currentSum[19] / maxSum[19]) * 100).toFixed(2)), ],
-  ]);
+  // WRITE INDIVIDUAL ROWS ONTO SHIFT SHEET
+  ( () => { 
+    let index = 0
+    let row = 2
+    for (let value of classLevels.values()) {
+      let range = 'I' + row + ':K' + row
+      spreadsheet.getRange(range).setValues([[value.abrv, countList[index], isNotANumber(((currentList[index] / maxList[index]) * 100).toFixed(2))]])
+      index++
+      row++
+    } 
+  }) ();
+  
   formatSheet(spreadsheet, levelRange);
+  formatSheet(spreadsheet, titleRange);
   spreadsheet.getRange(titleRange).setBackground("#cccccc");
 }
 // ==================================================================================================================
@@ -635,73 +602,17 @@ function isNotANumber(input) {
 // CHECKS LEVEL AND ADDS TO THE TOTAL LIST FOR DASHBOARD USE
 // ==================================================================================================================
 function calcTotalLevelStats(data, index) {
-  switch (data[index][CLASS_COLUMN].trim()) {
-    case ltsLevels.BS.name:
-      calculateData(index,0)
+  let level = data[index][CLASS_COLUMN].trim()
+  for (let value of classLevels.values()) {
+    MASTER_COUNTER++
+    if (level == value.name) {
+      Logger.log(level + " = " + value.name)
+      countList[value.index]++;
+      maxList[value.index] = maxList[value.index] + data[index][MAX_COLUMN];
+      currentList[value.index] = currentList[value.index] + data[index][CURRENT_COLUMN];
+      MASTER_COUNTER++
       break;
-    case ltsLevels.LS1.name:
-      calculateData(index,1)
-      break;
-    case ltsLevels.LS2.name:
-      calculateData(index,2)
-      break;
-    case ltsLevels.LSA.name:
-      calculateData(index,3)
-      break;
-    case ltsLevels.CF.name:
-      calculateData(index,4)
-      break;
-    case ltsLevels.GF.name:
-      calculateData(index,5)
-      break;
-    case ltsLevels.JF.name:
-      calculateData(index,6)
-      break;
-    case ltsLevels.OCT.name:
-      calculateData(index,7)
-      break;
-    case ltsLevels.LOB.name:
-      calculateData(index,8)
-      break;
-    case ltsLevels.HHJr.name:
-      calculateData(index,9)
-      break;
-    case ltsLevels.HHSr.name:
-      calculateData(index,10)
-      break;
-    case ltsLevels.Private.name:
-      calculateData(index,11)
-      break;
-    case ltsLevels.PrivateSN.name:
-      calculateData(index,18)
-      break;
-    case ltsLevels.Semi.name:
-      calculateData(index,12)
-      break;
-    case ltsLevels.SN.name:
-      calculateData(index,13)
-      break;
-    case ltsLevels.Unassigned.name:
-      calculateData(index,14)
-      break;
-    case ltsLevels.WaterWatcher.name:
-      calculateData(index,15)
-      break;
-    case ltsLevels.Break.name:
-      calculateData(index,16)
-      break;
-    case ltsLevels.Squads.name:
-      calculateData(index,17)
-      break;
-    default:
-      calculateData(index,19)
-      Logger.log(data[index][CLASS_COLUMN].trim());
-      break;
-  }
-  function calculateData(dataIndex, countIndex) {
-    countList[countIndex]++;
-    maxList[countIndex] = maxList[countIndex] + data[dataIndex][MAX_COLUMN];
-    currentList[countIndex] = currentList[countIndex] + data[dataIndex][CURRENT_COLUMN];
+    }
   }
 }
 
