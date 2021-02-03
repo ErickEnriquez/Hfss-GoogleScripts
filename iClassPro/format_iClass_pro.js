@@ -38,26 +38,26 @@ var shiftNames = [
 ];
 
 var ltsLevels = {
-  BS: { abr: "BS", name: "Baby Splash", index: 0 },
-  LS1: { abr: 'LS1', name: 'Little Snapper 1', index: 1 },
-  LS2: { abr: 'LS2', name: 'Little Snapper 2', index: 2 },
-  LSA: { abr: 'LSA', name: 'Little Snapper Advanced', index: 3 },
-  CF: { abr: 'CF', name: 'Clownfish', index: 4 },
-  GF: { abr: 'GF', name: 'Goldfish', index: 5 },
-  JF: { abr: 'JF', name: 'Jellyfish', index: 6 },
-  OCT: { abr: 'OCT', name: 'Octopus', index: 7 },
-  LOB: { abr: 'LOB', name: 'Lobster', index: 8 },
-  HHJr: { abr: 'HHJr', name: 'Hammerhead Junior', index: 9 },
-  HHSr: { abr: 'HHSr', name: 'Hammerhead Senior', index: 10 },
-  Private: { abr: 'Private', name: 'Private - Teacher and Me', index: 11 },
-  PrivateSN: { abr: 'Private SN', name: "Private - Special Needs", index: 18 },
-  Semi: { abr: 'Semi', name: 'Semi', index: 12 },
-  SN: { abr: 'SN', name: 'SN', index: 13 },//should be unused in calculations leave in until we remove all code that references SN 
-  Unassigned: { abr: 'Unassigned', name: '.Unassigned (Teacher and Me) Level', index: 14 },
-  WaterWatcher: { abr: 'Water Watcher', name: 'Water Watcher', index: 15 },
-  Break: { abr: 'Break', name: 'Break', index: 16 },
-  Squads: { abr: 'Squads', name: 'Squad', index: 17 },
-  Other: { abr: 'Other', name: 'Other', index: 19 },
+  BS: { abrv: "BS", name: "Baby Splash", index: 0 },
+  LS1: { abrv: 'LS1', name: 'Little Snapper 1', index: 1 },
+  LS2: { abrv: 'LS2', name: 'Little Snapper 2', index: 2 },
+  LSA: { abrv: 'LSA', name: 'Little Snapper Advanced', index: 3 },
+  CF: { abrv: 'CF', name: 'Clownfish', index: 4 },
+  GF: { abrv: 'GF', name: 'Goldfish', index: 5 },
+  JF: { abrv: 'JF', name: 'Jellyfish', index: 6 },
+  OCT: { abrv: 'OCT', name: 'Octopus', index: 7 },
+  LOB: { abrv: 'LOB', name: 'Lobster', index: 8 },
+  HHJr: { abrv: 'HHJr', name: 'Hammerhead Junior', index: 9 },
+  HHSr: { abrv: 'HHSr', name: 'Hammerhead Senior', index: 10 },
+  Private: { abrv: 'Private', name: 'Private - Teacher and Me', index: 11 },
+  PrivateSN: { abrv: 'Private SN', name: "Private - Special Needs", index: 18 },
+  Semi: { abrv: 'Semi', name: 'Semi', index: 12 },
+  SN: { abrv: 'SN', name: 'SN', index: 13 },//should be unused in calculations leave in until we remove all code that references SN 
+  Unassigned: { abrv: 'Unassigned', name: '.Unassigned (Teacher and Me) Level', index: 14 },
+  WaterWatcher: { abrv: 'Water Watcher', name: 'Water Watcher', index: 15 },
+  Break: { abrv: 'Break', name: 'Break', index: 16 },
+  Squads: { abrv: 'Squads', name: 'Squad', index: 17 },
+  Other: { abrv: 'Other', name: 'Other', index: 19 },
 }
 // ==================================================================================================================
 
@@ -338,26 +338,26 @@ function writeToDashboard(max, currents, shiftName) {
   const titleRange = "G1:I1";
   spreadsheet.getRange(levelStatRange).setValues([
     ["Level", "# of Classes", " PercentFull"],
-    [ "Baby Splash", countList[0], isNotANumber(((currentList[0] / maxList[0]) * 100).toFixed(2)), ],
-    [ "LS1", countList[1], isNotANumber(((currentList[1] / maxList[1]) * 100).toFixed(2)), ],
-    [ "LS2", countList[2], isNotANumber(((currentList[2] / maxList[2]) * 100).toFixed(2)), ],
-    [ "LSA", countList[3], isNotANumber(((currentList[3] / maxList[3]) * 100).toFixed(2)), ],
-    [ "CF", countList[4], isNotANumber(((currentList[4] / maxList[4]) * 100).toFixed(2)), ],
-    [ "GF", countList[5], isNotANumber(((currentList[5] / maxList[5]) * 100).toFixed(2)), ],
-    [ "JF", countList[6], isNotANumber(((currentList[6] / maxList[6]) * 100).toFixed(2)), ],
-    [ "OCT", countList[7], isNotANumber(((currentList[7] / maxList[7]) * 100).toFixed(2)), ],
-    [ "LOB", countList[8], isNotANumber(((currentList[8] / maxList[8]) * 100).toFixed(2)), ],
-    [ "HHJr", countList[9], isNotANumber(((currentList[9] / maxList[9]) * 100).toFixed(2)), ],
-    [ "HHSr", countList[10], isNotANumber(((currentList[10] / maxList[10]) * 100).toFixed(2)), ],
-    [ "Private", countList[11], isNotANumber(((currentList[11] / maxList[11]) * 100).toFixed(2)), ],
-    ["Private SN", countList[18], isNotANumber(((currentList[18] / maxList[18]) * 100).toFixed(2)) ],
-    [ "Semi", countList[12], isNotANumber(((currentList[12] / maxList[12]) * 100).toFixed(2)), ],
-    //[ "SN", countList[13], isNotANumber(((currentList[13] / maxList[13]) * 100).toFixed(2)), ],
-    [ "Open", countList[14], isNotANumber(((currentList[14] / maxList[14]) * 100).toFixed(2)), ],
-    [ "Water Watcher", countList[15], isNotANumber(((currentList[15] / maxList[15]) * 100).toFixed(2)), ],
-    [ "Break", countList[16], isNotANumber(((currentList[16] / maxList[16]) * 100).toFixed(2)), ],
-    [ "Squads", countList[17], isNotANumber(((currentList[17] / maxList[17]) * 100).toFixed(2)), ],
-    [ "Other", countList[19], isNotANumber(((currentList[19] / maxList[19]) * 100).toFixed(2)), ],
+    [ ltsLevels.BS.abrv, countList[0], isNotANumber(((currentList[0] / maxList[0]) * 100).toFixed(2)), ],
+    [ ltsLevels.LS1.abrv, countList[1], isNotANumber(((currentList[1] / maxList[1]) * 100).toFixed(2)), ],
+    [ ltsLevels.LS2.abrv, countList[2], isNotANumber(((currentList[2] / maxList[2]) * 100).toFixed(2)), ],
+    [ ltsLevels.LSA.abrv, countList[3], isNotANumber(((currentList[3] / maxList[3]) * 100).toFixed(2)), ],
+    [ ltsLevels.CF.abrv, countList[4], isNotANumber(((currentList[4] / maxList[4]) * 100).toFixed(2)), ],
+    [ ltsLevels.GF.abrv, countList[5], isNotANumber(((currentList[5] / maxList[5]) * 100).toFixed(2)), ],
+    [ ltsLevels.JF.abrv, countList[6], isNotANumber(((currentList[6] / maxList[6]) * 100).toFixed(2)), ],
+    [ ltsLevels.OCT.abrv, countList[7], isNotANumber(((currentList[7] / maxList[7]) * 100).toFixed(2)), ],
+    [ ltsLevels.LOB.abrv, countList[8], isNotANumber(((currentList[8] / maxList[8]) * 100).toFixed(2)), ],
+    [ ltsLevels.HHJr.abrv, countList[9], isNotANumber(((currentList[9] / maxList[9]) * 100).toFixed(2)), ],
+    [ ltsLevels.HHSr.abrv, countList[10], isNotANumber(((currentList[10] / maxList[10]) * 100).toFixed(2)), ],
+    [ ltsLevels.Private.abrv, countList[11], isNotANumber(((currentList[11] / maxList[11]) * 100).toFixed(2)), ],
+    [ltsLevels.PrivateSN.abrv, countList[18], isNotANumber(((currentList[18] / maxList[18]) * 100).toFixed(2)) ],
+    [ ltsLevels.Semi.abrv, countList[12], isNotANumber(((currentList[12] / maxList[12]) * 100).toFixed(2)), ],
+    //[ ltsLevels.SN.abrv, countList[13], isNotANumber(((currentList[13] / maxList[13]) * 100).toFixed(2)), ],
+    [ ltsLevels.Unassigned.abrv, countList[14], isNotANumber(((currentList[14] / maxList[14]) * 100).toFixed(2)), ],
+    [ ltsLevels.WaterWatcher.abrv, countList[15], isNotANumber(((currentList[15] / maxList[15]) * 100).toFixed(2)), ],
+    [ ltsLevels.Break.abrv, countList[16], isNotANumber(((currentList[16] / maxList[16]) * 100).toFixed(2)), ],
+    [ ltsLevels.Squads.abrv, countList[17], isNotANumber(((currentList[17] / maxList[17]) * 100).toFixed(2)), ],
+    [ ltsLevels.Other.abrv, countList[19], isNotANumber(((currentList[19] / maxList[19]) * 100).toFixed(2)), ],
   ]);
   spreadsheet.getRange(titleRange).setBackground("#0000ff");
   spreadsheet.getRange(titleRange).setFontColor("#ffffff");
@@ -464,129 +464,94 @@ function calcLevelStats(shiftList, index) {
   for (i = 0; i < shiftList[index].length; i++) {
     switch (shiftList[index][i][CLASS_COLUMN].trim()) {
       case "Baby Splash":
-        numClasses[0]++;
-        maxSum[0] = maxSum[0] + shiftList[index][i][MAX_COLUMN];
-        currentSum[0] = currentSum[0] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.BS.index, index, i)
         break;
       case "Little Snapper 1":
-        numClasses[1]++;
-        maxSum[1] = maxSum[1] + shiftList[index][i][MAX_COLUMN];
-        currentSum[1] = currentSum[1] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.LS1.index, index, i)
         break;
       case "Little Snapper 2":
-        numClasses[2]++;
-        maxSum[2] = maxSum[2] + shiftList[index][i][MAX_COLUMN];
-        currentSum[2] = currentSum[2] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.LS2.index, index, i)
         break;
       case "Little Snapper Advanced":
-        numClasses[3]++;
-        maxSum[3] = maxSum[3] + shiftList[index][i][MAX_COLUMN];
-        currentSum[3] = currentSum[3] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.LSA.index, index, i)
         break;
       case "Clownfish":
-        numClasses[4]++;
-        maxSum[4] = maxSum[4] + shiftList[index][i][MAX_COLUMN];
-        currentSum[4] = currentSum[4] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.CF.index, index, i)
         break;
       case "Goldfish":
-        numClasses[5]++;
-        maxSum[5] = maxSum[5] + shiftList[index][i][MAX_COLUMN];
-        currentSum[5] = currentSum[5] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.GF.index, index, i)
         break;
       case "Jellyfish":
-        numClasses[6]++;
-        maxSum[6] = maxSum[6] + shiftList[index][i][MAX_COLUMN];
-        currentSum[6] = currentSum[6] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.JF.index, index, i)
         break;
       case "Octopus":
-        numClasses[7]++;
-        maxSum[7] = maxSum[7] + shiftList[index][i][MAX_COLUMN];
-        currentSum[7] = currentSum[7] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.OCT.index, index, i)
         break;
       case "Lobster":
-        numClasses[8]++;
-        maxSum[8] = maxSum[8] + shiftList[index][i][MAX_COLUMN];
-        currentSum[8] = currentSum[8] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.LOB.index, index, i)
         break;
       case "Hammerhead Junior":
-        numClasses[9]++;
-        maxSum[9] = maxSum[9] + shiftList[index][i][MAX_COLUMN];
-        currentSum[9] = currentSum[9] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.HHJr.index, index, i)
         break;
       case "Hammerhead Senior":
-        numClasses[10]++;
-        maxSum[10] = maxSum[10] + shiftList[index][i][MAX_COLUMN];
-        currentSum[10] = currentSum[10] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.HHSr.index, index, i);
         break;
       case "Private - Teacher and Me":
-        numClasses[11]++;
-        maxSum[11] = maxSum[11] + shiftList[index][i][MAX_COLUMN];
-        currentSum[11] = currentSum[11] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.Private.index, index, i)
         break;
       case "Private - Special Needs":
-        numClasses[18]++;
-        maxSum[18] = maxSum[18] + shiftList[index][i][MAX_COLUMN];
-        currentSum[18] = currentSum[18] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.PrivateSN.index, index, i)
         break;
       case "Semi":
-        numClasses[12]++;
-        maxSum[12] = maxSum[12] + shiftList[index][i][MAX_COLUMN];
-        currentSum[12] = currentSum[12] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.Semi.index, index, i)
         break;
       case "SN":
-        numClasses[13]++;
-        maxSum[13] = maxSum[13] + shiftList[index][i][MAX_COLUMN];
-        currentSum[13] = currentSum[13] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.SN.index, index, i)
         break;
       case ".Unassigned (Teacher and Me) Level":
-        numClasses[14]++;
-        maxSum[14] = maxSum[14] + shiftList[index][i][MAX_COLUMN];
-        currentSum[14] = currentSum[14] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.Unassigned.index, index, i)
         break;
       case "Water Watcher":
-        numClasses[15]++;
-        maxSum[15] = maxSum[15] + shiftList[index][i][MAX_COLUMN];
-        currentSum[15] = currentSum[15] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.WaterWatcher.index, index, i)
         break;
       case "Break":
-        numClasses[16]++;
-        maxSum[16] = maxSum[16] + shiftList[index][i][MAX_COLUMN];
-        currentSum[16] = currentSum[16] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.Break.index, index, i)
         break;
       case "Squad":
-        numClasses[17]++;
-        maxSum[17] = maxSum[17] + shiftList[index][i][MAX_COLUMN];
-        currentSum[17] = currentSum[17] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.Squads.index, index, i)
         break;
       default:
-        numClasses[19]++;
-        maxSum[19] = maxSum[19] + shiftList[index][i][MAX_COLUMN];
-        currentSum[19] = currentSum[19] + shiftList[index][i][CURRENT_COLUMN];
+        calculateStats(ltsLevels.Other.index, index, i);
         break;
+    }//inner func to calculate stats cleaner
+    function calculateStats(classIndex, dayIndex, index3){
+      numClasses[classIndex]++;
+      maxSum[classIndex] = maxSum[classIndex] + shiftList[dayIndex][index3][MAX_COLUMN];
+      currentSum[classIndex] = currentSum[classIndex] + shiftList[dayIndex][index3][CURRENT_COLUMN];
     }
   }
   spreadsheet.getRange(levelRange).setValues([
     ["Level", "# of classes", "Percent Full"],
-    [ "Baby Splash", numClasses[0], isNotANumber(((currentSum[0] / maxSum[0]) * 100).toFixed(2)), ],
-    [ "LS1", numClasses[1], isNotANumber(((currentSum[1] / maxSum[1]) * 100).toFixed(2)), ],
-    [ "LS2", numClasses[2], isNotANumber(((currentSum[2] / maxSum[2]) * 100).toFixed(2)), ],
-    [ "LSA", numClasses[3], isNotANumber(((currentSum[3] / maxSum[3]) * 100).toFixed(2)), ],
-    [ "CF", numClasses[4], isNotANumber(((currentSum[4] / maxSum[4]) * 100).toFixed(2)), ],
-    [ "GF", numClasses[5], isNotANumber(((currentSum[5] / maxSum[5]) * 100).toFixed(2)), ],
-    [ "JF", numClasses[6], isNotANumber(((currentSum[6] / maxSum[6]) * 100).toFixed(2)), ],
-    [ "OCT", numClasses[7], isNotANumber(((currentSum[7] / maxSum[7]) * 100).toFixed(2)), ],
-    [ "LOB", numClasses[8], isNotANumber(((currentSum[8] / maxSum[8]) * 100).toFixed(2)), ],
-    [ "HHJr", numClasses[9], isNotANumber(((currentSum[9] / maxSum[9]) * 100).toFixed(2)), ],
-    [ "HHSr", numClasses[10], isNotANumber(((currentSum[10] / maxSum[10]) * 100).toFixed(2)), ],
-    [ "Private", numClasses[11], isNotANumber(((currentSum[11] / maxSum[11]) * 100).toFixed(2)), ],
-    [ "Private SN", numClasses[18], isNotANumber(((currentSum[18] / maxSum[18]) * 100).toFixed(2)), ],
-    [ "Semi", numClasses[12], isNotANumber(((currentSum[12] / maxSum[12]) * 100).toFixed(2)), ],
-    //[ "SN", numClasses[13], isNotANumber(((currentSum[13] / maxSum[13]) * 100).toFixed(2)), ],
-    [ "Open", numClasses[14], isNotANumber(((currentSum[14] / maxSum[14]) * 100).toFixed(2)), ],
-    [ "Water Watcher", numClasses[15], isNotANumber(((currentSum[15] / maxSum[15]) * 100).toFixed(2)), ],
-    [ "Break", numClasses[16], isNotANumber(((currentSum[16] / maxSum[16]) * 100).toFixed(2)), ],
-    [ "Squad", numClasses[17], isNotANumber(((currentSum[17] / maxSum[17]) * 100).toFixed(2)), ],
-    [ "Other", numClasses[19], isNotANumber(((currentSum[19] / maxSum[19]) * 100).toFixed(2)), ],
+    [ ltsLevels.BS.abrv, numClasses[0], isNotANumber(((currentSum[0] / maxSum[0]) * 100).toFixed(2)), ],
+    [ ltsLevels.LS1.abrv, numClasses[1], isNotANumber(((currentSum[1] / maxSum[1]) * 100).toFixed(2)), ],
+    [ ltsLevels.LS2.abrv, numClasses[2], isNotANumber(((currentSum[2] / maxSum[2]) * 100).toFixed(2)), ],
+    [ ltsLevels.LSA.abrv, numClasses[3], isNotANumber(((currentSum[3] / maxSum[3]) * 100).toFixed(2)), ],
+    [ ltsLevels.CF.abrv, numClasses[4], isNotANumber(((currentSum[4] / maxSum[4]) * 100).toFixed(2)), ],
+    [ ltsLevels.GF.abrv, numClasses[5], isNotANumber(((currentSum[5] / maxSum[5]) * 100).toFixed(2)), ],
+    [ ltsLevels.JF.abrv, numClasses[6], isNotANumber(((currentSum[6] / maxSum[6]) * 100).toFixed(2)), ],
+    [ ltsLevels.OCT.abrv, numClasses[7], isNotANumber(((currentSum[7] / maxSum[7]) * 100).toFixed(2)), ],
+    [ ltsLevels.LOB.abrv, numClasses[8], isNotANumber(((currentSum[8] / maxSum[8]) * 100).toFixed(2)), ],
+    [ ltsLevels.HHJr.abrv, numClasses[9], isNotANumber(((currentSum[9] / maxSum[9]) * 100).toFixed(2)), ],
+    [ ltsLevels.HHSr.abrv, numClasses[10], isNotANumber(((currentSum[10] / maxSum[10]) * 100).toFixed(2)), ],
+    [ ltsLevels.Private.abrv, numClasses[11], isNotANumber(((currentSum[11] / maxSum[11]) * 100).toFixed(2)), ],
+    [ ltsLevels.PrivateSN.abrv, numClasses[18], isNotANumber(((currentSum[18] / maxSum[18]) * 100).toFixed(2)), ],
+    [ ltsLevels.Semi.abrv, numClasses[12], isNotANumber(((currentSum[12] / maxSum[12]) * 100).toFixed(2)), ],
+    //[ ltsLevels.SN.abrv, numClasses[13], isNotANumber(((currentSum[13] / maxSum[13]) * 100).toFixed(2)), ],
+    [ ltsLevels.Unassigned.abrv, numClasses[14], isNotANumber(((currentSum[14] / maxSum[14]) * 100).toFixed(2)), ],
+    [ ltsLevels.WaterWatcher.abrv, numClasses[15], isNotANumber(((currentSum[15] / maxSum[15]) * 100).toFixed(2)), ],
+    [ ltsLevels.Break.abrv, numClasses[16], isNotANumber(((currentSum[16] / maxSum[16]) * 100).toFixed(2)), ],
+    [ ltsLevels.Squads.abrv, numClasses[17], isNotANumber(((currentSum[17] / maxSum[17]) * 100).toFixed(2)), ],
+    [ ltsLevels.Other.abrv, numClasses[19], isNotANumber(((currentSum[19] / maxSum[19]) * 100).toFixed(2)), ],
   ]);
   formatSheet(spreadsheet, levelRange);
   spreadsheet.getRange(titleRange).setBackground("#cccccc");
