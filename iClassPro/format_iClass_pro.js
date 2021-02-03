@@ -118,13 +118,11 @@ function main() {
   var data = spreadsheet.getDataRange().getValues();
 
   let output = "";
-  var MASTER_COUNTER=0
   for (var i = 1; i < data.length; i++) {
     output = getShift(data, i, TIME_COLUMN); // get the shift that this will belong to
     addToData(output, data[i]); //enter the whole row into the correct list and update max and current lists
     calcTotalLevelStats(data, i); // add the class to its level stats
   }
-  Logger.log(MASTER_COUNTER)
 
   var currents = [
     shifts.monAM.current,
@@ -384,12 +382,10 @@ function writeToDashboard(max, currents) {
   spreadsheet.getRange(totalRow).setBackground("#000000");
   spreadsheet.getRange(totalRow).setFontColor("#ffffff");
 
-  writeClassDetails(); 
-
   formatSheet(spreadsheet, "A:K");
 
   //write class specific details 
-  function writeClassDetails() {
+  ( () => {
     let index = 0
     let row = 2
     for (let value of classLevels.values()) {
@@ -398,7 +394,7 @@ function writeToDashboard(max, currents) {
       index++
       row++
     } 
-  }
+  }) ()
 }
 
 // ==================================================================================================================
@@ -497,74 +493,16 @@ function calcLevelStats(shiftList, index) {
   if (index == 10 || index == 11 || index == 12) {
     index++;
   }
-
+  //retrieve the name of the class and calculate the statistics O(n^2) Worse case
   for (i = 0; i < shiftList[index].length; i++) {
-    switch (shiftList[index][i][CLASS_COLUMN].trim()) {
-      case ltsLevels.BS.name:
-        calculateStats(ltsLevels.BS.index, index, i)
+    let level = shiftList[index][i][CLASS_COLUMN].trim()
+    for (value of classLevels.values()) {
+      if (level == value.name) {
+        numClasses[value.index]++;
+        maxSum[value.index] = maxSum[value.index] + shiftList[index][i][MAX_COLUMN];
+        currentSum[value.index] = currentSum[value.index] + shiftList[index][i][CURRENT_COLUMN]
         break;
-      case ltsLevels.LS1.name:
-        calculateStats(ltsLevels.LS1.index, index, i)
-        break;
-      case ltsLevels.LS2.name:
-        calculateStats(ltsLevels.LS2.index, index, i)
-        break;
-      case ltsLevels.LSA.name:
-        calculateStats(ltsLevels.LSA.index, index, i)
-        break;
-      case ltsLevels.CF.name:
-        calculateStats(ltsLevels.CF.index, index, i)
-        break;
-      case ltsLevels.GF.name:
-        calculateStats(ltsLevels.GF.index, index, i)
-        break;
-      case ltsLevels.JF.name:
-        calculateStats(ltsLevels.JF.index, index, i)
-        break;
-      case ltsLevels.OCT.name:
-        calculateStats(ltsLevels.OCT.index, index, i)
-        break;
-      case ltsLevels.LOB.name:
-        calculateStats(ltsLevels.LOB.index, index, i)
-        break;
-      case ltsLevels.HHJr.name:
-        calculateStats(ltsLevels.HHJr.index, index, i)
-        break;
-      case ltsLevels.HHSr.name:
-        calculateStats(ltsLevels.HHSr.index, index, i);
-        break;
-      case ltsLevels.Private.name:
-        calculateStats(ltsLevels.Private.index, index, i)
-        break;
-      case ltsLevels.PrivateSN.name:
-        calculateStats(ltsLevels.PrivateSN.index, index, i)
-        break;
-      case ltsLevels.Semi.name:
-        calculateStats(ltsLevels.Semi.index, index, i)
-        break;
-      case ltsLevels.SN.name:
-        calculateStats(ltsLevels.SN.index, index, i)
-        break;
-      case ltsLevels.Unassigned.name:
-        calculateStats(ltsLevels.Unassigned.index, index, i)
-        break;
-      case ltsLevels.WaterWatcher.name:
-        calculateStats(ltsLevels.WaterWatcher.index, index, i)
-        break;
-      case ltsLevels.Break.name:
-        calculateStats(ltsLevels.Break.index, index, i)
-        break;
-      case ltsLevels.Squads.name:
-        calculateStats(ltsLevels.Squads.index, index, i)
-        break;
-      default:
-        calculateStats(ltsLevels.Other.index, index, i);
-        break;
-    }//inner func to calculate stats cleaner
-    function calculateStats(classIndex, dayIndex, index3){
-      numClasses[classIndex]++;
-      maxSum[classIndex] = maxSum[classIndex] + shiftList[dayIndex][index3][MAX_COLUMN];
-      currentSum[classIndex] = currentSum[classIndex] + shiftList[dayIndex][index3][CURRENT_COLUMN];
+      }
     }
   }
   // WRITE INDIVIDUAL ROWS ONTO SHIFT SHEET
@@ -604,13 +542,11 @@ function isNotANumber(input) {
 function calcTotalLevelStats(data, index) {
   let level = data[index][CLASS_COLUMN].trim()
   for (let value of classLevels.values()) {
-    MASTER_COUNTER++
     if (level == value.name) {
       Logger.log(level + " = " + value.name)
       countList[value.index]++;
       maxList[value.index] = maxList[value.index] + data[index][MAX_COLUMN];
       currentList[value.index] = currentList[value.index] + data[index][CURRENT_COLUMN];
-      MASTER_COUNTER++
       break;
     }
   }
