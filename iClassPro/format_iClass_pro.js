@@ -44,29 +44,24 @@ var shifts = {
 
 }
 
+var shiftMap = new Map()
+
+shiftMap.set('monAM', { shiftName: 'Mon-AM', index: 0, classArray: [], max: 0, current: 0 })
+shiftMap.set('monPM', { shiftName: 'Mon-PM', index: 1, classArray: [], max: 0, current: 0 })
+shiftMap.set('tueAM', { shiftName: 'Tue-AM', index: 2, classArray: [], max: 0, current: 0 })
+shiftMap.set('tuePM', { shiftName: 'Tue-PM', index: 3 , classArray:[], max:0 , current:0})
+shiftMap.set('wedAM', { shiftName: 'Wed-AM', index: 4 , classArray:[], max:0 , current:0})
+shiftMap.set('wedPM', { shiftName: 'Wed-PM', index: 5 , classArray:[], max:0 , current:0})
+shiftMap.set('thuAM', { shiftName: 'Thu-AM', index: 6 , classArray:[], max:0 , current:0})
+shiftMap.set('thuPM', { shiftName: 'Thu-PM', index: 7 , classArray:[], max:0 , current:0})
+shiftMap.set('friAM', { shiftName: 'Fri-AM', index: 8 , classArray:[], max:0 , current:0})
+shiftMap.set('friPM', { shiftName: 'Fri-PM', index: 9 , classArray:[], max:0 , current:0})
+shiftMap.set('sat', { shiftName: 'Sat', index: 14 , classArray:[], max:0 , current:0})
+shiftMap.set('sunAM', { shiftName: 'Sun-AM', index: 12 , classArray:[], max:0 , current:0})
+shiftMap.set('sunPM', { shiftName: 'Sun-PM', index: 13 , classArray:[], max:0 , current:0})
+
+
 //==================================================================================================================
-var ltsLevels = {
-  BS: { abrv: "BS", name: 'Baby Splash', index: 0, max: 0, current: 0, count: 0 },
-  LS1: { abrv: 'LS1', name: 'Little Snapper 1', index: 1, max: 0, current: 0, count: 0 },
-  LS2: { abrv: 'LS2', name: 'Little Snapper 2', index: 2,  max: 0, current: 0, count: 0 },
-  LSA: { abrv: 'LSA', name: 'Little Snapper Advanced', index: 3, max: 0, current: 0, count: 0 },
-  CF: { abrv: 'CF', name: 'Clownfish', index: 4,  max: 0, current: 0, count: 0 },
-  GF: { abrv: 'GF', name: 'Goldfish', index: 5,  max: 0, current: 0, count: 0 },
-  JF: { abrv: 'JF', name: 'Jellyfish', index: 6,  max: 0, current: 0, count: 0 },
-  OCT: { abrv: 'OCT', name: 'Octopus', index: 7,  max: 0, current: 0, count: 0 },
-  LOB: { abrv: 'LOB', name: 'Lobster', index: 8,  max: 0, current: 0, count: 0 },
-  HHJr: { abrv: 'HHJr', name: 'Hammerhead Junior', index: 9,  max: 0, current: 0, count: 0 },
-  HHSr: { abrv: 'HHSr', name: 'Hammerhead Senior', index: 10,  max: 0, current: 0, count: 0 },
-  Private: { abrv: 'Private', name: 'Private - Teacher and Me', index: 11,  max: 0, current: 0, count: 0 },
-  PrivateSN: { abrv: 'Private SN', name: 'Private - Special Needs', index: 18,  max: 0, current: 0, count: 0 },
-  Semi: { abrv: 'Semi', name: 'Semi', index: 12,  max: 0, current: 0, count: 0 },
-  SN: { abrv: 'SN', name: 'SN', index: 13,  max: 0, current: 0, count: 0 },//should be unused in calculations leave in until we remove all code that references SN 
-  Unassigned: { abrv: 'Unassigned', name: '.Unassigned (Teacher and Me) Level', index: 14,  max: 0, current: 0, count: 0 },
-  WaterWatcher: { abrv: 'Water Watcher', name: 'Water Watcher', index: 15,  max: 0, current: 0, count: 0 },
-  Break: { abrv: 'Break', name: 'Break', index: 16,  max: 0, current: 0, count: 0 },
-  Squads: { abrv: 'Squads', name: 'Squad', index: 17,  max: 0, current: 0, count: 0 },
-  Other: { abrv: 'Other', name: 'Other', index: 19,  max: 0, current: 0, count: 0 },
-}
 
 var classLevels = new Map()
 
@@ -75,29 +70,29 @@ classLevels.set('Little Snapper 1', { abrv: 'LS1', name: 'Little Snapper 1', ind
 classLevels.set('Little Snapper 2', { abrv: 'LS2', name: 'Little Snapper 2', index: 2, max: 0, current: 0, count: 0 })
 classLevels.set('Little Snapper Advanced', { abrv: 'LSA', name: 'Little Snapper Advanced', index: 3, max: 0, current: 0, count: 0 })
 classLevels.set('Clownfish', { abrv: 'CF', name: 'Clownfish', index: 4, max: 0, current: 0, count: 0 })
-classLevels.set('Goldfish', { abrv: 'GF', name: 'Goldfish', index: 5,  max: 0, current: 0, count: 0 })
-classLevels.set('Jellyfish', { abrv: 'JF', name: 'Jellyfish', index: 6,  max: 0, current: 0, count: 0 })
-classLevels.set('Octopus', { abrv: 'OCT', name: 'Octopus', index: 7,  max: 0, current: 0, count: 0 })
-classLevels.set('Lobster', { abrv: 'LOB', name: 'Lobster', index: 8,  max: 0, current: 0, count: 0 })
-classLevels.set('Hammerhead Junior', { abrv: 'HHJr', name: 'Hammerhead Junior', index: 9,  max: 0, current: 0, count: 0 })
-classLevels.set('Hammerhead Senior', { abrv: 'HHSr', name: 'Hammerhead Senior', index: 10,  max: 0, current: 0, count: 0 })
-classLevels.set('Private - Teacher and Me', { abrv: 'Private', name: 'Private - Teacher and Me', index: 11,  max: 0, current: 0, count: 0 })
-classLevels.set('Private - Special Needs', { abrv: 'Private SN', name: 'Private - Special Needs', index: 18,  max: 0, current: 0, count: 0 })
-classLevels.set('Semi', { abrv: 'Semi', name: 'Semi', index: 12,  max: 0, current: 0, count: 0 })
-classLevels.set('SN', { abrv: 'SN', name: 'SN', index: 13,  max: 0, current: 0, count: 0 })//should be unused in calculations leave in until we remove all code that references SN
-classLevels.set('.Unassigned (Teacher and Me) Level', { abrv: 'Unassigned', name: '.Unassigned (Teacher and Me) Level', index: 14,  max: 0, current: 0, count: 0 })
-classLevels.set('Water Watcher', { abrv: 'Water Watcher', name: 'Water Watcher', index: 15,  max: 0, current: 0, count: 0 })
-classLevels.set( 'Break', { abrv: 'Break', name: 'Break', index: 16,  max: 0, current: 0, count: 0 })
-classLevels.set('Squad', { abrv: 'Squad', name: 'Squad', index: 17,  max: 0, current: 0, count: 0 })
-classLevels.set('Other', { abrv: 'Other', name: 'Other', index: 19,  max: 0, current: 0, count: 0 })
+classLevels.set('Goldfish', { abrv: 'GF', name: 'Goldfish', index: 5, max: 0, current: 0, count: 0 })
+classLevels.set('Jellyfish', { abrv: 'JF', name: 'Jellyfish', index: 6, max: 0, current: 0, count: 0 })
+classLevels.set('Octopus', { abrv: 'OCT', name: 'Octopus', index: 7, max: 0, current: 0, count: 0 })
+classLevels.set('Lobster', { abrv: 'LOB', name: 'Lobster', index: 8, max: 0, current: 0, count: 0 })
+classLevels.set('Hammerhead Junior', { abrv: 'HHJr', name: 'Hammerhead Junior', index: 9, max: 0, current: 0, count: 0 })
+classLevels.set('Hammerhead Senior', { abrv: 'HHSr', name: 'Hammerhead Senior', index: 10, max: 0, current: 0, count: 0 })
+classLevels.set('Private - Teacher and Me', { abrv: 'Private', name: 'Private - Teacher and Me', index: 11, max: 0, current: 0, count: 0 })
+classLevels.set('Private - Special Needs', { abrv: 'Private SN', name: 'Private - Special Needs', index: 18, max: 0, current: 0, count: 0 })
+classLevels.set('Semi', { abrv: 'Semi', name: 'Semi', index: 12, max: 0, current: 0, count: 0 })
+classLevels.set('SN', { abrv: 'SN', name: 'SN', index: 13, max: 0, current: 0, count: 0 })//should be unused in calculations leave in until we remove all code that references SN
+classLevels.set('.Unassigned (Teacher and Me) Level', { abrv: 'Unassigned', name: '.Unassigned (Teacher and Me) Level', index: 14, max: 0, current: 0, count: 0 })
+classLevels.set('Water Watcher', { abrv: 'Water Watcher', name: 'Water Watcher', index: 15, max: 0, current: 0, count: 0 })
+classLevels.set('Break', { abrv: 'Break', name: 'Break', index: 16, max: 0, current: 0, count: 0 })
+classLevels.set('Squad', { abrv: 'Squad', name: 'Squad', index: 17, max: 0, current: 0, count: 0 })
+classLevels.set('Other', { abrv: 'Other', name: 'Other', index: 19, max: 0, current: 0, count: 0 })
 
 
 
 // ==================================================================================================================
 
-var maxList =     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds max for whole week by level
-var currentList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds current for whole week by level
-var countList =   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds count for whole week by level
+//var maxList =     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds max for whole week by level
+//var currentList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds current for whole week by level
+//var countList =   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]; // holds count for whole week by level
 
 // ==================================================================================================================
 // COLUMNS WHERE SPECIFIC DATA IS LOCATED ON DATA SHEET, CHANGE IF NEEDED
@@ -157,7 +152,7 @@ function main() {
 
   writeToDashboard(maxes, currents); //function to write the aggregate data to dashboard sheet
 
-  
+  /*
   let shiftList = [
     shifts.monAM.classArray,
     shifts.monPM.classArray,
@@ -177,7 +172,7 @@ function main() {
 
   for (let z = 0; z <= 13; z++) {
     writeToShiftSheet(z, shiftNames, shiftList, maxes, currents);
-  }
+  }*/
   spreadsheet.setActiveSheet(
     spreadsheet.getSheetByName(MASTER_SHEET_NAME),
     true
@@ -193,7 +188,10 @@ function getShift(data, i, j) {
   var day = data[i][j].slice(0, 3);
   var time = data[i][j].slice(4, 6);
   var flag = false;
-  if (day == "Sun") {
+  if (day == 'Sat') {// no need to check for AM or PM on Saturday
+    return 'Sat'
+  }
+  else if (day == "Sun") {
     if ((time[1] == ":" && time[0] == 8) || time[0] == 9 || time[0] == 1) {
       return day + "-AM";
     }
@@ -229,34 +227,11 @@ function createNewSheets() {
     ); // try and open sheet to see if sheets have already been created
     return;
   } catch (err) {
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shifts.sunPM.shiftName); //sun PM
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shifts.sunAM.shiftName); // sun am
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shifts.sat.shiftName); // sat
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shifts.friPM.shiftName); //fri PM
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shifts.friAM.shiftName); //fri am
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shifts.thuPM.shiftName); //thu pm
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shifts.thuAM.shiftName); //thu am
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shifts.wedPM.shiftName); //wed pm
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shifts.wedAM.shiftName); //wed am
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shifts.tuePM.shiftName); //tue pm
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shifts.tueAM.shiftName); //tue am
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shifts.monPM.shiftName); //mon pm
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(shifts.monAM.shiftName); // mon am
-    spreadsheet.insertSheet(1);
-    spreadsheet.getActiveSheet().setName(DASHBOARD_SHEET_NAME);
+    //create the needed sheets if not already there
+    for (days of shiftMap.values()) {
+      spreadsheet.insertSheet(0);
+      spreadsheet.getActiveSheet().setName(days.shiftName);
+    }
   }
 }
 // ==================================================================================================================
@@ -264,55 +239,12 @@ function createNewSheets() {
 // ==================================================================================================================
 
 function addToData(date, data) {
-  switch (date) {
-    case shifts.monAM.shiftName:
-      pushData(shifts.monAM,data)
-      break;
-    case shifts.monPM.shiftName:
-      pushData(shifts.monPM, data)
-      break;
-    case shifts.tueAM.shiftName:
-      pushData(shifts.tueAM, data)
-      break;
-    case shifts.tuePM.shiftName:
-      pushData(shifts.tuePM, data)
-      break;
-    case shifts.wedAM.shiftName:
-      pushData(shifts.wedAM, data)
-      break;
-    case shifts.wedPM.shiftName:
-      pushData(shifts.wedPM, data)
-      break;
-    case shifts.thuAM.shiftName:
-      pushData(shifts.thuAM, data)
-      break;
-    case shifts.thuPM.shiftName:
-      pushData(shifts.thuPM, data)
-      break;
-    case shifts.friAM.shiftName:
-      pushData(shifts.friAM, data)
-      break;
-    case shifts.friPM.shiftName:
-      pushData(shifts.friPM, data)
-      break;
-    case shifts.satAM.shiftName:
-      pushData(shifts.sat, data)
-      break;
-    case shifts.satPM.shiftName:
-      pushData(shifts.sat, data)
-      break;
-    case shifts.sunAM.shiftName:
-      pushData(shifts.sunAM, data)
-      break;
-    case shifts.sunPM.shiftName:
-      pushData(shifts.sunPM, data)
-      break;
-  }
-  //actual function that pushes data to avoid repetition
-   function pushData (shiftObject, data ) {
-     shiftObject.classArray.push(data)
-     shiftObject.max = shiftObject.max + data[MAX_COLUMN]
-     shiftObject.current = shiftObject.current + data[CURRENT_COLUMN]
+  for (days of shiftMap.values()) {
+    if (days.shiftName == date) {
+     days.classArray.push(data)
+     days.max = days.max + data[MAX_COLUMN]
+     days.current = days.current + data[CURRENT_COLUMN]
+    }
   }
 }
 
@@ -325,23 +257,14 @@ function writeToDashboard(max, currents) {
     true
   ); //switch to dashboard sheet
   spreadsheet.getDataRange().clearContent(); // clear out old content from spreadsheet
-
-
-  spreadsheet.getRange("A2:A14").setValues([
-    [shifts.monAM.shiftName],
-    [shifts.monPM.shiftName],
-    [shifts.tueAM.shiftName],
-    [shifts.tuePM.shiftName],
-    [shifts.wedAM.shiftName],
-    [shifts.wedPM.shiftName],
-    [shifts.thuAM.shiftName],
-    [shifts.thuPM.shiftName],
-    [shifts.friAM.shiftName],
-    [shifts.friPM.shiftName],
-    [shifts.sat.shiftName], //skip sat am and pm instead write sat
-    [shifts.sunAM.shiftName],
-    [shifts.sunPM.shiftName],
-  ]);
+ 
+  //insert the days of the week in A row
+  let index = 2
+  for (days in shiftMap.values()) {
+    let row = 'A' + index + ':A' +index;
+    spreadsheet.getRange(row).setValues([[days.shiftName]])
+    index++
+  }
 
   spreadsheet
     .getRange("A1:I1")
@@ -367,7 +290,7 @@ function writeToDashboard(max, currents) {
       .setValues([[max[y], currents[y], openings, percentFull]]);
 
     let r = y + 1;
-
+    //alternate colors ever other row
     if (y % 2 == 0 && y != 0) {
       spreadsheet.getRange("A" + r + ":E" + r).setBackground("#bbbbbb");
     }
@@ -390,7 +313,7 @@ function writeToDashboard(max, currents) {
     let row = 2
     for (let value of classLevels.values()) {
       let range = 'G' + row + ':I' + row
-      spreadsheet.getRange(range).setValues([[value.abrv, countList[index], isNotANumber(((currentList[index] / maxList[index]) * 100).toFixed(2))]])
+      spreadsheet.getRange(range).setValues([[value.abrv, value.count, isNotANumber(((value.current / value.max) * 100).toFixed(2))]])
       index++
       row++
     } 
@@ -511,7 +434,7 @@ function calcLevelStats(shiftList, index) {
     let row = 2
     for (let value of classLevels.values()) {
       let range = 'I' + row + ':K' + row
-      spreadsheet.getRange(range).setValues([[value.abrv, countList[index], isNotANumber(((currentList[index] / maxList[index]) * 100).toFixed(2))]])
+      spreadsheet.getRange(range).setValues([[value.abrv, value.count, isNotANumber(((value.current / value.max) * 100).toFixed(2))]])
       index++
       row++
     } 
@@ -526,11 +449,7 @@ function calcLevelStats(shiftList, index) {
 // ==================================================================================================================
 
 function isNotANumber(input) {
-  if (input === "NaN") {
-    return "N/A";
-  } else if (isNaN(input)) {
-    return "N/A";
-  } else if (input == "Infinity") {
+  if (input === "NaN" || isNaN(input) || input == "Infinity") {
     return "N/A";
   } else {
     return Math.round(Number(input)) + "%";// remove the decimal places and round
@@ -544,9 +463,9 @@ function calcTotalLevelStats(data, index) {
   for (let value of classLevels.values()) {
     if (level == value.name) {
       Logger.log(level + " = " + value.name)
-      countList[value.index]++;
-      maxList[value.index] = maxList[value.index] + data[index][MAX_COLUMN];
-      currentList[value.index] = currentList[value.index] + data[index][CURRENT_COLUMN];
+      value.count++;
+      value.max = value.max + data[index][MAX_COLUMN];
+      value.current = value.current + data[index][CURRENT_COLUMN];
       break;
     }
   }
