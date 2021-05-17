@@ -28,7 +28,7 @@ const TOTAL_SCHEDULE_COL = 10; // column of total schedule for a person
 
 //==================================================================================================================================
 
-function sendSms(to, body) {
+function sendSms (to, body) {
   var messages_url =
     "https://api.twilio.com/2010-04-01/Accounts/" + SID + "/Messages.json";
 
@@ -51,7 +51,7 @@ function sendSms(to, body) {
 }
 //==================================================================================================================================
 
-function copyToFormatted() {
+function copyToFormatted () {
   let spreadsheet = SpreadsheetApp.getActive();
   spreadsheet.setActiveSheet(spreadsheet.getSheetByName(workingSheet), true);
 
@@ -68,7 +68,7 @@ function copyToFormatted() {
         "First Name",
         "Last Name",
         "Phone",
-        " Mon Sched",
+        "Mon Sched",
         "Tue Sched",
         "Wed Sched",
         "Thu Sched",
@@ -96,8 +96,8 @@ function copyToFormatted() {
   spreadsheet.getRange("K:K").setBackground("#024278").setFontColor("#FFFFFF");
   let row = 1;
   for (i = 1; i < data.length; i++) {
-    if (checkIfWorking(data[i]) == true) {
-      Logger.log(data[i][PHX]);
+    let schedule = concatSchedule(data[i])
+    if (schedule) {
       row++;
       let range = "A" + row + ":O" + row;
       spreadsheet
@@ -114,7 +114,7 @@ function copyToFormatted() {
             data[i][FRI],
             data[i][SAT],
             data[i][SUN],
-            concatSchedule(data[i]),
+            schedule,
             data[i][PHX],
             data[i][PEORIA],
             data[i][RV],
@@ -131,16 +131,16 @@ function copyToFormatted() {
 //==================================================================================================================================
 
 //checks to see if the working column has the person as working
-function checkIfWorking(input) {
-  if (input[WORKING_COLUMN] == "Yes, Excited to be back!") {
-    return true;
-  }
-  return false;
-}
+//function checkIfWorking(input) {
+//if (input[WORKING_COLUMN] == "Yes, Excited to be back!") {
+//return true;
+//}
+//return false;
+//}
 //==================================================================================================================================
 
 //returns the concatenated schedule for given person
-function concatSchedule(input) {
+function concatSchedule (input) {
   return (
     isEmpty(input[MON], "MON") +
     isEmpty(input[TUE], "TUE") +
@@ -154,7 +154,7 @@ function concatSchedule(input) {
 //==================================================================================================================================
 
 //check if string is empty null or undefined or NONE
-function isEmpty(str, dayOfWeek) {
+function isEmpty (str, dayOfWeek) {
   if (!str || 0 === str.length || str.match(/NONE/i)) {
     return "";
   }
@@ -163,7 +163,7 @@ function isEmpty(str, dayOfWeek) {
 //==================================================================================================================================
 
 //takes a the formatted data and passes it to send SMS function to send text out
-function sendOutTexts() {
+function sendOutTexts () {
   let spreadsheet = SpreadsheetApp.getActive();
   spreadsheet.setActiveSheet(spreadsheet.getSheetByName(formatSheet), true);
 
