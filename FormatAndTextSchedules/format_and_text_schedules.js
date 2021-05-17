@@ -55,7 +55,7 @@ function copyToFormatted () {
   let spreadsheet = SpreadsheetApp.getActive();
   spreadsheet.setActiveSheet(spreadsheet.getSheetByName(workingSheet), true);
 
-  let data = spreadsheet.getDataRange().getValues();
+  let data = spreadsheet.getDataRange().getValues().slice(1);//remove header row
 
   spreadsheet.setActiveSheet(spreadsheet.getSheetByName(formatSheet));
   spreadsheet.getDataRange().clearContent(); // clear out old content from spreadsheet
@@ -94,35 +94,34 @@ function copyToFormatted () {
     .setTextRotation(0);
   spreadsheet.getRange("D:J").setBackground("#dddddd");
   spreadsheet.getRange("K:K").setBackground("#024278").setFontColor("#FFFFFF");
-  let row = 1;
-  for (i = 1; i < data.length; i++) {
-    let schedule = concatSchedule(data[i])
+
+  let rowIndex = 2;
+  data.forEach(row => {
+    let schedule = concatSchedule(row)
     if (schedule) {
-      row++;
-      let range = "A" + row + ":O" + row;
-      spreadsheet
-        .getRange(range)
-        .setValues([
-          [
-            data[i][FIRST_NAME_COL],
-            data[i][LAST_NAME_COL],
-            data[i][PHONE_COL],
-            data[i][MON],
-            data[i][TUE],
-            data[i][WED],
-            data[i][THU],
-            data[i][FRI],
-            data[i][SAT],
-            data[i][SUN],
-            schedule,
-            data[i][PHX],
-            data[i][PEORIA],
-            data[i][RV],
-            data[i][GY],
-          ],
-        ]);
+      let range = `A${rowIndex}:O${rowIndex}`
+      spreadsheet.getRange(range)
+        .setValues([[
+          row[FIRST_NAME_COL],
+          row[LAST_NAME_COL],
+          row[PHONE_COL],
+          row[MON],
+          row[TUE],
+          row[WED],
+          row[THU],
+          row[FRI],
+          row[SAT],
+          row[SUN],
+          schedule,
+          row[PHX],
+          row[PEORIA],
+          row[RV],
+          row[GY],
+        ]])
+      rowIndex++
     }
-  }
+  });
+
   spreadsheet
     .getRange("A:P")
     .setVerticalAlignment("middle")
