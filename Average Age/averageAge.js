@@ -177,7 +177,7 @@ function createHeaderRow() {
 function fillInStudentRows(spreadsheet) {
     let rowIndex = 2
     let inRangeObject
-    let flag = false
+    let flag = 0
     for (let key in CLASS_LIST) {
         for (let i in CLASS_LIST[key].students) {
             let row = 'A' + rowIndex + ':I' + rowIndex
@@ -197,7 +197,7 @@ function fillInStudentRows(spreadsheet) {
             let classAverageObj = checkClassAge(key)
             spreadsheet.getRange(row).setBackground(classAverageObj.color)
             spreadsheet.getRange("F" + rowIndex + ":F" + rowIndex).setBackground(inRangeObject.color)
-            if (flag == false) {
+            if (flag % 2 === 0) {
                 spreadsheet.getRange(row).setBackground('#DDDDDD')
             }
             if (inRangeObject.text == 'No') {
@@ -205,12 +205,7 @@ function fillInStudentRows(spreadsheet) {
             }
             rowIndex++
         }
-        if (flag == false) {
-            flag = true
-        }
-        else if (flag == true) {
-            flag = false
-        }
+       flag++
     }
     return rowIndex
 }
